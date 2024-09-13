@@ -2,17 +2,16 @@
 
 void    draw_map(t_vars *vars)
 {
-	for (int y = 0; y < map_y; y++)
+	for (int y = 0; y < MAP_COLS; y++)
 	{
-		for (int x = 0; x < map_x; x++)
+		for (int x = 0; x < MAP_ROWS; x++)
 		{
-			if (map[y*map_x+x]==1)
-				draw_block(vars->img, x*map_s, y*map_s, map_s, 0);
+			if (map[y*MAP_ROWS+x]==1)
+				draw_block(vars->img, x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, 0);
 			else
-				draw_block(vars->img, x*map_s, y*map_s, map_s, 1);
+				draw_block(vars->img, x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, 1);
 		}
 	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
 void	set_background(t_data *img)

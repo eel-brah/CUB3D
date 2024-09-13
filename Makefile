@@ -3,17 +3,18 @@ CFLAGS := -Wall -Wextra -Werror
 
 
 
-SRC := main.c draw_player.c draw_map.c draw_line.c
+SRC := main.c player.c draw_map.c draw_line.c draw_circel.c utils.c
+INCLUDE := gm.h
 OBJ := $(SRC:%.c=%.o)
 
 NAME := t
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) $(INCLUDE)
 	@$(CC) $(CFLAGS) $(OBJ) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 
-%.o: %.c
+%.o: %.c $(INCLUDE)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 
