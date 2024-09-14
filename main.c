@@ -22,7 +22,7 @@ int map[] =
 	1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1,
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
+	1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1,
 	1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
 	1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1,
@@ -61,6 +61,7 @@ void draw(t_vars *vars)
 {
 	set_background(vars->img);
 	draw_map(vars);
+	cast_rays(vars->player, vars->img, vars->rays);
 	draw_player(vars);
 }
 
@@ -85,17 +86,22 @@ int	key_press(int keysym, t_vars *vars)
 
 int	main(void)
 {
-	t_vars	vars;
-	t_data	img;
+	t_vars		vars;
+	t_data		img;
 	t_player	player;
+	t_rays		rays;
 
 	vars.img = &img;
 	vars.player = &player;
+	vars.rays = &rays;
 
 	init(&vars);
     set_background(vars.img);
 	draw_map(&vars);
+	init_rays(&rays);
 	init_player(&vars);
+	cast_rays(vars.player, vars.img, vars.rays);
+	draw_player(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
 	// mlx_loop_hook(vars.mlx, movement, vars);
 	mlx_loop(vars.mlx);

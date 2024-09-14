@@ -3,7 +3,7 @@ CFLAGS := -Wall -Wextra -Werror
 
 
 
-SRC := main.c player.c draw_map.c draw_line.c draw_circel.c utils.c
+SRC := main.c player.c draw_map.c draw_line.c draw_circel.c utils.c raycasting.c
 INCLUDE := gm.h
 OBJ := $(SRC:%.c=%.o)
 

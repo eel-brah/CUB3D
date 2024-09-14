@@ -1,4 +1,5 @@
 #include "gm.h"
+void cast_rays(t_player *player, t_data *img, t_rays *rays);
 
 void init_player(t_vars *vars)
 {
@@ -8,10 +9,9 @@ void init_player(t_vars *vars)
 	player->x = WIDTH / 2;
 	player->y = HEIGHT / 2;
 	player->r = PLAYER_SIZE;
-	player->rota = PI / 2;
-	player->ms = 4;
-	player->rs = deg2rad(5);
-	draw_player(vars);
+	player->pa = 0;
+	player->steps = 6;
+	player->rspeed = deg2rad(5);
 }
 
 void draw_dirc_line(t_data *img, t_player *player)
@@ -20,18 +20,39 @@ void draw_dirc_line(t_data *img, t_player *player)
 
 	line.x1 = player->x;
 	line.y1 = player->y;
-	line.x2 = player->x+cos(player->rota)*player->r;
-	line.y2 = player->y+sin(player->rota)*player->r;
+	line.x2 = player->x+cos(player->pa)*player->r;
+	line.y2 = player->y+sin(player->pa)*player->r;
 	draw_line(line, img, DIRC_LINE);
+}
+
+int	isit_outob(float x, float y)
+{
+	if (x > 0 && x < WIDTH && y < HEIGHT && y > 0)
+		return 0;
+	return 1;
+}
+int	isit_wall(float x, float y)
+{
+	if (!isit_outob(x, y) &&
+		map[((int)y/BLOCK_SIZE)*MAP_ROWS+((int)x/BLOCK_SIZE)]==0)
+		return 1;
+	return 0;
 }
 
 void player_movement(t_vars *vars, int dirc)
 {
 	t_player	*player;
+	float		tmp_x;
+	float		tmp_y;
 
 	player = vars->player;
-	player->x += cos(player->rota) * player->ms * dirc;
-	player->y += sin(player->rota) * player->ms * dirc;
+	tmp_x = player->x + cos(player->pa) * player->steps * dirc;
+	tmp_y = player->y + sin(player->pa) * player->steps * dirc;
+	if (isit_wall(tmp_x, tmp_y))
+	{
+		player->x = tmp_x;
+		player->y = tmp_y;
+	}
 	draw(vars);
 }
 
@@ -40,7 +61,11 @@ void player_rotation(t_vars *vars, int dirc)
 	t_player	*player;
 
 	player = vars->player;
-	player->rota += dirc * player->rs;
+	player->pa += dirc * player->rspeed;
+	// if (player->pa < 0)
+	// 	player->pa += 2 * PI;
+	// else if (player->pa > 2 * PI)
+	// 	player->pa -= 2 * PI;
 	draw(vars);
 }
 

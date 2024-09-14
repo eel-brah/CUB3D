@@ -2,6 +2,8 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
+#include <float.h>
 
 typedef struct	s_data {
 	void	*img;
@@ -9,22 +11,38 @@ typedef struct	s_data {
 	int		bpp;
 	int		line_length;
 	int		endian;
-}				t_data;
+}	t_data;
 typedef struct s_player
 {
-	float x;
-	float y;
-	float r;
-	float rota;
-	float ms;
-	float rs;
-} t_player;
+	float	x;
+	float	y;
+	float	r;
+	float	pa;
+	float	steps;
+	float	rspeed;
+}	t_player;
+typedef struct s_rays
+{
+	float	fov;
+	float	strips;
+	float	rays_num;
+	float	x_wallhit;
+	float	y_wallhit;
+}	t_rays;
+typedef struct s_hitpoint
+{
+    int h_x;
+    int v_x;
+    int h_y;
+    int v_y;
+}   t_hitpoint;
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
 	t_player *player;
+	t_rays	*rays;
 }	t_vars;
 
 typedef struct s_line
@@ -98,5 +116,11 @@ void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars);
 void	player_movement(t_vars *vars, int dirc);
 void	player_rotation(t_vars *vars, int dirc);
+int		isit_wall(float x, float y);
+int		isit_outob(float x, float y);
 
 void	draw(t_vars *vars);
+
+// Raycasting
+void	init_rays(t_rays *rays);
+void	cast_rays(t_player *player, t_data *img, t_rays *rays);
