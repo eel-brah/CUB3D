@@ -32,23 +32,23 @@ void	set_background(t_data *img)
 	}
 }
 
-void    draw_block(t_data *img, int xx, int yy, int size, unsigned int b)
+void    draw_block(t_data *img, int x, int y, int size, unsigned int b)
 {
-	int		x;
-	int		y;
+	int		bx;
+	int		by;
 
 	if (b)
 		b = 0x00bec1c4;
 
-	y = yy + 1;
-	while (y < yy+size - 1)
+	by = y + 1;
+	while (by < y+size - 1)
 	{
-		x = xx + 1;
-		while (x < xx+size - 1)
+		bx = x + 1;
+		while (bx < x+size - 1)
 		{
-			put_pixel(img, x, y, b);
-			x++;
+			put_pixel(img, bx, by, b);
+			bx++;
 		}
-		y++;
+		by++;
 	}
 }

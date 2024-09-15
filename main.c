@@ -1,19 +1,5 @@
 #include "gm.h"
 
-// Globals
-// typedef struct s_player
-// {
-// 	float x;
-// 	float y;
-// 	float pdx;
-// 	float pdy;
-// 	float pa;
-
-// } t_player;
-
-
-
-float ppz_x, ppz_y, pdx, pdy, pa;
 int map[] =
 {
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -84,6 +70,17 @@ int	key_press(int keysym, t_vars *vars)
 	return 1;
 }
 
+void setup(t_vars *vars)
+{
+	init(vars);
+    set_background(vars->img);
+	draw_map(vars);
+	init_rays(vars->rays);
+	init_player(vars);
+	cast_rays(vars->player, vars->img, vars->rays);
+	draw_player(vars);
+}
+
 int	main(void)
 {
 	t_vars		vars;
@@ -95,13 +92,7 @@ int	main(void)
 	vars.player = &player;
 	vars.rays = &rays;
 
-	init(&vars);
-    set_background(vars.img);
-	draw_map(&vars);
-	init_rays(&rays);
-	init_player(&vars);
-	cast_rays(vars.player, vars.img, vars.rays);
-	draw_player(&vars);
+	setup(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
 	// mlx_loop_hook(vars.mlx, movement, vars);
 	mlx_loop(vars.mlx);

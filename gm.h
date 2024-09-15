@@ -24,10 +24,10 @@ typedef struct s_player
 typedef struct s_rays
 {
 	float	fov;
-	float	strips;
-	float	rays_num;
-	float	x_wallhit;
-	float	y_wallhit;
+	int		rays_num;
+	float	x_whpoint;
+	float	y_whpoint;
+	float	hit_dis;
 }	t_rays;
 typedef struct s_hitpoint
 {
@@ -70,7 +70,7 @@ typedef struct s_delta
 
 #define MAP_ROWS 32
 #define MAP_COLS 14
-#define BLOCK_SIZE 40
+#define BLOCK_SIZE 50
 
 #define HEIGHT BLOCK_SIZE * MAP_COLS
 #define WIDTH BLOCK_SIZE * MAP_ROWS
@@ -109,14 +109,14 @@ float	rad2deg(float rad);
 // Map
 void	set_background(t_data *img);
 void	draw_map(t_vars *vars);
-void	draw_block(t_data *img, int xx, int yy, int size, unsigned int b);
+void	draw_block(t_data *img, int x, int y, int size, unsigned int b);
 
 // Player
 void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars);
 void	player_movement(t_vars *vars, int dirc);
 void	player_rotation(t_vars *vars, int dirc);
-int		isit_wall(float x, float y);
+bool	isit_wall(float x, float y);
 int		isit_outob(float x, float y);
 
 void	draw(t_vars *vars);
@@ -124,3 +124,4 @@ void	draw(t_vars *vars);
 // Raycasting
 void	init_rays(t_rays *rays);
 void	cast_rays(t_player *player, t_data *img, t_rays *rays);
+float	distance(float x1, float y1, float x2, float y2);

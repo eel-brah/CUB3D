@@ -31,12 +31,13 @@ int	isit_outob(float x, float y)
 		return 0;
 	return 1;
 }
-int	isit_wall(float x, float y)
+bool	isit_wall(float x, float y)
 {
-	if (!isit_outob(x, y) &&
-		map[((int)y/BLOCK_SIZE)*MAP_ROWS+((int)x/BLOCK_SIZE)]==0)
-		return 1;
-	return 0;
+	if (isit_outob(x, y))
+		return true;
+	if (map[((int)floor(y/BLOCK_SIZE))*MAP_ROWS+((int)floor(x/BLOCK_SIZE))]==0)
+		return false;
+	return true;
 }
 
 void player_movement(t_vars *vars, int dirc)
@@ -48,7 +49,7 @@ void player_movement(t_vars *vars, int dirc)
 	player = vars->player;
 	tmp_x = player->x + cos(player->pa) * player->steps * dirc;
 	tmp_y = player->y + sin(player->pa) * player->steps * dirc;
-	if (isit_wall(tmp_x, tmp_y))
+	if (!isit_wall(tmp_x, tmp_y))
 	{
 		player->x = tmp_x;
 		player->y = tmp_y;
@@ -62,10 +63,10 @@ void player_rotation(t_vars *vars, int dirc)
 
 	player = vars->player;
 	player->pa += dirc * player->rspeed;
-	// if (player->pa < 0)
-	// 	player->pa += 2 * PI;
-	// else if (player->pa > 2 * PI)
-	// 	player->pa -= 2 * PI;
+	if (player->pa < 0)
+		player->pa += 2 * PI;
+	else if (player->pa > 2 * PI)
+		player->pa -= 2 * PI;
 	draw(vars);
 }
 
