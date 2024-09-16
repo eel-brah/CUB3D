@@ -73,6 +73,4 @@ void draw_player(t_vars *vars)
 {
 	draw_circle(vars->img, vars->player->x * MMS, vars->player->y * MMS, vars->player->r * MMS);
 	draw_dirc_line(vars->img, vars->player);
-
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }

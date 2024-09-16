@@ -42,12 +42,10 @@ typedef struct s_hitpoint
     float v_y;
 }   t_hitpoint;
 
-typedef struct s_wall
+typedef struct s_status
 {
-	int top;
-	int bottom;
-}	t_wall;
-
+	bool	mm;
+}	t_status;
 typedef struct s_vars
 {
 	void	*mlx;
@@ -56,6 +54,7 @@ typedef struct s_vars
 	t_player *player;
 	t_rays	*rays;
 	t_ray	*ray;
+	t_status *status;
 }	t_vars;
 
 typedef struct s_line
@@ -74,6 +73,8 @@ typedef struct s_delta
 	int	ys;
 }	t_delta;
 
+
+
 #define PI 3.1415926535
 
 #define BACKGROUND 0x00383c40
@@ -81,6 +82,7 @@ typedef struct s_delta
 #define DIRC_LINE 0x0000FF00
 #define PLAYER_SIZE 8
 
+#define MMC 0x00bec1c4
 #define WALL_COLOR 0x00181C14
 #define SEALING_COLOR 0x00ECDFCC
 #define FLOOR_COLOR 0x003C3D37
@@ -90,8 +92,8 @@ typedef struct s_delta
 #define BLOCK_SIZE 50
 #define MMS 0.3
 
-#define HEIGHT BLOCK_SIZE * MAP_COLS
-#define WIDTH BLOCK_SIZE * MAP_ROWS
+#define HEIGHT (BLOCK_SIZE * MAP_COLS)
+#define WIDTH (BLOCK_SIZE * MAP_ROWS)
 
 # define ESC_KEY 53
 # define UP_KEY 126
@@ -126,7 +128,7 @@ float	rad2deg(float rad);
 
 // Map
 void	set_background(t_data *img);
-void	draw_map(t_vars *vars);
+void	draw_minimap(t_vars *vars);
 void	draw_block(t_data *img, int x, int y, int size, unsigned int b);
 
 // Player

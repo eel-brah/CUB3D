@@ -8,7 +8,7 @@ INCLUDE_DIR := $(PARN_DIR)/include
 BUILD_DIR := $(PARN_DIR)/build
 LIBFTDIR := ./libft
 
-SRC := cub3d.c player.c draw_map.c draw_line.c draw_circel.c utils.c raycasting.c
+SRC := cub3d.c player.c draw_minimap.c draw_line.c draw_circel.c utils.c raycasting.c
 
 INCLUDE := cub3d.h
 INCLUDE := $(addprefix $(INCLUDE_DIR)/,$(INCLUDE))

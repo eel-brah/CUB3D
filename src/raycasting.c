@@ -3,7 +3,7 @@
 void init_ray(t_ray *ray)
 {
 	ray->fov = deg2rad(66);
-	ray->rays_num = round(WIDTH / 1);
+	ray->rays_num = WIDTH;
 }
 
 bool	wall_hit_cord_h(t_player *player, t_hitpoint *hitpoints, float angle)

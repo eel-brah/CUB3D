@@ -48,9 +48,13 @@ void draw(t_vars *vars)
 	set_background(vars->img);
 	cast_rays(vars);
 	draw_wall(vars);
-	draw_map(vars);
-	draw_rays(vars);
-	draw_player(vars);
+	if (vars->status->mm)
+	{
+		draw_minimap(vars);
+		draw_rays(vars);
+		draw_player(vars);
+	}
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
 int	key_press(int keysym, t_vars *vars)
@@ -64,6 +68,11 @@ int	key_press(int keysym, t_vars *vars)
 		player_rotation(vars, -1);
 	else if (keysym == LEFT_A_KEY)
 		player_rotation(vars, 1);
+	else if (keysym == 46)
+	{
+		vars->status->mm = !(vars->status->mm);
+		draw(vars); // remove this
+	}
 	else if (keysym == ESC_KEY)
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
@@ -81,9 +90,13 @@ void setup(t_vars *vars)
     set_background(vars->img);
 	cast_rays(vars);
 	draw_wall(vars);
-	draw_map(vars);
-	draw_rays(vars);
-	draw_player(vars);
+	if (vars->status->mm)
+	{
+		draw_minimap(vars);
+		draw_rays(vars);
+		draw_player(vars);
+	}
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
 int	main(void)
@@ -92,10 +105,13 @@ int	main(void)
 	t_data		img;
 	t_player	player;
 	t_ray		ray;
+	t_status	status;
 
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
+	status.mm = 0;
+	vars.status = &status;
 
 	setup(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
