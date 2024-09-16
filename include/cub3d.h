@@ -42,6 +42,12 @@ typedef struct s_hitpoint
     float v_y;
 }   t_hitpoint;
 
+typedef struct s_wall
+{
+	int top;
+	int bottom;
+}	t_wall;
+
 typedef struct s_vars
 {
 	void	*mlx;
@@ -74,6 +80,10 @@ typedef struct s_delta
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
 #define PLAYER_SIZE 8
+
+#define WALL_COLOR 0x00181C14
+#define SEALING_COLOR 0x00ECDFCC
+#define FLOOR_COLOR 0x003C3D37
 
 #define MAP_ROWS 32
 #define MAP_COLS 14

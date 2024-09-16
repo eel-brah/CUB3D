@@ -34,7 +34,7 @@ bool	wall_hit_cord_h(t_player *player, t_hitpoint *hitpoints, float angle)
         if(isit_wall(x, yc))
         {
             hitpoints->h_x = x;
-            hitpoints->h_y = y;
+            hitpoints->h_y = yc;
             return 1;
         }
         x += xstep;
@@ -69,7 +69,7 @@ bool	wall_hit_cord_v(t_player *player, t_hitpoint *hitpoints, float angle)
 		xc = x - (!right * 1); 
         if(isit_wall(xc, y))
         {
-            hitpoints->v_x = x;
+            hitpoints->v_x = xc;
             hitpoints->v_y = y;
             return 1;
         }
@@ -98,6 +98,17 @@ void	wall_hit_cord(t_player *player, t_rays *ray, float angle)
 	ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
 	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
+	// if (ray->hit_dis == 0){
+	// 	printf("v{%f %f} h{%f %f}\n", hitpoints.v_x, hitpoints.v_y, hitpoints.h_x, hitpoints.h_y);
+	// 	printf("h{%f %f %f %f}\n", player->x, player->y, ray->x_whpoint, ray->y_whpoint);
+
+	// }
+	// else{
+	// 	printf("== %f %f %f\n", ray->x_whpoint, ray->y_whpoint, ray->hit_dis);
+	// }
+
+// 	v{850.000000 316.297607} h{740.000000 350.000000}
+// h{740.000000 350.000000}
 	// if (hd > vd)
 	// {
 	// 	ray->x_whpoint = hitpoints.v_x;
@@ -110,29 +121,41 @@ void	wall_hit_cord(t_player *player, t_rays *ray, float angle)
 	// }
 }
 
+void color_sealing_floor(int x, int top, int bottom, t_data *img)
+{
+	int i = 0;
+	while(i < top)
+		put_pixel(img, x, i++, SEALING_COLOR);
+	i = HEIGHT;
+	while(i > bottom)
+		put_pixel(img, x, i--, FLOOR_COLOR);
+}
+
 void draw_wall(t_vars *vars)
 {
 	float wall_height;
-	float proc_dis;
+	float proj_wall_dis;
 	int top;
 	int bottom;
 	int y;
 	float wall_dis;
 
-	proc_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
+	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
 
 	int i = 0;
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
-		wall_height = (BLOCK_SIZE / wall_dis) * proc_dis;
+		wall_height = (BLOCK_SIZE / wall_dis) * proj_wall_dis;
 		top = HEIGHT / 2 - wall_height / 2;
 		top = (top < 0) * 0 + !(top < 0) * top;
 		bottom = HEIGHT / 2 + wall_height / 2;
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
+		// printf("{%f %f %i}\n", vars->rays[i].hit_dis, cos(vars->rays[i].angle - vars->player->pa), bottom);
 		while (y < bottom)
-			put_pixel(vars->img, i, y++, 0x0008b005);
+			put_pixel(vars->img, i, y++, WALL_COLOR);
+		color_sealing_floor(i, top, bottom, vars->img);
 		i++;
 	}
 }
