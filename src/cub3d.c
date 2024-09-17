@@ -110,7 +110,7 @@ int	main(void)
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
-	status.mm = 0;
+	status.mm = 1;
 	vars.status = &status;
 
 	setup(&vars);

@@ -8,7 +8,7 @@ void init_player(t_vars *vars)
 	player->x = WIDTH / 2;
 	player->y = HEIGHT / 2;
 	player->r = PLAYER_SIZE;
-	player->pa = 0;
+	player->pa = PI * 1.5f;
 	player->steps = 6;
 	player->rspeed = deg2rad(5);
 }
@@ -53,7 +53,7 @@ void player_movement(t_vars *vars, int dirc)
 		player->x = tmp_x;
 		player->y = tmp_y;
 	}
-	draw(vars);
+	draw(vars); // draw only it it moves
 }
 
 void player_rotation(t_vars *vars, int dirc)
