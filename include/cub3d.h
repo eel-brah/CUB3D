@@ -80,7 +80,7 @@ typedef struct s_delta
 #define BACKGROUND 0x00383c40
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 8
+#define PLAYER_SIZE 18
 
 #define MMC 0x00bec1c4
 #define WALL_COLOR 0x00181C14

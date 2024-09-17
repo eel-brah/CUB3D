@@ -6,6 +6,12 @@ void    draw_minimap(t_vars *vars)
 	int	x;
 	unsigned int	color;
 
+// y = floor(vars->player->y / BLOCK_SIZE) - 5;
+// 	y = (y > 0) * y;
+// 	ymax = floor(vars->player->y / BLOCK_SIZE) + 5;
+// 	ymax = (ymax < MAP_COLS) * ymax + !(ymax < MAP_COLS) * MAP_COLS; 
+// 	xmax = floor(vars->player->x / BLOCK_SIZE) + 5;
+// 	xmax = (xmax < MAP_ROWS) * xmax + !(xmax < MAP_ROWS) * MAP_ROWS; 
 	y = 0;
 	while (y < MAP_COLS)
 	{

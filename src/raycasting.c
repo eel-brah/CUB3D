@@ -131,6 +131,11 @@ void color_sealing_floor(int x, int top, int bottom, t_data *img)
 		put_pixel(img, x, i--, FLOOR_COLOR);
 }
 
+unsigned int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 void draw_wall(t_vars *vars)
 {
 	float wall_height;
@@ -155,6 +160,7 @@ void draw_wall(t_vars *vars)
 		// printf("{%f %f %i}\n", vars->rays[i].hit_dis, cos(vars->rays[i].angle - vars->player->pa), bottom);
 		while (y < bottom)
 			put_pixel(vars->img, i, y++, WALL_COLOR);
+		// create_trgb(100, 24, 28, 20)
 		color_sealing_floor(i, top, bottom, vars->img);
 		i++;
 	}

@@ -51,7 +51,7 @@ void draw(t_vars *vars)
 	if (vars->status->mm)
 	{
 		draw_minimap(vars);
-		draw_rays(vars);
+		// draw_rays(vars);
 		draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -93,7 +93,7 @@ void setup(t_vars *vars)
 	if (vars->status->mm)
 	{
 		draw_minimap(vars);
-		draw_rays(vars);
+		// draw_rays(vars);
 		draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
