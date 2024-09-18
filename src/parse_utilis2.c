@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:38:26 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/17 16:32:05 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/18 11:10:15 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ bool	fill_map(t_map *map, int fd, bool flag, int count)
 	}
 	map->rows = map->max_line;
 	map->cols = map->max_col;
-	map->height = BLOCK_SIZE * map->cols;
-	map->width = BLOCK_SIZE * map->rows;
+	map->height = BLOCK_SIZE * map->rows;
+	map->width = BLOCK_SIZE * map->cols;
 	return (true);
 }

@@ -27,13 +27,13 @@ void	init(t_vars	*vars)
 		ft_putendl_fd("MLX faild", 2);
 		exit(1);
 	}
-	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "CUB3D");
+	vars->win = mlx_new_window(vars->mlx, vars->map->width, vars->map->height, "CUB3D");
 	if (!vars->win)
 	{
 		ft_putendl_fd("MLX faild", 2);
 		exit(1);
 	}
-	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	vars->img->img = mlx_new_image(vars->mlx, vars->map->width, vars->map->height);
 	if (!vars->img->img)
 	{
 		mlx_destroy_window(vars->mlx, vars->mlx);
@@ -52,7 +52,7 @@ void draw(t_vars *vars)
 	{
 		draw_minimap_player(vars);
 		// draw_minimap(vars);
-		// // draw_rays(vars);
+		// draw_rays(vars);
 		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
@@ -85,17 +85,17 @@ int	key_press(int keysym, t_vars *vars)
 
 // void	init_map(t_map *map)
 // {
-// 	map->rows = 32;
-// 	map->cols = 14;
-// 	map->height = BLOCK_SIZE * map->cols;
-// 	map->width = BLOCK_SIZE * map->rows;
+// 	map->cols = 32;
+// 	map->rows = 14;
+// 	map->height = BLOCK_SIZE * map->rows;
+// 	map->width = BLOCK_SIZE * map->cols;
 // }
 
 void setup(t_vars *vars)
 {
 	init(vars);
-	init_ray(vars->ray);
-	init_map(vars->map);
+	init_ray(vars);
+	// init_map(vars->map);
 	init_player(vars);
     // set_background(vars->img);
 	cast_rays(vars);
@@ -104,7 +104,7 @@ void setup(t_vars *vars)
 	{
 		draw_minimap_player(vars);
 		// draw_minimap(vars);
-		// // draw_rays(vars);
+		// draw_rays(vars);
 		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);

@@ -178,16 +178,16 @@ extern int map[];
 
 // Functions
 // Utils
-void	put_pixel(t_data *data, int x, int y, unsigned int color);
-void	draw_line(t_line line, t_data *img, unsigned int color);
-void	draw_circle(t_data *img, int xc, int yc, int r);
+void	put_pixel(t_vars *vars, int x, int y, unsigned int color);
+void	draw_line(t_vars *vars, t_line line, unsigned int color);
+void	draw_circle(t_vars *vars, int xc, int yc, int r);
 float	deg2rad(float deg);
 float	rad2deg(float rad);
 
 // Map
 // void	set_background(t_data *img);
 void	draw_minimap(t_vars *vars, t_mini *minimap);
-void	draw_block(t_data *img, int x, int y, int size, unsigned int b);
+void	draw_block(t_vars *vars, int x, int y, int size, unsigned int b);
 
 void draw_minimap_player(t_vars *vars);
 
@@ -196,13 +196,13 @@ void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc);
 void	player_rotation(t_vars *vars, int dirc);
-bool	isit_wall(float x, float y);
-int		isit_outob(float x, float y);
+bool	isit_wall(t_vars *vars, float x, float y);
+int		isit_outob(t_vars *vars, float x, float y);
 
 void	draw(t_vars *vars);
 
 // Raycasting
-void	init_ray(t_ray *ray);
+void	init_ray(t_vars *vars);
 void	cast_rays(t_vars *vars);
 float	distance(float x1, float y1, float x2, float y2);
 void	draw_rays(t_vars *vars);

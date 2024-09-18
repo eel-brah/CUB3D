@@ -5,15 +5,15 @@ void init_player(t_vars *vars)
 	t_player	*player;
 
 	player = vars->player;
-	player->x = WIDTH / 2;
-	player->y = HEIGHT / 2;
+	player->x = vars->map->width / 2;
+	player->y = vars->map->height / 2;
 	player->r = PLAYER_SIZE;
 	player->pa = PI * 1.5f;
 	player->steps = 6;
 	player->rspeed = deg2rad(5);
 }
 
-void draw_dirc_line(t_data *img, float x, float y, t_player *player)
+void draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 {
 	t_line	line;
 
@@ -21,20 +21,20 @@ void draw_dirc_line(t_data *img, float x, float y, t_player *player)
 	line.y1 = y * MMS;
 	line.x2 = (x+cos(player->pa)*player->r) * MMS;
 	line.y2 = (y+sin(player->pa)*player->r) * MMS;
-	draw_line(line, img, DIRC_LINE);
+	draw_line(vars, line, DIRC_LINE);
 }
 
-int	isit_outob(float x, float y)
+int	isit_outob(t_vars *vars, float x, float y)
 {
-	if (x > 0 && x < WIDTH && y < HEIGHT && y > 0)
+	if (x > 0 && x < vars->map->width && y < vars->map->height && y > 0)
 		return 0;
 	return 1;
 }
-bool	isit_wall(float x, float y)
+bool	isit_wall(t_vars *vars, float x, float y)
 {
-	if (isit_outob(x, y))
+	if (isit_outob(vars, x, y))
 		return true;
-	if (map[((int)floor(y/BLOCK_SIZE))*MAP_ROWS+((int)floor(x/BLOCK_SIZE))]==0)
+	if (map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))]==0)
 		return false;
 	return true;
 }
@@ -48,7 +48,7 @@ void player_movement(t_vars *vars, int dirc)
 	player = vars->player;
 	tmp_x = player->x + cos(player->pa) * player->steps * dirc;
 	tmp_y = player->y + sin(player->pa) * player->steps * dirc;
-	if (!isit_wall(tmp_x, tmp_y))
+	if (!isit_wall(vars, tmp_x, tmp_y))
 	{
 		player->x = tmp_x;
 		player->y = tmp_y;
@@ -70,21 +70,21 @@ void player_rotation(t_vars *vars, int dirc)
 }
 
 
-void	fix_minimap_y(t_mini *minimap)
+void	fix_minimap_y(t_vars *vars, t_mini *minimap)
 {
 	if (minimap->ymax - minimap->y < minimap->height)
 	{
-		if (minimap->player_poz_y > (MAP_COLS /2) )
+		if (minimap->player_poz_y > (vars->map->rows /2) )
 			minimap->y = minimap->ymax - minimap->height;
 		else
 			minimap->ymax = minimap->y + minimap->height;
 	}
 }
-void	fix_minimap_x(t_mini *minimap)
+void	fix_minimap_x(t_vars *vars, t_mini *minimap)
 {
 	if (minimap->xmax - minimap->x < minimap->width) // calc 12 for small maps
 	{
-		if (minimap->player_poz_x > (MAP_ROWS / 2) )
+		if (minimap->player_poz_x > (vars->map->cols / 2) )
 			minimap->x = minimap->xmax - minimap->width;
 		else
 			minimap->xmax = minimap->x + minimap->width;
@@ -92,10 +92,10 @@ void	fix_minimap_x(t_mini *minimap)
 }
 void draw_player(t_vars *vars, t_mini *minimap)
 {
-	fix_minimap_y(minimap);
-	fix_minimap_x(minimap);
-	draw_circle(vars->img, (vars->player->x-minimap->x*BLOCK_SIZE) * MMS, (vars->player->y-minimap->y*BLOCK_SIZE) * MMS, vars->player->r * MMS);
-	draw_dirc_line(vars->img, (vars->player->x-minimap->x*BLOCK_SIZE), (vars->player->y-minimap->y*BLOCK_SIZE), vars->player);
+	fix_minimap_y(vars, minimap);
+	fix_minimap_x(vars, minimap);
+	draw_circle(vars, (vars->player->x-minimap->x*BLOCK_SIZE) * MMS, (vars->player->y-minimap->y*BLOCK_SIZE) * MMS, vars->player->r * MMS);
+	draw_dirc_line(vars, (vars->player->x-minimap->x*BLOCK_SIZE), (vars->player->y-minimap->y*BLOCK_SIZE), vars->player);
 }
 
 void    draw_minimap(t_vars *vars, t_mini *minimap)
@@ -110,25 +110,25 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 		{
 			x = 0;
 			while (x < 12*BLOCK_SIZE* MMS)
-				put_pixel(vars->img, x++, y, 0x00ffff00);
+				put_pixel(vars, x++, y, 0x00ffff00);
 			y++;
 		}
 	}
 	
-	fix_minimap_y(minimap);
+	fix_minimap_y(vars, minimap);
 	y = minimap->y;
 	
 	while (y < minimap->ymax )
 	{
-		fix_minimap_y(minimap);
+		fix_minimap_y(vars, minimap);
 		x = minimap->x;
-		printf("%i %i\n", minimap->x, minimap->xmax);
+		// printf("%i %i\n", minimap->x, minimap->xmax);
 		while (x < minimap->xmax)
 		{
-			printf("LL\n");
-			fix_minimap_x(minimap);
-			color = (map[y*MAP_ROWS+x]==0) * MMC;
-			draw_block(vars->img, (x - minimap->x)*BLOCK_SIZE*MMS, (y - minimap->y)*BLOCK_SIZE*MMS, BLOCK_SIZE*MMS, color);
+			// printf("LL\n");
+			fix_minimap_x(vars, minimap);
+			color = (map[y * vars->map->cols + x]==0) * MMC;
+			draw_block(vars, (x - minimap->x)*BLOCK_SIZE*MMS, (y - minimap->y)*BLOCK_SIZE*MMS, BLOCK_SIZE*MMS, color);
 			x++;
 		}
 		y++;
@@ -147,43 +147,43 @@ void    draw_border(t_vars *vars, t_mini *minimap)
 	line.x2 = 12 * BLOCK_SIZE * MMS;
 	line.y1 = 0;
 	line.y2 = 0;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	line.y1 = 1;
 	line.y2 = 1;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 
 	line.x1 = 0;
 	line.x2 = 12 * BLOCK_SIZE * MMS;
 	line.y1 = 12 * BLOCK_SIZE * MMS;
 	line.y2 = 12 * BLOCK_SIZE * MMS;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	line.y1 = 12 * BLOCK_SIZE * MMS + 1;
 	line.y2 = 12 * BLOCK_SIZE * MMS + 1;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	
 	line.x1 = 12 * BLOCK_SIZE * MMS;
 	line.x2 = 12 * BLOCK_SIZE * MMS;
 	line.y1 = 0;
 	line.y2 = 12 * BLOCK_SIZE * MMS + 2;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	line.x1 = 12 * BLOCK_SIZE * MMS+1;
 	line.x2 = 12 * BLOCK_SIZE * MMS+1;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	
 	line.x1 = 0;
 	line.x2 = 0;
 	line.y1 = 0;
 	line.y2 = 12 * BLOCK_SIZE * MMS + 2;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 	line.x1 = 1;
 	line.x2 = 1;
-	draw_line(line, vars->img, BORDER_COLOR);
+	draw_line(vars, line, BORDER_COLOR);
 }
 
 void	calc_map_wh(t_vars *vars, t_mini *minimap)
 {
-	minimap->height = (vars->map->cols >= 12) * 12 + !(vars->map->cols >= 12) * vars->map->cols;
-	minimap->width = (vars->map->rows >= 12) * 12 + !(vars->map->rows >= 12) * vars->map->rows;
+	minimap->height = (vars->map->rows >= 12) * 12 + !(vars->map->rows >= 12) * vars->map->rows;
+	minimap->width = (vars->map->cols >= 12) * 12 + !(vars->map->cols >= 12) * vars->map->cols;
 }
 
 void draw_minimap_player(t_vars *vars)
@@ -198,12 +198,12 @@ void draw_minimap_player(t_vars *vars)
 	minimap.y = (minimap.y > 0) * minimap.y;
 
 	minimap.ymax = minimap.player_poz_y + (minimap.height / 2) + (minimap.height % 2) * 1;
-	minimap.ymax = (minimap.ymax < MAP_COLS) * minimap.ymax + !(minimap.ymax < MAP_COLS) * (MAP_COLS);
+	minimap.ymax = (minimap.ymax < vars->map->rows) * minimap.ymax + !(minimap.ymax < vars->map->rows) * (vars->map->rows);
 
 	minimap.x = (minimap.player_poz_x - (minimap.width / 2)) * (minimap.width >= 12);
 	minimap.x = (minimap.x > 0) * minimap.x;
 	minimap.xmax = minimap.player_poz_x + (minimap.width / 2) + (minimap.width % 2) * 1;
-	minimap.xmax = (minimap.xmax < MAP_ROWS) * minimap.xmax + !(minimap.xmax < MAP_ROWS) * (MAP_ROWS );
+	minimap.xmax = (minimap.xmax < vars->map->cols) * minimap.xmax + !(minimap.xmax < vars->map->cols) * (vars->map->cols );
 	draw_minimap(vars, &minimap);
 	draw_player(vars, &minimap);
 	draw_border(vars, &minimap);
@@ -227,7 +227,7 @@ void draw_minimap_player(t_vars *vars)
 // 	}
 // }
 
-void    draw_block(t_data *img, int x, int y, int size, unsigned int color)
+void    draw_block(t_vars *vars, int x, int y, int size, unsigned int color)
 {
 	float		bx;
 	float		by;
@@ -238,7 +238,7 @@ void    draw_block(t_data *img, int x, int y, int size, unsigned int color)
 		bx = x ;
 		while (bx < x + size - 1 * MMS)
 		{
-			put_pixel(img, roundf(bx), roundf(by), color);
+			put_pixel(vars, roundf(bx), roundf(by), color);
 			bx++;
 		}
 		by++;

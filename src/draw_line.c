@@ -1,10 +1,12 @@
 #include "../include/cub3d.h"
 
-void	put_pixel(t_data *data, int x, int y, unsigned int color)
+void	put_pixel(t_vars *vars, int x, int y, unsigned int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	t_data *data = vars->img;
+
+	if (x >= 0 && x < vars->map->width && y >= 0 && y < vars->map->height)
 	{
 		dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 		*(unsigned int *)dst = color;
@@ -35,7 +37,7 @@ void	slop(t_line line, t_delta *delta)
 }
 
 void	draw_line_1(t_delta delta, t_line line,
-			t_data *img, unsigned int color)
+			t_vars *vars, unsigned int color)
 {
 	int	i;
 
@@ -43,7 +45,7 @@ void	draw_line_1(t_delta delta, t_line line,
 	i = 0;
 	while (i < delta.dx)
 	{
-		put_pixel(img, line.x1, line.y1, color);
+		put_pixel(vars, line.x1, line.y1, color);
 		line.x1 += delta.xs;
 		if (delta.d < 0)
 			delta.d += (2 * delta.dy);
@@ -57,7 +59,7 @@ void	draw_line_1(t_delta delta, t_line line,
 }
 
 void	draw_line_2(t_delta delta, t_line line,
-			t_data *img, unsigned int color)
+			t_vars *vars, unsigned int color)
 {
 	int	i;
 
@@ -65,7 +67,7 @@ void	draw_line_2(t_delta delta, t_line line,
 	i = 0;
 	while (i < delta.dy)
 	{
-		put_pixel(img, line.x1, line.y1, color);
+		put_pixel(vars, line.x1, line.y1, color);
 		line.y1 += delta.ys;
 		if (delta.d < 0)
 			delta.d += (2 * delta.dx);
@@ -77,14 +79,14 @@ void	draw_line_2(t_delta delta, t_line line,
 		i++;
 	}
 }
-void	draw_line(t_line line, t_data *img, unsigned int color)
+void	draw_line(t_vars *vars, t_line line, unsigned int color)
 {
 	t_delta	delta;
 
 	slop(line, &delta);
 	if (delta.dx > delta.dy)
-		draw_line_1(delta, line, img, color);
+		draw_line_1(delta, line, vars, color);
 	else
-		draw_line_2(delta, line, img, color);
+		draw_line_2(delta, line, vars, color);
 }
 

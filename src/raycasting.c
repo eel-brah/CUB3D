@@ -1,12 +1,12 @@
 #include "../include/cub3d.h"
 
-void init_ray(t_ray *ray)
+void init_ray(t_vars *vars)
 {
-	ray->fov = deg2rad(66);
-	ray->rays_num = WIDTH;
+	vars->ray->fov = deg2rad(66);
+	vars->ray->rays_num = vars->map->width;
 }
 
-bool	wall_hit_cord_h(t_player *player, t_hitpoint *hitpoints, float angle)
+bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle)
 {
 	float	y;
 	float	x;
@@ -28,10 +28,10 @@ bool	wall_hit_cord_h(t_player *player, t_hitpoint *hitpoints, float angle)
 	xstep *= ((!right && xstep > 0) * -1 + !(!right && xstep > 0) * 1);
 	xstep *= ((right && xstep < 0) * -1 + !(right && xstep < 0) * 1);
 	
-	while (!isit_outob(x, y))
+	while (!isit_outob(vars, x, y))
     {
 		yc = y - (up * 1); 
-        if(isit_wall(x, yc))
+        if(isit_wall(vars, x, yc))
         {
             hitpoints->h_x = x;
             hitpoints->h_y = yc;
@@ -43,7 +43,7 @@ bool	wall_hit_cord_h(t_player *player, t_hitpoint *hitpoints, float angle)
     return 0;
 }
 
-bool	wall_hit_cord_v(t_player *player, t_hitpoint *hitpoints, float angle)
+bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle)
 {
 	float	y;
 	float	x;
@@ -64,10 +64,10 @@ bool	wall_hit_cord_v(t_player *player, t_hitpoint *hitpoints, float angle)
 	ystep *= ((up && ystep > 0) * -1 + !(up && ystep > 0) * 1);
 	ystep *= ((!up && ystep < 0) * -1 + !(!up && ystep < 0) * 1);
 	
-	while (!isit_outob(x, y))
+	while (!isit_outob(vars, x, y))
     {
 		xc = x - (!right * 1); 
-        if(isit_wall(xc, y))
+        if(isit_wall(vars, xc, y))
         {
             hitpoints->v_x = xc;
             hitpoints->v_y = y;
@@ -78,7 +78,7 @@ bool	wall_hit_cord_v(t_player *player, t_hitpoint *hitpoints, float angle)
     }
     return 0;
 }
-void	wall_hit_cord(t_player *player, t_rays *ray, float angle)
+void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 {
 	t_hitpoint	hitpoints;
 	hitpoints.h_x = 0;
@@ -90,8 +90,8 @@ void	wall_hit_cord(t_player *player, t_rays *ray, float angle)
 	float		vd;
 	float		hd;
 
-	h_found = wall_hit_cord_h(player, &hitpoints, angle);
-	v_found = wall_hit_cord_v(player, &hitpoints, angle);
+	h_found = wall_hit_cord_h(vars, player, &hitpoints, angle);
+	v_found = wall_hit_cord_v(vars, player, &hitpoints, angle);
 
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x, hitpoints.v_y) + !v_found * FLT_MAX;
     hd = h_found * distance(player->x, player->y, hitpoints.h_x, hitpoints.h_y) + !h_found * FLT_MAX;
@@ -121,14 +121,14 @@ void	wall_hit_cord(t_player *player, t_rays *ray, float angle)
 	// }
 }
 
-void color_sealing_floor(int x, int top, int bottom, t_data *img)
+void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 {
 	int i = 0;
 	while(i < top)
-		put_pixel(img, x, i++, SEALING_COLOR);
-	i = HEIGHT;
+		put_pixel(vars, x, i++, SEALING_COLOR);
+	i = vars->map->height;
 	while(i > bottom)
-		put_pixel(img, x, i--, FLOOR_COLOR);
+		put_pixel(vars, x, i--, FLOOR_COLOR);
 }
 
 unsigned int	create_trgb(int t, int r, int g, int b)
@@ -145,23 +145,23 @@ void draw_wall(t_vars *vars)
 	int y;
 	float wall_dis;
 
-	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
+	proj_wall_dis = (vars->map->width / 2) / tan(vars->ray->fov / 2);
 
 	int i = 0;
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
 		wall_height = (BLOCK_SIZE / wall_dis) * proj_wall_dis;
-		top = HEIGHT / 2 - wall_height / 2;
+		top = vars->map->height / 2 - wall_height / 2;
 		top = (top < 0) * 0 + !(top < 0) * top;
-		bottom = HEIGHT / 2 + wall_height / 2;
-		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
+		bottom = vars->map->height / 2 + wall_height / 2;
+		bottom = (bottom > vars->map->height) * vars->map->height + !(bottom > vars->map->height) * bottom;
 		y = top;
 		// printf("{%f %f %i}\n", vars->rays[i].hit_dis, cos(vars->rays[i].angle - vars->player->pa), bottom);
 		while (y < bottom)
-			put_pixel(vars->img, i, y++, WALL_COLOR);
+			put_pixel(vars, i, y++, WALL_COLOR);
 		// create_trgb(100, 24, 28, 20)
-		color_sealing_floor(i, top, bottom, vars->img);
+		color_sealing_floor(i, top, bottom, vars);
 		i++;
 	}
 }
@@ -180,7 +180,7 @@ void cast_rays(t_vars *vars)
 	{
 		angle += (angle < 0) * (2 * PI);
 		angle -= (angle > 2 * PI) * (2 * PI);
-        wall_hit_cord(vars->player, (vars->rays)+i, angle);
+        wall_hit_cord(vars, vars->player, (vars->rays)+i, angle);
 		vars->rays[i].angle = angle;
 		angle += vars->ray->fov / vars->ray->rays_num;
 		i++;
@@ -199,7 +199,7 @@ void	draw_rays(t_vars *vars)
 	{
         line.x2 = vars->rays[i].x_whpoint * MMS;
         line.y2 = vars->rays[i].y_whpoint * MMS;
-		draw_line(line, vars->img, 0x0000ffff);
+		draw_line(vars, line, 0x0000ffff);
 		i++;
 	}
 }
