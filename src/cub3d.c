@@ -83,13 +83,13 @@ int	key_press(int keysym, t_vars *vars)
 	return 1;
 }
 
-void	init_map(t_map *map)
-{
-	map->rows = 32;
-	map->cols = 14;
-	map->height = BLOCK_SIZE * map->cols;
-	map->width = BLOCK_SIZE * map->rows;
-}
+// void	init_map(t_map *map)
+// {
+// 	map->rows = 32;
+// 	map->cols = 14;
+// 	map->height = BLOCK_SIZE * map->cols;
+// 	map->width = BLOCK_SIZE * map->rows;
+// }
 
 void setup(t_vars *vars)
 {
@@ -110,24 +110,51 @@ void setup(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_vars		vars;
 	t_data		img;
 	t_player	player;
 	t_ray		ray;
 	t_status	status;
-	t_map		map;
+	// t_map		map;
 
+	t_map	*map;
+
+	map = NULL;
+	if (argc >= 2)
+	{
+		map = parse(argv[1]);
+		//free_map(map);
+	}
+	else
+	{
+		write(2, "Error\nnb argument \n", 19);
+		return (-1);
+	}
+	printf("NO = %s\n", map->no);
+	printf("SO = %s\n", map->so);
+	printf("WE = %s\n", map->we);
+	printf("EA= %s\n", map->ea);
+	printf("F= %u\n", map->f);
+	printf("C= %u\n", map->c);
+	//ft_lstiter(map->lst, print_all);
+	int i =0;
+	while (i < map->max_line)
+	{
+		printf("%s\n", map->map[i]);
+		i++;
+	}
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
 	status.mm = 1;
 	vars.status = &status;
-	vars.map = &map;
+	vars.map = map;
 
 	setup(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
 	// mlx_loop_hook(vars.mlx, movement, vars);
 	mlx_loop(vars.mlx);
+	free_map(map);
 }

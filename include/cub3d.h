@@ -3,8 +3,42 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <fcntl.h>
 #include <float.h>
 #include "../libft/include/libft.h"
+#include "get_next_line.h"
+
+# include <unistd.h>
+# include <stdint.h>
+
+typedef enum face
+{
+	NORHT,
+	WEST,
+	EAST,
+	SOUTH
+}	t_player_face;
+
+typedef struct s_map
+{
+	char				*no;
+	char				*so;
+	char				*we;
+	char				*ea;
+	unsigned int		f;
+	unsigned int		c;
+	int					max_col;
+	int					max_line;
+	int					player_x_pos;
+	int					player_y_pos;
+	t_player_face		player_face;
+	int					rows;
+	int					cols;
+	int					height;
+	int					width;
+	char				**map;
+	t_list				*lst;
+}	t_map;
 
 typedef struct	s_data {
 	void	*img;
@@ -58,13 +92,13 @@ typedef struct s_status
 	bool	mm;
 }	t_status;
 
-typedef struct s_map
-{
-	int	rows;
-	int	cols;
-	int	height;
-	int	width;
-}	t_map;
+// typedef struct s_map
+// {
+// 	int	rows;
+// 	int	cols;
+// 	int	height;
+// 	int	width;
+// }	t_map;
 
 typedef struct s_vars
 {
@@ -175,3 +209,20 @@ void	draw_rays(t_vars *vars);
 
 // Walls
 void draw_wall(t_vars *vars);
+
+
+unsigned int	get_color(char **spl);
+bool			is_all_num(char **arr);
+int				len_2d(char **sp);
+bool			check_line(char *line);
+bool			fill_wall(t_map *map, char *line, int *count);
+void			fill_color(t_map *map, char *line);
+void			free_map(t_map *map);
+bool			fill_map(t_map *map, int fd, bool flag, int count);
+void			*fill_array(t_map *map, int player);
+bool			check_walls(t_map *map, char *errormsg, int line);
+void			free_2d(char **tmp);
+void			free_linked(t_list *lst);
+int				ft_atoi_over(const char *str);
+void			exit_err(t_map *map, char *tmp, char *line, char *msg);
+t_map			*parse(char *file);
