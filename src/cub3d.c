@@ -50,9 +50,10 @@ void draw(t_vars *vars)
 	draw_wall(vars);
 	if (vars->status->mm)
 	{
-		draw_minimap(vars);
-		// draw_rays(vars);
-		draw_player(vars);
+		pre_minimap_player(vars);
+		// draw_minimap(vars);
+		// // draw_rays(vars);
+		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
@@ -64,9 +65,9 @@ int	key_press(int keysym, t_vars *vars)
 		player_movement(vars, 1);
 	else if (keysym == DOWN_S_KEY)
 		player_movement(vars, -1);
-	else if (keysym == RIGHT_D_KEY)
-		player_rotation(vars, -1);
 	else if (keysym == LEFT_A_KEY)
+		player_rotation(vars, -1);
+	else if (keysym == RIGHT_D_KEY)
 		player_rotation(vars, 1);
 	else if (keysym == 46)
 	{
@@ -92,9 +93,10 @@ void setup(t_vars *vars)
 	draw_wall(vars);
 	if (vars->status->mm)
 	{
-		draw_minimap(vars);
-		// draw_rays(vars);
-		draw_player(vars);
+		pre_minimap_player(vars);
+		// draw_minimap(vars);
+		// // draw_rays(vars);
+		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }

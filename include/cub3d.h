@@ -22,6 +22,16 @@ typedef struct s_player
 	float	steps;
 	float	rspeed;
 }	t_player;
+typedef	struct s_mini
+{
+	int x;
+	int y;
+	int xmax;
+	int ymax;
+	int player_poz_x;
+	int player_poz_y;
+
+}	t_mini;
 typedef struct s_ray
 {
 	float	fov;
@@ -128,12 +138,14 @@ float	rad2deg(float rad);
 
 // Map
 void	set_background(t_data *img);
-void	draw_minimap(t_vars *vars);
+void	draw_minimap(t_vars *vars, t_mini *minimap);
 void	draw_block(t_data *img, int x, int y, int size, unsigned int b);
+
+void pre_minimap_player(t_vars *vars);
 
 // Player
 void	init_player(t_vars *vars);
-void	draw_player(t_vars *vars);
+void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc);
 void	player_rotation(t_vars *vars, int dirc);
 bool	isit_wall(float x, float y);
