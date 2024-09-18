@@ -103,22 +103,6 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 	int	y;
 	int	x;
 	unsigned int	color;
-	
-	fix_minimap_y(minimap);
-	y = minimap->y;
-	while (y < minimap->ymax )
-	{
-		fix_minimap_y(minimap);
-		x = minimap->x;
-		while (x < minimap->xmax)
-		{
-			fix_minimap_x(minimap);
-			color = (map[y*MAP_ROWS+x]==0) * MMC;
-			draw_block(vars->img, (x - minimap->x)*BLOCK_SIZE*MMS, (y - minimap->y)*BLOCK_SIZE*MMS, BLOCK_SIZE*MMS, color);
-			x++;
-		}
-		y++;
-	}
 	if (minimap->height < 12 || minimap->width < 12)
 	{
 		y = 0;
@@ -126,10 +110,30 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 		{
 			x = 0;
 			while (x < 12*BLOCK_SIZE* MMS)
-				put_pixel(vars->img, x++, y, 0);
+				put_pixel(vars->img, x++, y, 0x00ffff00);
 			y++;
 		}
 	}
+	
+	fix_minimap_y(minimap);
+	y = minimap->y;
+	
+	while (y < minimap->ymax )
+	{
+		fix_minimap_y(minimap);
+		x = minimap->x;
+		printf("%i %i\n", minimap->x, minimap->xmax);
+		while (x < minimap->xmax)
+		{
+			printf("LL\n");
+			fix_minimap_x(minimap);
+			color = (map[y*MAP_ROWS+x]==0) * MMC;
+			draw_block(vars->img, (x - minimap->x)*BLOCK_SIZE*MMS, (y - minimap->y)*BLOCK_SIZE*MMS, BLOCK_SIZE*MMS, color);
+			x++;
+		}
+		y++;
+	}
+	
 }
 
 void    draw_border(t_vars *vars, t_mini *minimap)
@@ -189,15 +193,16 @@ void draw_minimap_player(t_vars *vars)
 	calc_map_wh(vars, &minimap);
 	minimap.player_poz_x = floor(vars->player->x / BLOCK_SIZE);
 	minimap.player_poz_y =  floor(vars->player->y / BLOCK_SIZE);
-
-	minimap.y = minimap.player_poz_y - (minimap.height / 2);
+	
+	minimap.y = (minimap.player_poz_y - (minimap.height / 2)) * (minimap.height >= 12);
 	minimap.y = (minimap.y > 0) * minimap.y;
-	minimap.ymax = minimap.player_poz_y + (minimap.height / 2);
-	minimap.ymax = (minimap.ymax < MAP_COLS) * minimap.ymax + !(minimap.ymax < MAP_COLS) * (MAP_COLS );
 
-	minimap.x = minimap.player_poz_x - (minimap.width / 2);
+	minimap.ymax = minimap.player_poz_y + (minimap.height / 2) + (minimap.height % 2) * 1;
+	minimap.ymax = (minimap.ymax < MAP_COLS) * minimap.ymax + !(minimap.ymax < MAP_COLS) * (MAP_COLS);
+
+	minimap.x = (minimap.player_poz_x - (minimap.width / 2)) * (minimap.width >= 12);
 	minimap.x = (minimap.x > 0) * minimap.x;
-	minimap.xmax = minimap.player_poz_x + (minimap.width / 2);
+	minimap.xmax = minimap.player_poz_x + (minimap.width / 2) + (minimap.width % 2) * 1;
 	minimap.xmax = (minimap.xmax < MAP_ROWS) * minimap.xmax + !(minimap.xmax < MAP_ROWS) * (MAP_ROWS );
 	draw_minimap(vars, &minimap);
 	draw_player(vars, &minimap);
