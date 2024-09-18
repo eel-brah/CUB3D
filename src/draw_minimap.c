@@ -5,8 +5,8 @@ void init_player(t_vars *vars)
 	t_player	*player;
 
 	player = vars->player;
-	player->x = vars->map->width / 2;
-	player->y = vars->map->height / 2;
+	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
+	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
 	player->pa = PI * 1.5f;
 	player->steps = 6;
@@ -34,6 +34,7 @@ bool	isit_wall(t_vars *vars, float x, float y)
 {
 	if (isit_outob(vars, x, y))
 		return true;
+	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))][((int)floor(x/BLOCK_SIZE))]==0)
 	if (map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))]==0)
 		return false;
 	return true;
