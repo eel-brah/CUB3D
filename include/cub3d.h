@@ -30,7 +30,8 @@ typedef	struct s_mini
 	int ymax;
 	int player_poz_x;
 	int player_poz_y;
-
+	int	height;
+	int	width;
 }	t_mini;
 typedef struct s_ray
 {

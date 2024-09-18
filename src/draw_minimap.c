@@ -72,22 +72,22 @@ void player_rotation(t_vars *vars, int dirc)
 
 void	fix_minimap_y(t_mini *minimap)
 {
-	if (minimap->ymax - minimap->y < 12)
+	if (minimap->ymax - minimap->y < minimap->height)
 	{
 		if (minimap->player_poz_y > (MAP_COLS /2) )
-			minimap->y = minimap->ymax - 12;
+			minimap->y = minimap->ymax - minimap->height;
 		else
-			minimap->ymax = minimap->y + 12;
+			minimap->ymax = minimap->y + minimap->height;
 	}
 }
 void	fix_minimap_x(t_mini *minimap)
 {
-	if (minimap->xmax - minimap->x < 12) // calc 12 for small maps
+	if (minimap->xmax - minimap->x < minimap->width) // calc 12 for small maps
 	{
-		if (minimap->player_poz_x > (MAP_ROWS /2) )
-			minimap->x = minimap->xmax - 12;
+		if (minimap->player_poz_x > (MAP_ROWS / 2) )
+			minimap->x = minimap->xmax - minimap->width;
 		else
-			minimap->xmax = minimap->x + 12;
+			minimap->xmax = minimap->x + minimap->width;
 	}
 }
 void draw_player(t_vars *vars, t_mini *minimap)
@@ -118,6 +118,17 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 			x++;
 		}
 		y++;
+	}
+	if (minimap->height < 12 || minimap->width < 12)
+	{
+		y = 0;
+		while (y < 12*BLOCK_SIZE* MMS)
+		{
+			x = 0;
+			while (x < 12*BLOCK_SIZE* MMS)
+				put_pixel(vars->img, x++, y, 0);
+			y++;
+		}
 	}
 }
 
@@ -165,20 +176,28 @@ void    draw_border(t_vars *vars, t_mini *minimap)
 	draw_line(line, vars->img, BORDER_COLOR);
 }
 
+void	calc_map_wh(t_vars *vars, t_mini *minimap)
+{
+	minimap->height = (vars->map->cols >= 12) * 12 + !(vars->map->cols >= 12) * vars->map->cols;
+	minimap->width = (vars->map->rows >= 12) * 12 + !(vars->map->rows >= 12) * vars->map->rows;
+}
+
 void draw_minimap_player(t_vars *vars)
 {
 	t_mini	minimap;
+	
+	calc_map_wh(vars, &minimap);
 	minimap.player_poz_x = floor(vars->player->x / BLOCK_SIZE);
 	minimap.player_poz_y =  floor(vars->player->y / BLOCK_SIZE);
 
-	minimap.y = minimap.player_poz_y - 6; // calc 6 for small maps
+	minimap.y = minimap.player_poz_y - (minimap.height / 2);
 	minimap.y = (minimap.y > 0) * minimap.y;
-	minimap.ymax = minimap.player_poz_y + 6;
+	minimap.ymax = minimap.player_poz_y + (minimap.height / 2);
 	minimap.ymax = (minimap.ymax < MAP_COLS) * minimap.ymax + !(minimap.ymax < MAP_COLS) * (MAP_COLS );
 
-	minimap.x = minimap.player_poz_x - 6;
+	minimap.x = minimap.player_poz_x - (minimap.width / 2);
 	minimap.x = (minimap.x > 0) * minimap.x;
-	minimap.xmax = minimap.player_poz_x + 6;
+	minimap.xmax = minimap.player_poz_x + (minimap.width / 2);
 	minimap.xmax = (minimap.xmax < MAP_ROWS) * minimap.xmax + !(minimap.xmax < MAP_ROWS) * (MAP_ROWS );
 	draw_minimap(vars, &minimap);
 	draw_player(vars, &minimap);
