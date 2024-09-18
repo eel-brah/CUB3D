@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:39 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/18 10:50:22 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:04:42 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static bool	set_player_info(t_map *map, int i, int j, char c)
 {
 	if (i == 0 || j == 0 || i == map->max_line - 1 || j == map->max_col - 1)
 		return (write(2, "Palyer in Walls", 16), free_map(map), exit(1), false);
-	if (map->map[i - 1][j] == 'V' || map->map[i + 1][j] == 'V'
-		|| map->map[i][j - 1] == 'V' || map->map[i][j + 1] == 'V')
+	if (map->map[((i - 1) * (map->max_col)) + j] == 'V' || map->map[((i + 1) * (map->max_col)) + j] == 'V'
+		|| map->map[(i * (map->max_col)) + (j - 1)] == 'V' || map->map[(i * (map->max_col)) + j + 1] == 'V')
 		return (write(2, "Palyer in Walls", 16), free_map(map), exit(1), false);
 	map->player_x_pos = j;
 	map->player_y_pos = i;
@@ -43,15 +43,18 @@ bool	check_walls(t_map *map, char *ermsg, int line)
 		j = 0;
 		while (j < map->max_col)
 		{
-			if (map->map[i][j] == 'E' || map->map[i][j] == 'W'
-			|| map->map[i][j] == 'S' || map->map[i][j] == 'N')
-				set_player_info(map, i, j, map->map[i][j]);
-			if (map->map[i][j] == '0')
+			if (map->map[(i * (map->max_col)) + j] == 'E' || map->map[(i * (map->max_col)) + j] == 'W'
+			|| map->map[(i * (map->max_col)) + j] == 'S' || map->map[(i * (map->max_col)) + j] == 'N')
+			{
+				set_player_info(map, i, j, map->map[(i * (map->max_col)) + j]);
+				map->map[(i * (map->max_col)) + j] = '0';
+			}
+			if (map->map[(i * (map->max_col)) + j] == '0')
 			{
 				if (i == 0 || j == 0 || i == line - 1 || j == map->max_col - 1)
 					return (write(2, ermsg, 16), free_map(map), exit(1), false);
-				if (map->map[i - 1][j] == 'V' || map->map[i + 1][j] == 'V'
-					|| map->map[i][j - 1] == 'V' || map->map[i][j + 1] == 'V')
+				if (map->map[((i - 1) * (map->max_col)) + j] == 'V' || map->map[((i + 1) * (map->max_col)) + j] == 'V'
+					|| map->map[(i * (map->max_col)) + j - 1] == 'V' || map->map[(i * (map->max_col)) + j + 1] == 'V')
 					return (write(2, ermsg, 16), free_map(map), exit(1), false);
 			}
 			j++;
@@ -70,11 +73,11 @@ void	free_map(t_map *map)
 	free(map->so);
 	free(map->we);
 	free(map->ea);
-	while (map->map && map->map[i])
-	{
-		free(map->map[i]);
-		i++;
-	}
+	// while (map->map && map->map[i])
+	// {
+	// 	free(map->map[i]);
+	// 	i++;
+	// }
 	free(map->map);
 	free_linked(map->lst);
 	free(map);

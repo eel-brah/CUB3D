@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:38:26 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/18 11:17:30 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:15:51 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+// void	set_empty(t_map *map, char *line, int *player, int i)
+// {
+// 	int	j;
+
+// 	j = 0;
+// 	while (line[j])
+// 	{
+// 		if (line[j] == 'N' || line[j] == 'S'
+// 			|| line[j] == 'E' || line[j] == 'W')
+// 			(*player)++;
+// 		if (line[j] == ' ')
+// 			map->map[i][j] = 'V';
+// 		else
+// 			map->map[i][j] = line[j];
+// 		j++;
+// 	}
+// 	while (j < map->max_col)
+// 	{
+// 		map->map[i][j] = 'V';
+// 		j++;
+// 	}
+// 	map->map[i][j] = '\0';
+// }
 
 void	set_empty(t_map *map, char *line, int *player, int i)
 {
@@ -23,19 +47,48 @@ void	set_empty(t_map *map, char *line, int *player, int i)
 			|| line[j] == 'E' || line[j] == 'W')
 			(*player)++;
 		if (line[j] == ' ')
-			map->map[i][j] = 'V';
+			map->map[(i * (map->max_col)) + j] = 'V';
 		else
-			map->map[i][j] = line[j];
+			map->map[(i * (map->max_col)) + j] = line[j];
 		j++;
 	}
 	while (j < map->max_col)
 	{
-		map->map[i][j] = 'V';
+		map->map[(i * (map->max_col)) + j] = 'V';
 		j++;
 	}
-	map->map[i][j] = '\0';
+	// map->map[i][j] = '\0';
 }
 
+void	*fill_array(t_map *map, int player)
+{
+	int		i;
+	t_list	*tmp;
+
+	i = 0;
+	map->map = malloc(sizeof(char) * ((map->max_line * map->max_col) + 1));
+	if (!map->map)
+		return (perror("malloc"), free_map(map), exit(1), NULL);
+	tmp = map->lst;
+	while (i < map->max_line)
+	{
+		//map->map[i] = malloc(sizeof(char) * (map->max_col + 1));
+		// if (!map->map[i])
+		// 	return (perror("malloc"), free_map(map), exit(1), NULL);
+		set_empty(map, tmp->content, &player, i);
+		tmp = tmp->next;
+		i++;
+	}
+	map->map[(--i * (map->max_col)) + map->max_col] = '\0';
+	if (player == 0 || player > 1)
+	{
+		write(2, "Error\nNb Player\n", 16);
+		return (free_map(map), exit(1), NULL);
+	}
+	return (NULL);
+}
+
+/*
 void	*fill_array(t_map *map, int player)
 {
 	int		i;
@@ -62,7 +115,7 @@ void	*fill_array(t_map *map, int player)
 		return (free_map(map), exit(1), NULL);
 	}
 	return (NULL);
-}
+}*/
 
 void	exit_err(t_map *map, char *tmp, char *line, char *msg)
 {

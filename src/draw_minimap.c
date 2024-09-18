@@ -35,7 +35,7 @@ bool	isit_wall(t_vars *vars, float x, float y)
 	if (isit_outob(vars, x, y))
 		return true;
 	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))][((int)floor(x/BLOCK_SIZE))]==0)
-	if (map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))]==0)
+	if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == 0)
 		return false;
 	return true;
 }

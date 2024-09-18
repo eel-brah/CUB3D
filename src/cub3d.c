@@ -139,12 +139,12 @@ int	main(int argc, char **argv)
 	printf("F= %u\n", map->f);
 	printf("C= %u\n", map->c);
 	//ft_lstiter(map->lst, print_all);
-	int i =0;
-	while (i < map->max_line)
-	{
-		printf("%s\n", map->map[i]);
-		i++;
-	}
+	// int i =0;
+	// while (i < map->max_line)
+	// {
+	// 	printf("%s\n", map->map[i]);
+	// 	i++;
+	// }
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
