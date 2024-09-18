@@ -45,12 +45,12 @@ void	init(t_vars	*vars)
 
 void draw(t_vars *vars)
 {
-	set_background(vars->img);
+	// set_background(vars->img);
 	cast_rays(vars);
 	draw_wall(vars);
 	if (vars->status->mm)
 	{
-		pre_minimap_player(vars);
+		draw_minimap_player(vars);
 		// draw_minimap(vars);
 		// // draw_rays(vars);
 		// draw_player(vars);
@@ -83,17 +83,26 @@ int	key_press(int keysym, t_vars *vars)
 	return 1;
 }
 
+void	init_map(t_map *map)
+{
+	map->rows = 32;
+	map->cols = 14;
+	map->height = BLOCK_SIZE * map->cols;
+	map->width = BLOCK_SIZE * map->rows;
+}
+
 void setup(t_vars *vars)
 {
 	init(vars);
 	init_ray(vars->ray);
+	init_map(vars->map);
 	init_player(vars);
-    set_background(vars->img);
+    // set_background(vars->img);
 	cast_rays(vars);
 	draw_wall(vars);
 	if (vars->status->mm)
 	{
-		pre_minimap_player(vars);
+		draw_minimap_player(vars);
 		// draw_minimap(vars);
 		// // draw_rays(vars);
 		// draw_player(vars);
@@ -108,12 +117,14 @@ int	main(void)
 	t_player	player;
 	t_ray		ray;
 	t_status	status;
+	t_map		map;
 
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
 	status.mm = 1;
 	vars.status = &status;
+	vars.map = &map;
 
 	setup(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);

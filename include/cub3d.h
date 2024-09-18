@@ -56,11 +56,21 @@ typedef struct s_status
 {
 	bool	mm;
 }	t_status;
+
+typedef struct s_map
+{
+	int	rows;
+	int	cols;
+	int	height;
+	int	width;
+}	t_map;
+
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
+	t_map	*map;
 	t_player *player;
 	t_rays	*rays;
 	t_ray	*ray;
@@ -74,6 +84,7 @@ typedef struct s_line
 	int				x2;
 	int				y2;
 }	t_line;
+
 typedef struct s_delta
 {
 	int	dx;
@@ -92,10 +103,12 @@ typedef struct s_delta
 #define DIRC_LINE 0x0000FF00
 #define PLAYER_SIZE 18
 
-#define MMC 0x00bec1c4
+#define MMC 0x00EAE4DD
 #define WALL_COLOR 0x00181C14
 #define SEALING_COLOR 0x00ECDFCC
 #define FLOOR_COLOR 0x003C3D37
+#define BORDER_COLOR 0x00295F98
+
 
 #define MAP_ROWS 32
 #define MAP_COLS 14
@@ -137,11 +150,11 @@ float	deg2rad(float deg);
 float	rad2deg(float rad);
 
 // Map
-void	set_background(t_data *img);
+// void	set_background(t_data *img);
 void	draw_minimap(t_vars *vars, t_mini *minimap);
 void	draw_block(t_data *img, int x, int y, int size, unsigned int b);
 
-void pre_minimap_player(t_vars *vars);
+void draw_minimap_player(t_vars *vars);
 
 // Player
 void	init_player(t_vars *vars);
