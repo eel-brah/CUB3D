@@ -148,10 +148,8 @@ typedef struct s_delta
 #define MAP_ROWS 32
 #define MAP_COLS 14
 #define BLOCK_SIZE 50
-#define MMS 0.3
-
-#define HEIGHT (BLOCK_SIZE * MAP_COLS)
-#define WIDTH (BLOCK_SIZE * MAP_ROWS)
+#define MMSF 0.3
+#define MMS 12
 
 # define ESC_KEY 53
 # define UP_KEY 126

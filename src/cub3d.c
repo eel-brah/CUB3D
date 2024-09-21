@@ -87,16 +87,6 @@ int	key_press(int keysym, t_vars *vars)
 	return 1;
 }
 
-// void	init_map(t_map *map)
-// {
-// 	map->cols = 32;
-// 	map->rows = 14;
-// 	map->height = BLOCK_SIZE * map->rows;
-// 	map->width = BLOCK_SIZE * map->cols;
-// }
-
-
-
 void setup(t_vars *vars)
 {
 	init(vars);

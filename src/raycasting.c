@@ -192,13 +192,13 @@ void	draw_rays(t_vars *vars)
 	t_line	line;
 	int	i;
 
-	line.x1 = vars->player->x * MMS;
-	line.y1 = vars->player->y * MMS;
+	line.x1 = vars->player->x * MMSF;
+	line.y1 = vars->player->y * MMSF;
 	i = 0;
 	while (i < vars->ray->rays_num)
 	{
-        line.x2 = vars->rays[i].x_whpoint * MMS;
-        line.y2 = vars->rays[i].y_whpoint * MMS;
+        line.x2 = vars->rays[i].x_whpoint * MMSF;
+        line.y2 = vars->rays[i].y_whpoint * MMSF;
 		draw_line(vars, line, 0x0000ffff);
 		i++;
 	}
