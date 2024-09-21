@@ -62,12 +62,16 @@ int	key_press(int keysym, t_vars *vars)
 {
 	printf("%i\n", keysym);
 	if (keysym == UP_W_KEY)
-		player_movement(vars, 1);
+		player_movement(vars, 1, 0);
 	else if (keysym == DOWN_S_KEY)
-		player_movement(vars, -1);
+		player_movement(vars, -1, 0);
 	else if (keysym == LEFT_A_KEY)
-		player_rotation(vars, -1);
+		player_movement(vars, -1, 90);
 	else if (keysym == RIGHT_D_KEY)
+		player_movement(vars, 1, 90);
+	else if (keysym == LEFT_KEY)
+		player_rotation(vars, -1);
+	else if (keysym == RIGHT_KEY)
 		player_rotation(vars, 1);
 	else if (keysym == 46)
 	{

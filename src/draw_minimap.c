@@ -41,15 +41,15 @@ bool	isit_wall(t_vars *vars, float x, float y)
 	return true;
 }
 
-void player_movement(t_vars *vars, int dirc)
+void player_movement(t_vars *vars, int dirc, int sp)
 {
 	t_player	*player;
 	float		tmp_x;
 	float		tmp_y;
 
 	player = vars->player;
-	tmp_x = player->x + cos(player->pa) * player->steps * dirc;
-	tmp_y = player->y + sin(player->pa) * player->steps * dirc;
+	tmp_x = player->x + cos(player->pa + deg2rad(sp)) * player->steps * dirc;
+	tmp_y = player->y + sin(player->pa + deg2rad(sp)) * player->steps * dirc;
 	if (!isit_wall(vars, tmp_x, tmp_y))
 	{
 		player->x = tmp_x;
