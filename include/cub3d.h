@@ -139,7 +139,7 @@ typedef struct s_delta
 #define PLAYER_SIZE 18
 
 #define MMC 0x00EAE4DD
-#define WALL_COLOR 0xFF0065
+#define WALL_COLOR 0x00181C14
 #define SEALING_COLOR 0x00ECDFCC
 #define FLOOR_COLOR 0x003C3D37
 #define BORDER_COLOR 0x00295F98

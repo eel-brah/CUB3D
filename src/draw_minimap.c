@@ -8,7 +8,8 @@ void init_player(t_vars *vars)
 	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
-	player->pa = PI * 1.5f;
+	// player->pa = PI * 1.5f;
+	player->pa = 0;
 	player->steps = 6;
 	player->rspeed = deg2rad(5);
 }
@@ -35,7 +36,7 @@ bool	isit_wall(t_vars *vars, float x, float y)
 	if (isit_outob(vars, x, y))
 		return true;
 	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))][((int)floor(x/BLOCK_SIZE))]==0)
-	if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == 0)
+	if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
 		return false;
 	return true;
 }
@@ -128,7 +129,7 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 		{
 			// printf("LL\n");
 			fix_minimap_x(vars, minimap);
-			color = (map[y * vars->map->cols + x]==0) * MMC;
+			color = (vars->map->map[y * vars->map->cols + x]=='0') * MMC;
 			draw_block(vars, (x - minimap->x)*BLOCK_SIZE*MMS, (y - minimap->y)*BLOCK_SIZE*MMS, BLOCK_SIZE*MMS, color);
 			x++;
 		}

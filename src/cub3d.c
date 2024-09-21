@@ -91,6 +91,8 @@ int	key_press(int keysym, t_vars *vars)
 // 	map->width = BLOCK_SIZE * map->cols;
 // }
 
+
+
 void setup(t_vars *vars)
 {
 	init(vars);
@@ -108,6 +110,37 @@ void setup(t_vars *vars)
 		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+}
+
+void print_map(t_vars *vars)
+{
+	int i = 0;
+	int j = 0;
+	while(j < vars->map->rows)
+	{
+		i = 0;
+		while(i < vars->map->cols)
+		{
+			printf("%i ", vars->map->map[j * vars->map->cols + i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
+	printf("\n");
+	printf("\n");
+	j = 0;
+	while(j < vars->map->rows)
+	{
+		i = 0;
+		while(i < vars->map->cols)
+		{
+			printf("%i ", map[j * vars->map->cols + i]);
+			i++;
+		}
+		printf("\n");
+		j++;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -151,6 +184,8 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
+
+	print_map(&vars);
 
 	setup(&vars);
     mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
