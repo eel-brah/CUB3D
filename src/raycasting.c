@@ -98,6 +98,7 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
 	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
+	ray->is_vertical = (hd > vd) * 1;
 	// if (ray->hit_dis == 0){
 	// 	printf("v{%f %f} h{%f %f}\n", hitpoints.v_x, hitpoints.v_y, hitpoints.h_x, hitpoints.h_y);
 	// 	printf("h{%f %f %f %f}\n", player->x, player->y, ray->x_whpoint, ray->y_whpoint);
@@ -136,6 +137,13 @@ unsigned int	create_trgb(int t, int r, int g, int b)
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
+unsigned int	get_colorr(t_data *data, int x, int y)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	return (*(unsigned int*)dst);
+}
 void draw_wall(t_vars *vars)
 {
 	float wall_height;
@@ -144,10 +152,19 @@ void draw_wall(t_vars *vars)
 	int bottom;
 	int y;
 	float wall_dis;
+	t_data data;
 
+ 
 	proj_wall_dis = (vars->map->width / 2) / tan(vars->ray->fov / 2);
-
 	int i = 0;
+	int tex_width, tex_height;
+	data.img = mlx_xpm_file_to_image(vars->mlx, "./sd.xpm",&tex_width, &tex_height);
+	if (!data.img)
+	{
+		printf("alo\n");
+		exit(1);
+	}
+	data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
@@ -157,15 +174,25 @@ void draw_wall(t_vars *vars)
 		bottom = vars->map->height / 2 + wall_height / 2;
 		bottom = (bottom > vars->map->height) * vars->map->height + !(bottom > vars->map->height) * bottom;
 		y = top;
-		// printf("{%f %f %i}\n", vars->rays[i].hit_dis, cos(vars->rays[i].angle - vars->player->pa), bottom);
+		int	xx;
+		if (vars->rays[i].is_vertical)
+			xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
+		else
+			xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
+		int ss;
 		while (y < bottom)
-			put_pixel(vars, i, y++, WALL_COLOR);
+		{
+			ss = y + (wall_height / 2) - (vars->map->height / 2);
+			// 64 ---> form mlx_xpm_file_to_image
+			unsigned int a = get_colorr(&data, xx, (ss) * tex_height /(wall_height));
+			put_pixel(vars, i, y, a);
+			y++;
+		}
 		// create_trgb(100, 24, 28, 20)
 		color_sealing_floor(i, top, bottom, vars);
 		i++;
 	}
 }
-
 void cast_rays(t_vars *vars)
 {
 

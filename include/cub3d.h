@@ -78,6 +78,7 @@ typedef struct s_rays
 	float	y_whpoint;
 	float	hit_dis;
 	float	angle;
+	bool	is_vertical;
 }	t_rays;
 typedef struct s_hitpoint
 {
