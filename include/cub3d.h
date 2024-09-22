@@ -148,7 +148,8 @@ typedef struct s_delta
 #define WIDTH 1500
 #define BLOCK_SIZE 50
 #define MMSF 0.3
-#define MMS 12
+#define MMSIZE 12
+#define MMSHIFT 10
 
 # define ESC_KEY 53
 # define UP_KEY 126

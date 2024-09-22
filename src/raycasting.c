@@ -152,19 +152,19 @@ void draw_wall(t_vars *vars)
 	int bottom;
 	int y;
 	float wall_dis;
-	// t_data data;
+	t_data data;
 
  
 	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
 	int i = 0;
-	// int tex_width, tex_height;
-	// data.img = mlx_xpm_file_to_image(vars->mlx, "./sd.xpm",&tex_width, &tex_height);
-	// if (!data.img)
-	// {
-	// 	printf("alo\n");
-	// 	exit(1);
-	// }
-	// data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
+	int tex_width, tex_height;
+	data.img = mlx_xpm_file_to_image(vars->mlx, "./wall.xpm",&tex_width, &tex_height);
+	if (!data.img)
+	{
+		printf("alo\n");
+		exit(1);
+	}
+	data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
@@ -174,18 +174,18 @@ void draw_wall(t_vars *vars)
 		bottom = HEIGHT / 2 + wall_height / 2;
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
-		// int	xx;
-		// if (vars->rays[i].is_vertical)
-		// 	xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
-		// else
-		// 	xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
-		// int ss;
+		int	xx;
+		if (vars->rays[i].is_vertical)
+			xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
+		else
+			xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
+		int ss;
 		while (y < bottom)
 		{
-			// ss = y + (wall_height / 2) - (HEIGHT / 2);
-			// // 64 ---> form mlx_xpm_file_to_image
-			// unsigned int a = get_colorr(&data, xx, (ss) * tex_height /(wall_height));
-			put_pixel(vars, i, y, WALL_COLOR);
+			ss = y + (wall_height / 2) - (HEIGHT / 2);
+			// 64 ---> form mlx_xpm_file_to_image
+			unsigned int a = get_colorr(&data, xx, (ss) * tex_height /(wall_height));
+			put_pixel(vars, i, y, a);
 			y++;
 		}
 		// create_trgb(100, 24, 28, 20)
