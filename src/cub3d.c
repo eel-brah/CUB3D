@@ -58,12 +58,23 @@ void draw(t_vars *vars)
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 }
 
+
+int	close_and_clear(t_vars *vars)
+{
+	ft_printf("\033[4;35m\033[1;95mCUB3D\033[0m \033[0;95mClosed\033[0m\n");
+	free(vars->rays);
+	mlx_destroy_image(vars->mlx, vars->img->img);
+	mlx_destroy_window(vars->mlx, vars->win);
+	// free and close fds
+	exit(0);
+}
+
 int	key_press(int keysym, t_vars *vars)
 {
-	printf("%i\n", keysym);
-	if (keysym == UP_W_KEY)
+	// printf("%i\n", keysym);
+	if (keysym == UP_W_KEY || keysym == UP_KEY)
 		player_movement(vars, 1, 0);
-	else if (keysym == DOWN_S_KEY)
+	else if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
 		player_movement(vars, -1, 0);
 	else if (keysym == LEFT_A_KEY)
 		player_movement(vars, -1, 90);
@@ -79,11 +90,7 @@ int	key_press(int keysym, t_vars *vars)
 		draw(vars); // remove this
 	}
 	else if (keysym == ESC_KEY)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		free(vars->rays);
-		exit(0);
-	}
+		close_and_clear(vars);
 	return 1;
 }
 
@@ -137,6 +144,19 @@ void print_map(t_vars *vars)
 	}
 }
 
+int mouse_hook(int b, int x, int y, t_vars *vars)
+{
+	(void)vars;
+	printf("%i %i %i\n",b ,x, y);
+	return 1;
+}
+int mouse_hook_move(int x, int y, t_vars *vars)
+{
+	(void)vars;
+	printf(" [%i %i]\n" ,x, y);
+	return 1;
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars		vars;
@@ -182,7 +202,11 @@ int	main(int argc, char **argv)
 	print_map(&vars);
 
 	setup(&vars);
-    mlx_hook(vars.win, 2, 1L<<0, key_press, &vars);
+    mlx_hook(vars.win, 2, 0, key_press, &vars);
+	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
+    // mlx_hook(vars.win, 4, 0, mouse_hook, &vars);
+    // mlx_hook(vars.win, 6, 0, mouse_hook_move, &vars);
+	// mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	// mlx_loop_hook(vars.mlx, movement, vars);
 	mlx_loop(vars.mlx);
 	free_map(map);
