@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/18 12:17:03 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:32:58 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static void	initial_map(t_map *map)
 	map->lst = NULL;
 	map->max_col = 0;
 	map->max_line = 0;
-	map->c = 300;
-	map->f = 300;
+	map->c_color = 300;
+	map->f_color = 300;
 }
 
 t_map	*parse(char *file)
@@ -116,8 +116,8 @@ t_map	*parse(char *file)
 // 	printf("SO = %s\n", map->so);
 // 	printf("WE = %s\n", map->we);
 // 	printf("EA= %s\n", map->ea);
-// 	printf("F= %u\n", map->f);
-// 	printf("C= %u\n", map->c);
+// 	printf("F= %u\n", map->f_color);
+// 	printf("C= %u\n", map->c_color);
 // 	//ft_lstiter(map->lst, print_all);
 // 	int i =0;
 // 	while (i < map->max_line)

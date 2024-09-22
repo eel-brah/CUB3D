@@ -9,7 +9,7 @@ void init_player(t_vars *vars)
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
 	// player->pa = PI * 1.5f;
-	player->pa = 0;
+	player->pa = vars->map->player_face;
 	player->steps = 6;
 	player->rspeed = deg2rad(5);
 }

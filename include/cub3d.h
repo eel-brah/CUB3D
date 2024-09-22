@@ -11,27 +11,19 @@
 # include <unistd.h>
 # include <stdint.h>
 
-typedef enum face
-{
-	NORHT,
-	WEST,
-	EAST,
-	SOUTH
-}	t_player_face;
-
 typedef struct s_map
 {
 	char				*no;
 	char				*so;
 	char				*we;
 	char				*ea;
-	unsigned int		f;
-	unsigned int		c;
+	unsigned int		f_color;
+	unsigned int		c_color;
 	int					max_col;
 	int					max_line;
 	int					player_x_pos;
 	int					player_y_pos;
-	t_player_face		player_face;
+	float				player_face;
 	int					rows;
 	int					cols;
 	char				*map;
@@ -181,6 +173,7 @@ void	draw_line(t_vars *vars, t_line line, unsigned int color);
 void	draw_circle(t_vars *vars, int xc, int yc, int r);
 float	deg2rad(float deg);
 float	rad2deg(float rad);
+unsigned int	create_trgb(int t, int r, int g, int b);
 
 // Map
 // void	set_background(t_data *img);

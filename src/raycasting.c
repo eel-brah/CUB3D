@@ -126,15 +126,10 @@ void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 {
 	int i = 0;
 	while(i < top)
-		put_pixel(vars, x, i++, SEALING_COLOR);
+		put_pixel(vars, x, i++, vars->map->c_color);
 	i = HEIGHT;
 	while(i > bottom)
-		put_pixel(vars, x, i--, FLOOR_COLOR);
-}
-
-unsigned int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
+		put_pixel(vars, x, i--, vars->map->f_color);
 }
 
 unsigned int	get_colorr(t_data *data, int x, int y)

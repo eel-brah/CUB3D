@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/17 16:37:56 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:39:15 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,20 @@
 
 unsigned int	get_color(char **spl)
 {
-	unsigned int	color;
-	int				tmp;
+	int				r;
+	int				b;
+	int				g;
 
-	tmp = ft_atoi_over(spl[0]);
-	if (tmp < 0 || tmp > 255)
+	r = ft_atoi_over(spl[0]);
+	if (r < 0 || r > 255)
 		return (300);
-	color = ft_atoi_over(spl[0]) << 24;
-	tmp = ft_atoi_over(spl[1]);
-	if (tmp < 0 || tmp > 255)
+	b = ft_atoi_over(spl[1]);
+	if (b < 0 || b > 255)
 		return (300);
-	color += ft_atoi_over(spl[1]) << 16;
-	tmp = ft_atoi_over(spl[2]);
-	if (tmp < 0 || tmp > 255)
+	g = ft_atoi_over(spl[2]);
+	if (g < 0 || g > 255)
 		return (300);
-	color += ft_atoi_over(spl[2]) << 8;
-	color += 0xff;
-	return (color);
+	return (create_trgb(0, r, g, b));
 }
 
 bool	is_all_num(char **arr)
@@ -111,13 +108,13 @@ bool	fill_wall(t_map *map, char *line, int *count)
 	}
 	else if (line[0] == 'C' && line[1])
 	{
-		if (map->c != 300)
+		if (map->c_color != 300)
 			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), false);
 		fill_color(map, line);
 	}
-	else if (line [0] == 'F' && line[1] && map->f == 300)
+	else if (line [0] == 'F' && line[1] && map->f_color == 300)
 	{
-		if (map->f != 300)
+		if (map->f_color != 300)
 			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), false);
 		fill_color(map, line);
 	}
@@ -125,7 +122,7 @@ bool	fill_wall(t_map *map, char *line, int *count)
 	{
 		if (!map->ea || !map->so || !map->no || !map->we)
 			return (exit_err(map, NULL, line, "Missing Path"), exit(1), false);
-		if (map->c == 300 || map->f == 300)
+		if (map->c_color == 300 || map->f_color == 300)
 			return (exit_err(map, NULL, line, "Missing Color"), exit(1), false);
 	}
 	else

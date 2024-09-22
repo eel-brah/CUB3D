@@ -15,6 +15,11 @@ float distance(float x1, float y1, float x2, float y2)
     return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
 }
 
+unsigned int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
 // float fov = deg2rad(66);
 // int rays_num = 360;
 // float ray_angle += fov/rays_num;

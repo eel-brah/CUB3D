@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:34:44 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/16 18:41:50 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:32:58 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static void	free_in_color(t_map *map, char *line, char **tmp, char *tmp1)
 static void	set_color(t_map *map, unsigned int color, char c)
 {
 	if (c == 'F')
-		map->f = color;
+		map->f_color = color;
 	else if (c == 'C')
-		map->c = color;
+		map->c_color = color;
 }
 
 static bool	nb_semicolone(char *s)

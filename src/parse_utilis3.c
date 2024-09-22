@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:39 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/18 13:04:42 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/22 13:28:11 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ static bool	set_player_info(t_map *map, int i, int j, char c)
 	map->player_x_pos = j;
 	map->player_y_pos = i;
 	if (c == 'E')
-		map->player_face = EAST;
+		map->player_face = 0;
 	else if (c == 'W')
-		map->player_face = WEST;
+		map->player_face = PI;
 	else if (c == 'N')
-		map->player_face = NORHT;
+		map->player_face = PI * 1.5;
 	else if (c == 'S')
-		map->player_face = SOUTH;
+		map->player_face = PI * 0.5;
 	return (true);
 }
 

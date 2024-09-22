@@ -163,8 +163,8 @@ int	main(int argc, char **argv)
 	printf("SO = %s\n", map->so);
 	printf("WE = %s\n", map->we);
 	printf("EA= %s\n", map->ea);
-	printf("F= %u\n", map->f);
-	printf("C= %u\n", map->c);
+	printf("F= %u\n", map->f_color);
+	printf("C= %u\n", map->c_color);
 	//ft_lstiter(map->lst, print_all);
 	// int i =0;
 	// while (i < map->max_line)
