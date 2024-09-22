@@ -6,7 +6,7 @@ void	put_pixel(t_vars *vars, int x, int y, unsigned int color)
 
 	t_data *data = vars->img;
 
-	if (x >= 0 && x < vars->map->width && y >= 0 && y < vars->map->height)
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 		*(unsigned int *)dst = color;

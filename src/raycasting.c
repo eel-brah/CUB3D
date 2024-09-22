@@ -3,7 +3,7 @@
 void init_ray(t_vars *vars)
 {
 	vars->ray->fov = deg2rad(66);
-	vars->ray->rays_num = vars->map->width;
+	vars->ray->rays_num = WIDTH;
 }
 
 bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle)
@@ -28,7 +28,7 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 	xstep *= ((!right && xstep > 0) * -1 + !(!right && xstep > 0) * 1);
 	xstep *= ((right && xstep < 0) * -1 + !(right && xstep < 0) * 1);
 	
-	while (!isit_outob(vars, x, y))
+	while (1)
     {
 		yc = y - (up * 1); 
         if(isit_wall(vars, x, yc))
@@ -64,7 +64,7 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 	ystep *= ((up && ystep > 0) * -1 + !(up && ystep > 0) * 1);
 	ystep *= ((!up && ystep < 0) * -1 + !(!up && ystep < 0) * 1);
 	
-	while (!isit_outob(vars, x, y))
+	while (1)
     {
 		xc = x - (!right * 1); 
         if(isit_wall(vars, xc, y))
@@ -127,7 +127,7 @@ void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 	int i = 0;
 	while(i < top)
 		put_pixel(vars, x, i++, SEALING_COLOR);
-	i = vars->map->height;
+	i = HEIGHT;
 	while(i > bottom)
 		put_pixel(vars, x, i--, FLOOR_COLOR);
 }
@@ -152,40 +152,40 @@ void draw_wall(t_vars *vars)
 	int bottom;
 	int y;
 	float wall_dis;
-	t_data data;
+	// t_data data;
 
  
-	proj_wall_dis = (vars->map->width / 2) / tan(vars->ray->fov / 2);
+	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
 	int i = 0;
-	int tex_width, tex_height;
-	data.img = mlx_xpm_file_to_image(vars->mlx, "./sd.xpm",&tex_width, &tex_height);
-	if (!data.img)
-	{
-		printf("alo\n");
-		exit(1);
-	}
-	data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
+	// int tex_width, tex_height;
+	// data.img = mlx_xpm_file_to_image(vars->mlx, "./sd.xpm",&tex_width, &tex_height);
+	// if (!data.img)
+	// {
+	// 	printf("alo\n");
+	// 	exit(1);
+	// }
+	// data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
 		wall_height = (BLOCK_SIZE / wall_dis) * proj_wall_dis;
-		top = vars->map->height / 2 - wall_height / 2;
+		top = HEIGHT / 2 - wall_height / 2;
 		top = (top < 0) * 0 + !(top < 0) * top;
-		bottom = vars->map->height / 2 + wall_height / 2;
-		bottom = (bottom > vars->map->height) * vars->map->height + !(bottom > vars->map->height) * bottom;
+		bottom = HEIGHT / 2 + wall_height / 2;
+		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
-		int	xx;
-		if (vars->rays[i].is_vertical)
-			xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
-		else
-			xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
-		int ss;
+		// int	xx;
+		// if (vars->rays[i].is_vertical)
+		// 	xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
+		// else
+		// 	xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
+		// int ss;
 		while (y < bottom)
 		{
-			ss = y + (wall_height / 2) - (vars->map->height / 2);
-			// 64 ---> form mlx_xpm_file_to_image
-			unsigned int a = get_colorr(&data, xx, (ss) * tex_height /(wall_height));
-			put_pixel(vars, i, y, a);
+			// ss = y + (wall_height / 2) - (HEIGHT / 2);
+			// // 64 ---> form mlx_xpm_file_to_image
+			// unsigned int a = get_colorr(&data, xx, (ss) * tex_height /(wall_height));
+			put_pixel(vars, i, y, WALL_COLOR);
 			y++;
 		}
 		// create_trgb(100, 24, 28, 20)

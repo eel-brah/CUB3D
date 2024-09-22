@@ -25,19 +25,25 @@ void draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 	draw_line(vars, line, DIRC_LINE);
 }
 
-int	isit_outob(t_vars *vars, float x, float y)
+int	isit_outob(float x, float y)
 {
-	if (x > 0 && x < vars->map->width && y < vars->map->height && y > 0)
+	if (x > 0 && x < WIDTH && y < HEIGHT && y > 0)
 		return 0;
 	return 1;
 }
 bool	isit_wall(t_vars *vars, float x, float y)
 {
-	if (isit_outob(vars, x, y))
-		return true;
-	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))][((int)floor(x/BLOCK_SIZE))]==0)
-	if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
+	// if (isit_outob(vars, x, y))
+	// 	return true;
+	int ty;
+	int tx;
+
+	ty = floor(y/BLOCK_SIZE);
+	tx = floor(x/BLOCK_SIZE);
+	if (ty > 0 && ty < vars->map->rows && tx > 0 && tx < vars->map->cols && vars->map->map[ty * vars->map->cols + tx] == '0')
 		return false;
+	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
+	// 	return false;
 	return true;
 }
 

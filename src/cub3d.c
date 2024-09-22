@@ -27,13 +27,13 @@ void	init(t_vars	*vars)
 		ft_putendl_fd("MLX faild", 2);
 		exit(1);
 	}
-	vars->win = mlx_new_window(vars->mlx, vars->map->width, vars->map->height, "CUB3D");
+	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "CUB3D");
 	if (!vars->win)
 	{
 		ft_putendl_fd("MLX faild", 2);
 		exit(1);
 	}
-	vars->img->img = mlx_new_image(vars->mlx, vars->map->width, vars->map->height);
+	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	if (!vars->img->img)
 	{
 		mlx_destroy_window(vars->mlx, vars->mlx);
