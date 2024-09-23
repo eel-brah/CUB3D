@@ -74,6 +74,15 @@ typedef struct s_rays
 	bool	is_vertical;
 	bool	is_door;
 }	t_rays;
+typedef struct s_wall
+{
+	float	x_whpoint;
+	float	y_whpoint;
+	float	hit_dis;
+	float	angle;
+	bool	is_vertical;
+	bool	is_door;
+}	t_wall;
 typedef struct s_hitpoint
 {
     float	 h_x;
@@ -212,6 +221,7 @@ void	draw_rays(t_vars *vars);
 
 // Walls
 void draw_wall(t_vars *vars);
+void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle);
 
 
 unsigned int	get_color(char **spl);
@@ -229,3 +239,4 @@ void			free_linked(t_list *lst);
 int				ft_atoi_over(const char *str);
 void			exit_err(t_map *map, char *tmp, char *line, char *msg);
 t_map			*parse(char *file);
+bool			open_texture(t_vars *vars);

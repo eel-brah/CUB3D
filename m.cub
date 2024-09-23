@@ -1,6 +1,6 @@
-        NO ./allo.xpm
+        NO ./wall.xpm
         SO              ./wall.xpm         
-WE ./ss.xpm   
+WE ./wall.xpm   
 EA ./water.xpm   
 F 52,49,49
 C 106,156,137

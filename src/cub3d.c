@@ -69,9 +69,54 @@ int	close_and_clear(t_vars *vars)
 	exit(0);
 }
 
+
+// void    open_door(t_window *window)
+// {
+//     int    new_x;
+//     int    new_y;
+//     int    i;
+
+//     i = 0;
+//     while (i < 100)
+//     {
+//         new_x = window->player.x + (cos(window->player.rotation_angle) * i);
+//         new_y = window->player.y + (sin(window->player.rotation_angle) * i);
+//         if (new_x > 0 && new_y > 0 && new_x < window->width && new_y \
+//             < window->height && \
+//             window->map->v_map[new_y / BLOCK_SIZE][new_x / BLOCK_SIZE] == 'D')
+//         {
+//             window->map->v_map[new_y / BLOCK_SIZE][new_x / BLOCK_SIZE] = 'C';
+//             break ;
+//         }
+//         i++;
+//     }
+// }
+
+// void    close_door(t_window *window)
+// {
+//     int    new_x;
+//     int    new_y;
+//     int    i;
+
+//     i = BLOCK_SIZE + 1;
+//     while (i < 100)
+//     {
+//         new_x = window->player.x + (cos(window->player.rotation_angle + 3) * i);
+//         new_y = window->player.y + (sin(window->player.rotation_angle + 3) * i);
+//         if (new_x > 0 && new_y > 0 && new_x < window->width \
+//             && new_y < window->height && \
+//             window->map->v_map[new_y / BLOCK_SIZE][new_x / BLOCK_SIZE] == 'C')
+//         {
+//             window->map->v_map[new_y / BLOCK_SIZE][new_x / BLOCK_SIZE] = 'D';
+//             break ;
+//         }
+//         i++;
+//     }
+// }
+
 int	key_press(int keysym, t_vars *vars)
 {
-	// printf("%i\n", keysym);
+	printf("%i\n", keysym);
 	if (keysym == UP_W_KEY || keysym == UP_KEY)
 		player_movement(vars, 1, 0);
 	else if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
@@ -87,6 +132,23 @@ int	key_press(int keysym, t_vars *vars)
 	else if (keysym == 46)
 	{
 		vars->status->mm = !(vars->status->mm);
+		draw(vars); // remove this
+	}
+	else if (keysym == 31)
+	{
+		int i = BLOCK_SIZE + 1;
+		while (i < BLOCK_SIZE * 2)
+		{
+			int new_x = vars->player->x + (cos(vars->player->pa + vars->player->rspeed) * i);
+			int new_y = vars->player->y + (sin(vars->player->pa + vars->player->rspeed) * i);
+			if (new_x > 0 && new_y > 0 && new_x < WIDTH && new_y < HEIGHT && \
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == 'D')
+			{
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = '0';
+				break ;
+			}
+			i++;
+		}
 		draw(vars); // remove this
 	}
 	else if (keysym == ESC_KEY)
@@ -150,6 +212,11 @@ int	mouse_movse(int x, int y, t_vars *vars)
 void setup(t_vars *vars)
 {
 	init(vars);
+	if (!open_texture(vars))
+	{
+		printf("something not \n");
+		return ;
+	}
 	init_ray(vars);
 	// init_map(vars->map);
 	init_player(vars);
@@ -226,7 +293,7 @@ bool	open_texture(t_vars *vars)
 	vars->south.img = mlx_xpm_file_to_image(vars->mlx, vars->map->so,&vars->south.width, &vars->south.height);
 	if (!vars->south.img)
 		return (false);
-	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&vars->east.width, &vars->east.height);
+	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&(vars->east.width), &(vars->east.height));
 	if (!vars->east.img)
 		return (false);
 	data = &vars->door;
@@ -285,14 +352,10 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
-	if (!open_texture(&vars))
-	{
-		printf("something not \n");
-		return (1);
-	}
 	print_map(&vars);
-
 	setup(&vars);
+	
+	
     mlx_hook(vars.win, 2, 0, key_press, &vars);
 	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_movse, &vars);

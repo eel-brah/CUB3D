@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:40 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 16:51:00 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:44:29 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,11 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x, hitpoints.v_y) + !v_found * FLT_MAX;
     hd = h_found * distance(player->x, player->y, hitpoints.h_x, hitpoints.h_y) + !h_found * FLT_MAX;
+
 	ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
 	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
+
+	// printf("[%f %f]\n", ray->x_whpoint, ray->y_whpoint);
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_vertical = (hd > vd) * 1;
