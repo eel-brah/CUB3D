@@ -210,6 +210,33 @@ int mouse_hook_move(int x, int y, t_vars *vars)
 	return 1;
 }
 
+bool	open_texture(t_vars *vars)
+{
+	t_data	*data;
+
+	vars->north.img = mlx_xpm_file_to_image(vars->mlx, vars->map->no,&vars->north.width, &vars->north.height);
+	if (!vars->north.img)
+		return (false);
+	vars->west.img = mlx_xpm_file_to_image(vars->mlx, vars->map->we,&vars->west.width, &vars->west.height);
+	if (!vars->west.img)
+		return (false);
+	vars->south.img = mlx_xpm_file_to_image(vars->mlx, vars->map->so,&vars->south.width, &vars->south.height);
+	if (!vars->south.img)
+		return (false);
+	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&vars->east.width, &vars->east.height);
+	if (!vars->east.img)
+		return (false);
+	data = &vars->north;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->west;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->south;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->east;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	return (true);
+}
+
 int	main(int argc, char **argv)
 {
 	t_vars		vars;
@@ -225,6 +252,7 @@ int	main(int argc, char **argv)
 	if (argc >= 2)
 	{
 		map = parse(argv[1]);
+
 		//free_map(map);
 	}
 	else
@@ -251,7 +279,11 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
-
+	if (!open_texture(&vars))
+	{
+		printf("something not \n");
+		return (1);
+	}
 	print_map(&vars);
 
 	setup(&vars);

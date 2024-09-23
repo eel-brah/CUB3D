@@ -1,7 +1,7 @@
-        NO ./path_to_the_north_texture
-        SO              ./path_to_the_south_texture         
-WE ./path_to_the_west_texture
-EA ./path_to_the_east_texture
+        NO ./allo.xpm
+        SO              ./wall.xpm         
+WE ./ss.xpm   
+EA ./water.xpm   
 F 52,49,49
 C 106,156,137
 

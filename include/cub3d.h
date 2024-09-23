@@ -37,6 +37,8 @@ typedef struct	s_data {
 	int		bpp;
 	int		line_length;
 	int		endian;
+	int		width;
+	int		height;
 }	t_data;
 typedef struct s_player
 {
@@ -97,6 +99,10 @@ typedef struct s_vars
 	void	*mlx;
 	void	*win;
 	t_data	*img;
+	t_data	north;
+	t_data	west;
+	t_data	south;
+	t_data	east;
 	t_map	*map;
 	t_player *player;
 	t_rays	*rays;
@@ -140,9 +146,9 @@ typedef struct s_delta
 #define HEIGHT 800
 #define WIDTH 1500
 #define BLOCK_SIZE 50
-#define MMSF 1
+#define MMSF 0.3
 #define MMSIZE 12
-#define MMSHIFT 0
+#define MMSHIFT 10
 
 # define ESC_KEY 53
 # define UP_KEY 126
