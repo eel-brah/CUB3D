@@ -27,10 +27,38 @@ void draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 
 int	isit_outob(float x, float y)
 {
-	if (x > 0 && x < WIDTH && y < HEIGHT && y > 0)
+	if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
 		return 0;
 	return 1;
 }
+bool	wall_collision(t_vars *vars, float x, float y)
+{
+	int ty;
+	int tx;
+
+			ty = floor((y)/BLOCK_SIZE);
+			tx = floor((x)/BLOCK_SIZE);
+
+	// 	else if (i == 2)
+	// 	{
+	// 		ty = ceil(y/BLOCK_SIZE);
+	// 		tx = ceil(x/BLOCK_SIZE);
+	// 	}
+	// 	else if (i == 3)
+	// 	{
+	// 		ty = floor(y/BLOCK_SIZE);
+	// 		tx = floor(x/BLOCK_SIZE);
+	// 	}
+	
+		if (ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols)
+		{
+			if (vars->map->map[ty * vars->map->cols + tx] == '1')
+				return true;
+		}
+
+	return false;
+}
+
 bool	isit_wall(t_vars *vars, float x, float y)
 {
 	// if (isit_outob(vars, x, y))
@@ -40,7 +68,7 @@ bool	isit_wall(t_vars *vars, float x, float y)
 
 	ty = floor(y/BLOCK_SIZE);
 	tx = floor(x/BLOCK_SIZE);
-	if (ty > 0 && ty < vars->map->rows && tx > 0 && tx < vars->map->cols && vars->map->map[ty * vars->map->cols + tx] == '0')
+	if (ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols && vars->map->map[ty * vars->map->cols + tx] == '0')
 		return false;
 	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
 	// 	return false;
@@ -50,17 +78,35 @@ bool	isit_wall(t_vars *vars, float x, float y)
 void player_movement(t_vars *vars, int dirc, int sp)
 {
 	t_player	*player;
-	float		tmp_x;
-	float		tmp_y;
+	float		xs;
+	float		ys;
 
 	player = vars->player;
-	tmp_x = player->x + cos(player->pa + deg2rad(sp)) * player->steps * dirc;
-	tmp_y = player->y + sin(player->pa + deg2rad(sp)) * player->steps * dirc;
-	if (!isit_wall(vars, tmp_x, tmp_y))
-	{
-		player->x = tmp_x;
-		player->y = tmp_y;
-	}
+	xs = cos(player->pa + deg2rad(sp)) * player->steps * dirc;
+	ys = sin(player->pa + deg2rad(sp)) * player->steps * dirc;
+	// if (!wall_collision(vars, player->x + xs + player->r, player->y + ys + player->r) && !wall_collision(vars, player->x + xs - player->r, player->y + ys - player->r))
+	// if (!wall_collision(vars, player->x + xs, player->y + ys))
+	// {
+		if (!wall_collision(vars, player->x + xs, player->y + ys - player->r) && !wall_collision(vars, player->x + xs, player->y + ys + player->r)&& !wall_collision(vars, player->x + xs - player->r, player->y + ys) && !wall_collision(vars, player->x + xs + player->r, player->y + ys))
+		{
+			if (!wall_collision(vars, player->x + xs - player->r, player->y + ys - player->r) & !wall_collision(vars, player->x + xs + player->r, player->y + ys + player->r))
+			{
+				if (!wall_collision(vars, player->x + xs - player->r, player->y + ys + player->r) & !wall_collision(vars, player->x + xs + player->r, player->y + ys - player->r))
+				{
+					player->x += xs;
+					player->y += ys;
+				}
+			}
+		}
+	// }
+	// else if (!wall_collision(vars, player->x + xs + player->r, player->y + player->r) && !wall_collision(vars, player->x + xs - player->r, player->y - player->r))
+	// {
+	// 	player->x += xs;
+	// }
+	// else if (!wall_collision(vars, player->x + player->r, player->y + ys + player->r) && !wall_collision(vars, player->x - player->r, player->y + ys - player->r))
+	// {
+	// 	player->y += ys;
+	// }
 	draw(vars); // draw only it it moves
 }
 
