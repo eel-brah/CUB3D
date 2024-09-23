@@ -214,6 +214,9 @@ bool	open_texture(t_vars *vars)
 {
 	t_data	*data;
 
+	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "./n.xpm",&vars->door.width, &vars->door.height);
+	if (!vars->door.img)
+		return (false);
 	vars->north.img = mlx_xpm_file_to_image(vars->mlx, vars->map->no,&vars->north.width, &vars->north.height);
 	if (!vars->north.img)
 		return (false);
@@ -226,6 +229,8 @@ bool	open_texture(t_vars *vars)
 	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&vars->east.width, &vars->east.height);
 	if (!vars->east.img)
 		return (false);
+	data = &vars->door;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->north;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->west;
@@ -234,6 +239,7 @@ bool	open_texture(t_vars *vars)
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->east;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+
 	return (true);
 }
 

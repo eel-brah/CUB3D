@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:40 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 14:10:17 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:51:00 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 	while (1)
     {
 		yc = y - (up * 1); 
-        if(isit_wall(vars, x, yc))
+        
+		int a = isit_wall(vars, x, yc);
+		if(a)
         {
-            hitpoints->h_x = x;
+        	hitpoints->h_is_door = (a == 2);
+			hitpoints->h_x = x;
             hitpoints->h_y = yc;
             return 1;
         }
@@ -79,8 +82,10 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 	while (1)
     {
 		xc = x - (!right * 1); 
-        if(isit_wall(vars, xc, y))
+		int a = isit_wall(vars, xc, y);
+        if(a)
         {
+			hitpoints->v_is_door = (a == 2);
             hitpoints->v_x = xc;
             hitpoints->v_y = y;
             return 1;
@@ -111,6 +116,8 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
 	ray->is_vertical = (hd > vd) * 1;
+	ray->is_vertical = (hd > vd) * 1;
+	ray->is_door = (hd > vd) * hitpoints.v_is_door + !(hd > vd) * hitpoints.h_is_door;
 	// if (ray->hit_dis == 0){
 	// 	printf("v{%f %f} h{%f %f}\n", hitpoints.v_x, hitpoints.v_y, hitpoints.h_x, hitpoints.h_y);
 	// 	printf("h{%f %f %f %f}\n", player->x, player->y, ray->x_whpoint, ray->y_whpoint);

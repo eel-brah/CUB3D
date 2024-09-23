@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 16:18:24 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:07:16 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,9 @@ void draw_wall(t_vars *vars)
 	int y;
 	float wall_dis;
 	t_data data;
-	// bool	up;
-	// bool	right;
 
- 
 	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
 	int i = 0;
-	// data.img = mlx_xpm_file_to_image(vars->mlx, "./wall.xpm",&tex_width, &tex_height);
-	// if (!data.img)
-	// {
-	// 	printf("alo\n");
-	// 	exit(1);
-	// }
-	// data.addr = mlx_get_data_addr(data.img,&data.bpp, &data.line_length, &data.endian);
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
@@ -68,65 +58,30 @@ void draw_wall(t_vars *vars)
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
 		int	xx;
-		// up = !(vars->rays->angle > 0 && vars->rays[i].angle < PI);
-		// right = vars->rays->angle < PI / 2.0f || vars->rays[i].angle > 1.5f * PI;
-		// if (up && !vars->rays[i].is_vertical)
-		// {
-		// 	data = vars->north;
-		// }
-		// else if (!up && !vars->rays[i].is_vertical)
-		// {
-		// 	data = vars->south;
-			
-		// }
-		// else if (right && vars->rays[i].is_vertical)
-		// 	data = vars->east;
-		// else if (!right && vars->rays[i].is_vertical)
-		// 	data = vars->west;
-		int wall_direction;
-
-    if (vars->rays[i].is_vertical)
-    {
-        // For vertical intersections, we use the x-coordinate to determine east or west
-        if (vars->rays[i].x_whpoint >= vars->player->x)
-        {
-            wall_direction = EAST;
-        }
-        else
-        {
-            wall_direction = WEST;
-        }
-    }
-    else
-    {
-        // For horizontal intersections, we use the y-coordinate to determine north or south
-        if (vars->rays[i].y_whpoint >= vars->player->y)
-        {
-            wall_direction = SOUTH;
-        }
-        else
-        {
-            wall_direction = NORTH;
-        }
-    }
-
-    // Select texture based on wall direction
-		switch (wall_direction)
+		if (vars->rays[i].is_door)
 		{
-			case NORTH:
-				data = vars->north;
-				break;
-			case SOUTH:
-				data = vars->south;
-				break;
-			case EAST:
-				data = vars->east;
-				break;
-			case WEST:
-				data = vars->west;
-				break;
+			data = vars->door;
 		}
-
+		else
+		{
+			if (vars->rays[i].is_vertical)
+			{
+				// For vertical intersections, we use the x-coordinate to determine east or west
+				if (vars->rays[i].x_whpoint > vars->player->x)
+					data = vars->east;
+				else
+					data = vars->west;
+			}
+			else
+			{
+				// For horizontal intersections, we use the y-coordinate to determine north or south
+				if (vars->rays[i].y_whpoint > vars->player->y)
+					data = vars->south;
+				else
+					data = vars->north;
+			}
+		}
+		
 		if (vars->rays[i].is_vertical)
 			xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
 		else

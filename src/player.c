@@ -56,20 +56,24 @@ void init_player(t_vars *vars)
 	player->rspeed = deg2rad(5);
 }
 
-bool	isit_wall(t_vars *vars, float x, float y)
+int	isit_wall(t_vars *vars, float x, float y)
 {
 	// if (isit_outob(vars, x, y))
 	// 	return true;
 	int ty;
 	int tx;
+	bool	flag;
 
 	ty = floor(y/BLOCK_SIZE);
 	tx = floor(x/BLOCK_SIZE);
-	if (ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols && vars->map->map[ty * vars->map->cols + tx] == '0')
-		return false;
+	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
+	if ( flag && vars->map->map[ty * vars->map->cols + tx] == '0')
+		return 0;
+	if (flag && vars->map->map[ty * vars->map->cols + tx] == 'D')
+		return 2;
 	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
 	// 	return false;
-	return true;
+	return 1;
 }
 
 void player_movement(t_vars *vars, int dirc, int sp)
