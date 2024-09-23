@@ -93,6 +93,59 @@ int	key_press(int keysym, t_vars *vars)
 		close_and_clear(vars);
 	return 1;
 }
+#define MAX_ROTATION_SPEED 20.0f
+#define SENSITIVITY 0.001f  // Adjust this value to change rotation sensitivity
+
+int mouse_move(int x, int y, t_vars *vars)
+{
+    (void)y;  // We're not using the y coordinate
+    static int last_x = -1;
+    float delta_x;
+    float normalized_rotation;
+
+    if (last_x == -1)
+    {
+        last_x = x;
+        return 1;
+    }
+	if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
+	{
+		// Calculate the change in x position
+		delta_x = x - last_x;
+		last_x = x;
+
+		// Apply sensitivity and normalize
+		normalized_rotation = delta_x * SENSITIVITY;
+		
+		// Clamp the value between -1 and 1
+		normalized_rotation = fmaxf(-1.0f, fminf(1.0f, normalized_rotation));
+
+		// Apply the rotation
+		player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
+	}
+
+    return 1;
+}
+
+int	mouse_movse(int x, int y, t_vars *vars)
+{
+	static bool first_move = true;
+	(void)y;
+	int	new_x;
+	if (first_move)
+	{
+		vars->map->old_x = x;
+		first_move = false;
+	}
+	if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
+	{
+		new_x = x - vars->map->old_x;
+		vars->map->old_x = x;
+		if (new_x != 0)
+			player_rotation(vars, new_x > 0 ? 1 : -1);
+	}
+    return 1;
+}
 
 void setup(t_vars *vars)
 {
@@ -204,6 +257,8 @@ int	main(int argc, char **argv)
 	setup(&vars);
     mlx_hook(vars.win, 2, 0, key_press, &vars);
 	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
+    // mlx_hook(vars.win, 6, 0, mouse_movse, &vars);
+    mlx_hook(vars.win, 6, 0, mouse_move, &vars);
     // mlx_hook(vars.win, 4, 0, mouse_hook, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_hook_move, &vars);
 	// mlx_mouse_hook(vars.win, mouse_hook, &vars);

@@ -26,6 +26,7 @@ typedef struct s_map
 	float				player_face;
 	int					rows;
 	int					cols;
+	int					old_x;
 	char				*map;
 	t_list				*lst;
 }	t_map;
@@ -139,9 +140,9 @@ typedef struct s_delta
 #define HEIGHT 800
 #define WIDTH 1500
 #define BLOCK_SIZE 50
-#define MMSF 0.3
+#define MMSF 1
 #define MMSIZE 12
-#define MMSHIFT 10
+#define MMSHIFT 0
 
 # define ESC_KEY 53
 # define UP_KEY 126
@@ -186,7 +187,8 @@ void draw_minimap_player(t_vars *vars);
 void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc, int sp);
-void	player_rotation(t_vars *vars, int dirc);
+void	player_rotation(t_vars *vars, float dirc);
+void	player_rotation_f(t_vars *vars, float dirc);
 bool	isit_wall(t_vars *vars, float x, float y);
 int		isit_outob(float x, float y);
 

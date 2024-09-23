@@ -1,0 +1,77 @@
+#define MAX_ROTATION_SPEED 2.0f
+#define SENSITIVITY 0.01f  // Adjust this value to change rotation sensitivity
+
+int mouse_move(int x, int y, t_vars *vars)
+{
+    (void)y;  // We're not using the y coordinate
+    static int last_x = -1;
+    float delta_x;
+    float normalized_rotation;
+
+    if (last_x == -1)
+    {
+        last_x = x;
+        return 1;
+    }
+
+    // Calculate the change in x position
+    delta_x = x - last_x;
+    last_x = x;
+
+    // Apply sensitivity and normalize
+    normalized_rotation = delta_x * SENSITIVITY;
+    
+    // Clamp the value between -1 and 1
+    normalized_rotation = fmaxf(-1.0f, fminf(1.0f, normalized_rotation));
+
+    // Apply the rotation
+    player_rotation_f(vars, normalized_rotation * MAX_ROTATION_SPEED);
+
+    return 1;
+}
+int	mouse_movse(int x, int y, t_vars *vars)
+{
+	static bool first_move = true;
+	// (void)y;
+	// float	new_x;
+	// if (x > 0 && x < WINDOWS_WIDTH)
+	// {
+	// 	new_x = x - vars->map->old_x;
+	// 	vars->map->old_x = x;
+	// 	if (new_x != 0)
+	// 		player_rotation_f(vars, new_x);
+	// }
+	
+	// return 1;
+	(void)y;
+    float new_x;
+    float normalized_rotation;
+
+    if (x > 0 && x < WIDTH && y < HEIGHT && y > 0)
+    {
+        new_x = x - vars->map->old_x;
+        vars->map->old_x = x;
+		if (first_move)
+		{
+			vars->map->old_x = x;
+			first_move = false;
+			return 1;
+		}
+        if (new_x != 0)
+        {
+            // Normalize the rotation to be between -1 and 1
+            normalized_rotation = new_x / WIDTH * 2;
+            
+            // Clamp the value between -1 and 1
+            normalized_rotation = fmaxf(-1.0f, fminf(1.0f, normalized_rotation));
+
+            // Apply the rotation
+			float a = normalized_rotation * 25;
+			printf("rot : %f a = %f\n",normalized_rotation, a);
+            player_rotation_f(vars, a);
+        }
+    }
+    return 1;
+}
+    mlx_hook(vars.win, 6, 0, mouse_move, &vars);
+
