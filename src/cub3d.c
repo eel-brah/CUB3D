@@ -224,13 +224,13 @@ int	mouse_movse(int x, int y, t_vars *vars)
     return 1;
 }
 
-void setup(t_vars *vars)
+bool setup(t_vars *vars)
 {
 	init(vars);
 	if (!open_texture(vars))
 	{
 		printf("something not \n");
-		return ;
+		return false;
 	}
 	init_ray(vars);
 	// init_map(vars->map);
@@ -246,6 +246,7 @@ void setup(t_vars *vars)
 		// draw_player(vars);
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	return true;
 }
 
 void print_map(t_vars *vars)
@@ -368,7 +369,7 @@ int	main(int argc, char **argv)
 	vars.status = &status;
 	vars.map = map;
 	print_map(&vars);
-	setup(&vars);
+	setup(&vars); // check if faild
 	
 	
     mlx_hook(vars.win, 2, 0, key_press, &vars);

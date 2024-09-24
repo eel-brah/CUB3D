@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/24 09:19:13 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/24 09:53:30 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ unsigned int	get_color(char **spl)
 	r = ft_atoi_over(spl[0]);
 	if (r < 0 || r > 255)
 		return (300);
-	b = ft_atoi_over(spl[1]);
-	if (b < 0 || b > 255)
-		return (300);
-	g = ft_atoi_over(spl[2]);
+	g = ft_atoi_over(spl[1]);
 	if (g < 0 || g > 255)
+		return (300);
+	b = ft_atoi_over(spl[2]);
+	if (b < 0 || b > 255)
 		return (300);
 	return (create_trgb(0, r, g, b));
 }

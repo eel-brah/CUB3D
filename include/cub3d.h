@@ -151,6 +151,7 @@ typedef struct s_delta
 
 #define MMC 0x00EAE4DD
 #define DRC 0x00A04747
+#define DRCC 0x00D8A25E
 #define WALL_COLOR 0x00181C14
 #define SEALING_COLOR 0x00ECDFCC
 #define FLOOR_COLOR 0x003C3D37

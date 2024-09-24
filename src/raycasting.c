@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:40 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 18:44:29 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:01:16 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
         {
         	hitpoints->h_is_door = (a == 2);
 			hitpoints->h_x = x;
-            hitpoints->h_y = yc;
+            hitpoints->h_y = y;
             return 1;
         }
         x += xstep;
@@ -86,7 +86,7 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
         if(a)
         {
 			hitpoints->v_is_door = (a == 2);
-            hitpoints->v_x = xc;
+            hitpoints->v_x = x;
             hitpoints->v_y = y;
             return 1;
         }
