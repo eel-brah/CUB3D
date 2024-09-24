@@ -209,7 +209,6 @@ void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc, int sp);
 void	player_rotation(t_vars *vars, float dirc);
-void	player_rotation_f(t_vars *vars, float dirc);
 int	isit_wall(t_vars *vars, float x, float y);
 int		isit_outob(float x, float y);
 

@@ -118,7 +118,7 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 {
 	int i;
 	
-	i = BLOCK_SIZE;
+	i = BLOCK_SIZE + vars->player->r;
 	while (i < BLOCK_SIZE * 2)
 	{
 		int new_x = vars->player->x + (cos(vars->player->pa + vars->player->rspeed) * i);
@@ -159,12 +159,12 @@ int	key_press(int keysym, t_vars *vars)
 	else if (keysym == 46)
 	{
 		vars->status->mm = !(vars->status->mm);
-		draw(vars); // remove this
+		// draw(vars); // remove this
 	}
 	else if (keysym == 49)
 	{
 		open_close_door(vars);
-		draw(vars); // remove this
+		// draw(vars); // remove this
 	}
 	else if (keysym == ESC_KEY)
 		close_and_clear(vars);
@@ -236,16 +236,6 @@ bool setup(t_vars *vars)
 	// init_map(vars->map);
 	init_player(vars);
     // set_background(vars->img);
-	cast_rays(vars);
-	draw_wall(vars);
-	if (vars->status->mm)
-	{
-		draw_minimap_player(vars);
-		// draw_minimap(vars);
-		// draw_rays(vars);
-		// draw_player(vars);
-	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return true;
 }
 
@@ -325,7 +315,15 @@ bool	open_texture(t_vars *vars)
 
 	return (true);
 }
-
+int render(t_vars *vars)
+{
+	cast_rays(vars);
+	draw_wall(vars);
+	if (vars->status->mm)
+		draw_minimap_player(vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	return 0;
+}
 int	main(int argc, char **argv)
 {
 	t_vars		vars;
@@ -376,6 +374,8 @@ int	main(int argc, char **argv)
 	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_movse, &vars);
     mlx_hook(vars.win, 6, 0, mouse_move, &vars);
+	// render(&vars);
+	mlx_loop_hook(vars.mlx, render, &vars);
     // mlx_hook(vars.win, 4, 0, mouse_hook, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_hook_move, &vars);
 	// mlx_mouse_hook(vars.win, mouse_hook, &vars);
