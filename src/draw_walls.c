@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 17:07:16 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:56:54 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ unsigned int	get_colorr(t_data *data, int x, int y)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	// dst = 100 << 24;
+	// return (160 << 24 | *(unsigned int*)dst);
 	return (*(unsigned int*)dst);
 }
 

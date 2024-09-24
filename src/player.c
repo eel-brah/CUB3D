@@ -119,7 +119,7 @@ void player_movement(t_vars *vars, int dirc, int sp)
 	// {
 	// 	
 	// }
-	// draw(vars); // draw only it it moves
+	draw(vars); // draw only it it moves
 }
 
 void player_rotation(t_vars *vars, float dirc)
@@ -128,11 +128,11 @@ void player_rotation(t_vars *vars, float dirc)
 
 	player = vars->player;
 	player->pa += dirc * player->rspeed;
-	// printf("[%f]\n", dirc * player->rspeed);
+	printf("[%f]\n", dirc * player->rspeed);
 
 	if (player->pa < 0)
 		player->pa += 2 * PI;
 	else if (player->pa > 2 * PI)
 		player->pa -= 2 * PI;
-	// draw(vars);
+	draw(vars);
 }

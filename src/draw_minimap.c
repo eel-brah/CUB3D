@@ -78,7 +78,7 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 		{
 			// printf("LL\n");
 			fix_minimap_x(vars, minimap);
-			color = (vars->map->map[y * vars->map->cols + x] == '0') * MMC + (vars->map->map[y * vars->map->cols + x] == 'C') * DRC + (vars->map->map[y * vars->map->cols + x] == 'O') * DRCC;
+			color = (vars->map->map[y * vars->map->cols + x] == '0') * vars->map->f_color + (vars->map->map[y * vars->map->cols + x] == 'C') * DRC + (vars->map->map[y * vars->map->cols + x] == 'O') * DRCC;
 			draw_block(vars, ((x - minimap->x)*BLOCK_SIZE*MMSF)+MMSHIFT, ((y - minimap->y)*BLOCK_SIZE*MMSF)+MMSHIFT, BLOCK_SIZE*MMSF, color);
 			x++;
 		}

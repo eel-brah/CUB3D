@@ -48,6 +48,8 @@ typedef struct s_player
 	float	pa;
 	float	steps;
 	float	rspeed;
+	bool	rotate;
+	float		ra;
 }	t_player;
 typedef	struct s_mini
 {

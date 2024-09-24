@@ -185,8 +185,31 @@ int mouse_move(int x, int y, t_vars *vars)
         last_x = x;
         return 1;
     }
-	if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
+	if (x >= WIDTH - 100)
 	{
+		// delta_x = x - last_x;
+		// last_x = x;
+
+		// // Apply sensitivity and normalize
+		// normalized_rotation = 1 * SENSITIVITY;
+		
+		// Clamp the value between -1 and 1
+		// normalized_rotation = 0.01;
+		vars->player->rotate = 1;
+		vars->player->ra = 0.01;
+
+		// Apply the rotation
+		// player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
+	}
+	else if (x <=  100)
+	{
+		vars->player->rotate = 1;
+		vars->player->ra = -0.01;
+
+	}
+	else if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
+	{
+		vars->player->rotate = 0;
 		// Calculate the change in x position
 		delta_x = x - last_x;
 		last_x = x;
@@ -321,6 +344,10 @@ int render(t_vars *vars)
 	draw_wall(vars);
 	if (vars->status->mm)
 		draw_minimap_player(vars);
+	if (vars->player->rotate)
+	{
+		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
+	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return 0;
 }
