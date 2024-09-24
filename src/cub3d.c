@@ -21,6 +21,14 @@ int map[] =
 
 void	init(t_vars	*vars)
 {
+	vars->keys.a_key = false;
+	vars->keys.d_key = false;
+	vars->keys.s_key = false;
+	vars->keys.w_key = false;
+	vars->keys.up_key = false;
+	vars->keys.down_key = false;
+	vars->keys.left_key = false;
+	vars->keys.right_key = false;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 	{
@@ -141,32 +149,73 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 	}
 }
 
+int	key_realese(int keysym, t_vars *vars)
+{
+	if (keysym == UP_KEY)
+		vars->keys.up_key = false;
+	if (keysym == UP_W_KEY)
+		vars->keys.w_key = false;
+	if (keysym == DOWN_S_KEY)
+		vars->keys.s_key = false;
+	if (keysym == DOWN_KEY)
+		vars->keys.down_key = false;
+	if (keysym == LEFT_A_KEY)
+		vars->keys.a_key = false;
+	if (keysym == RIGHT_D_KEY)
+		vars->keys.d_key = false;
+	if (keysym == LEFT_KEY)
+		vars->keys.left_key = false;
+	if (keysym == RIGHT_KEY)
+		vars->keys.right_key = false;
+	return 0;
+}
+
 int	key_press(int keysym, t_vars *vars)
 {
 	printf("%i\n", keysym);
-	if (keysym == UP_W_KEY || keysym == UP_KEY)
-		player_movement(vars, 1, 0);
-	else if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
-		player_movement(vars, -1, 0);
-	else if (keysym == LEFT_A_KEY)
-		player_movement(vars, -1, 90);
-	else if (keysym == RIGHT_D_KEY)
-		player_movement(vars, 1, 90);
-	else if (keysym == LEFT_KEY)
-		player_rotation(vars, -1);
-	else if (keysym == RIGHT_KEY)
-		player_rotation(vars, 1);
-	else if (keysym == 46)
+	// if (keysym == UP_W_KEY || keysym == UP_KEY)
+	// 	player_movement(vars, 1, 0);
+	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
+	// 	player_movement(vars, -1, 0);
+	// if (keysym == LEFT_A_KEY)
+	// 	player_movement(vars, -1, 90);
+	// if (keysym == RIGHT_D_KEY)
+	// 	player_movement(vars, 1, 90);
+	// if (keysym == LEFT_KEY)
+	// 	player_rotation(vars, -1);
+	// if (keysym == RIGHT_KEY)
+	// 	player_rotation(vars, 1);
+	// if (keysym == UP_W_KEY || keysym == UP_KEY)
+	// 	player_movement(vars, 1, 0);
+	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
+	// 	player_movement(vars, -1, 0);
+	if (keysym == UP_KEY)
+		vars->keys.up_key = true;
+	if (keysym == UP_W_KEY)
+		vars->keys.w_key = true;
+	if (keysym == DOWN_S_KEY)
+		vars->keys.s_key = true;
+	if (keysym == DOWN_KEY)
+		vars->keys.down_key = true;
+	if (keysym == LEFT_A_KEY)
+		vars->keys.a_key = true;
+	if (keysym == RIGHT_D_KEY)
+		vars->keys.d_key = true;
+	if (keysym == LEFT_KEY)
+		vars->keys.left_key = true;
+	if (keysym == RIGHT_KEY)
+		vars->keys.right_key = true;
+	if (keysym == 46)
 	{
 		vars->status->mm = !(vars->status->mm);
 		// draw(vars); // remove this
 	}
-	else if (keysym == 49)
+	if (keysym == 49)
 	{
 		open_close_door(vars);
 		// draw(vars); // remove this
 	}
-	else if (keysym == ESC_KEY)
+	if (keysym == ESC_KEY)
 		close_and_clear(vars);
 	return 1;
 }
@@ -175,7 +224,7 @@ int	key_press(int keysym, t_vars *vars)
 
 int mouse_move(int x, int y, t_vars *vars)
 {
-    (void)y;  // We're not using the y coordinate
+    (void)y;
     static int last_x = -1;
     float delta_x;
     float normalized_rotation;
@@ -187,41 +236,33 @@ int mouse_move(int x, int y, t_vars *vars)
     }
 	if (x >= WIDTH - 100)
 	{
-		// delta_x = x - last_x;
-		// last_x = x;
-
-		// // Apply sensitivity and normalize
-		// normalized_rotation = 1 * SENSITIVITY;
-		
-		// Clamp the value between -1 and 1
-		// normalized_rotation = 0.01;
 		vars->player->rotate = 1;
-		vars->player->ra = 0.01;
-
-		// Apply the rotation
-		// player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
+		vars->player->ra = 0.02;
 	}
 	else if (x <=  100)
 	{
 		vars->player->rotate = 1;
-		vars->player->ra = -0.01;
+		vars->player->ra = -0.02;
 
 	}
 	else if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
 	{
+		usleep(10);
 		vars->player->rotate = 0;
-		// Calculate the change in x position
+		vars->player->rotate2 = 1;
 		delta_x = x - last_x;
+		if (delta_x < 5 && delta_x > -5)
+			return (1);
 		last_x = x;
 
-		// Apply sensitivity and normalize
 		normalized_rotation = delta_x * SENSITIVITY;
 		
-		// Clamp the value between -1 and 1
 		normalized_rotation = fmaxf(-1.0f, fminf(1.0f, normalized_rotation));
-
-		// Apply the rotation
-		player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
+		// vars->player->rotate2 = 1;
+		// vars->player->ra = 0.02 * (delta_x > 0) + -0.02 * !(delta_x > 0);
+		vars->player->ra = normalized_rotation * MAX_ROTATION_SPEED;
+		//player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
+		// player_rotation(vars, (delta_x >= 0 ? 0.02: -0.02) * MAX_ROTATION_SPEED);
 	}
 
     return 1;
@@ -340,12 +381,29 @@ bool	open_texture(t_vars *vars)
 }
 int render(t_vars *vars)
 {
+	if (vars->keys.w_key == true || vars->keys.up_key == true)
+		player_movement(vars, 1, 0);
+	if (vars->keys.s_key == true || vars->keys.down_key == true)
+		player_movement(vars, -1, 0);
+	if (vars->keys.a_key == true)
+		player_movement(vars, -1, 90);
+	if (vars->keys.d_key == true)
+		player_movement(vars, 1, 90);
+	if (vars->keys.left_key == true)
+		player_rotation(vars, -1);
+	if (vars->keys.right_key == true)
+		player_rotation(vars, 1);
 	cast_rays(vars);
 	draw_wall(vars);
 	if (vars->status->mm)
 		draw_minimap_player(vars);
 	if (vars->player->rotate)
 		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
+	if (vars->player->rotate2)
+	{
+		player_rotation(vars, vars->player->ra);
+		vars->player->rotate2 = 0;
+	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return 0;
 }
@@ -396,6 +454,7 @@ int	main(int argc, char **argv)
 	
 	
     mlx_hook(vars.win, 2, 0, key_press, &vars);
+    mlx_hook(vars.win, 3, 0, key_realese, &vars);
 	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_movse, &vars);
     mlx_hook(vars.win, 6, 0, mouse_move, &vars);

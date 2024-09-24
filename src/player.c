@@ -52,8 +52,8 @@ void init_player(t_vars *vars)
 	player->r = PLAYER_SIZE;
 	// player->pa = PI * 1.5f;
 	player->pa = vars->map->player_face;
-	player->steps = 6;
-	player->rspeed = deg2rad(5);
+	player->steps = 2;
+	player->rspeed = deg2rad(2);
 }
 
 int	isit_wall(t_vars *vars, float x, float y)

@@ -11,6 +11,39 @@
 # include <unistd.h>
 # include <stdint.h>
 
+#define PI 3.1415926535
+
+#define BACKGROUND 0x00383c40
+#define PLAYER_COLOR 0x00FFFF00
+#define DIRC_LINE 0x0000FF00
+#define PLAYER_SIZE 18
+
+#define MMC 0x00EAE4DD
+#define DRC 0x00A04747
+#define DRCC 0x00D8A25E
+#define WALL_COLOR 0x00181C14
+#define SEALING_COLOR 0x00ECDFCC
+#define FLOOR_COLOR 0x003C3D37
+#define BORDER_COLOR 0x00295F98
+
+
+#define HEIGHT 800
+#define WIDTH 1500
+#define BLOCK_SIZE 50
+#define MMSF 0.3
+#define MMSIZE 12
+#define MMSHIFT 10
+
+# define ESC_KEY 53
+# define UP_KEY 126
+# define DOWN_KEY 125
+# define RIGHT_KEY 124
+# define LEFT_KEY 123
+# define UP_W_KEY 13
+# define DOWN_S_KEY 1
+# define RIGHT_D_KEY 2
+# define LEFT_A_KEY 0
+
 typedef struct s_map
 {
 	char				*no;
@@ -49,6 +82,7 @@ typedef struct s_player
 	float	steps;
 	float	rspeed;
 	bool	rotate;
+	bool	rotate2;
 	float		ra;
 }	t_player;
 typedef	struct s_mini
@@ -76,6 +110,19 @@ typedef struct s_rays
 	bool	is_vertical;
 	bool	is_door;
 }	t_rays;
+
+typedef struct s_keys
+{
+	bool	left_key;
+	bool	right_key;
+	bool	up_key;
+	bool	down_key;
+	bool	s_key;
+	bool	w_key;
+	bool	a_key;
+	bool	d_key;
+}	t_keys;
+
 typedef struct s_wall
 {
 	float	x_whpoint;
@@ -123,6 +170,7 @@ typedef struct s_vars
 	t_rays	*rays;
 	t_ray	*ray;
 	t_status *status;
+	t_keys	keys;
 }	t_vars;
 
 typedef struct s_line
@@ -144,38 +192,7 @@ typedef struct s_delta
 
 
 
-#define PI 3.1415926535
 
-#define BACKGROUND 0x00383c40
-#define PLAYER_COLOR 0x00FFFF00
-#define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 18
-
-#define MMC 0x00EAE4DD
-#define DRC 0x00A04747
-#define DRCC 0x00D8A25E
-#define WALL_COLOR 0x00181C14
-#define SEALING_COLOR 0x00ECDFCC
-#define FLOOR_COLOR 0x003C3D37
-#define BORDER_COLOR 0x00295F98
-
-
-#define HEIGHT 800
-#define WIDTH 1500
-#define BLOCK_SIZE 50
-#define MMSF 0.3
-#define MMSIZE 12
-#define MMSHIFT 10
-
-# define ESC_KEY 53
-# define UP_KEY 126
-# define DOWN_KEY 125
-# define RIGHT_KEY 124
-# define LEFT_KEY 123
-# define UP_W_KEY 13
-# define DOWN_S_KEY 1
-# define RIGHT_D_KEY 2
-# define LEFT_A_KEY 0
 
 extern float ppz_x, ppz_y, pdx, pdy, pa;
 extern int map[];
