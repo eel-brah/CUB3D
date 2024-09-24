@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/23 16:57:18 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/24 09:19:13 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	check_line(char *line)
 	while (line[i] && (line[i + 1] && line[i] != '\n'))
 	{
 		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
-			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != 'D')
+			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != 'C')
 		{
 			return (false);
 		}

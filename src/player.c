@@ -35,7 +35,7 @@ bool	wall_collision(t_vars *vars, float x, float y)
 		}
 		if (ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols)
 		{
-			if (vars->map->map[ty * vars->map->cols + tx] == '1')
+			if (vars->map->map[ty * vars->map->cols + tx] == '1' || vars->map->map[ty * vars->map->cols + tx] == 'C')
 				return true;
 		}
 		i++;
@@ -67,9 +67,9 @@ int	isit_wall(t_vars *vars, float x, float y)
 	ty = floor(y/BLOCK_SIZE);
 	tx = floor(x/BLOCK_SIZE);
 	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
-	if ( flag && vars->map->map[ty * vars->map->cols + tx] == '0')
+	if ( flag && (vars->map->map[ty * vars->map->cols + tx] == '0' || vars->map->map[ty * vars->map->cols + tx] == 'O'))
 		return 0;
-	if (flag && vars->map->map[ty * vars->map->cols + tx] == 'D')
+	if (flag && vars->map->map[ty * vars->map->cols + tx] == 'C')
 		return 2;
 	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
 	// 	return false;

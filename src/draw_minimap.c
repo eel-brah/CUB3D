@@ -78,7 +78,7 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 		{
 			// printf("LL\n");
 			fix_minimap_x(vars, minimap);
-			color = (vars->map->map[y * vars->map->cols + x]=='0') * MMC;
+			color = (vars->map->map[y * vars->map->cols + x] == '0' || vars->map->map[y * vars->map->cols + x] == 'O') * MMC + (vars->map->map[y * vars->map->cols + x] == 'C') * DRC;
 			draw_block(vars, ((x - minimap->x)*BLOCK_SIZE*MMSF)+MMSHIFT, ((y - minimap->y)*BLOCK_SIZE*MMSF)+MMSHIFT, BLOCK_SIZE*MMSF, color);
 			x++;
 		}
@@ -175,11 +175,11 @@ void    draw_block(t_vars *vars, int x, int y, int size, unsigned int color)
 	float		bx;
 	float		by;
 
-	by = y ;
-	while (by < y + size - 1 * MMSF)
+	by = y;
+	while (by < y + size)
 	{
-		bx = x ;
-		while (bx < x + size - 1 * MMSF)
+		bx = x;
+		while (bx < x + size)
 		{
 			put_pixel(vars, roundf(bx), roundf(by), color);
 			bx++;

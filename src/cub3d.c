@@ -114,6 +114,33 @@ int	close_and_clear(t_vars *vars)
 //     }
 // }
 
+void	open_close_door(t_vars *vars) // door has walls on the side
+{
+	int i;
+	
+	i = BLOCK_SIZE;
+	while (i < BLOCK_SIZE * 2)
+	{
+		int new_x = vars->player->x + (cos(vars->player->pa + vars->player->rspeed) * i);
+		int new_y = vars->player->y + (sin(vars->player->pa + vars->player->rspeed) * i);
+		if (new_x > 0 && new_y > 0 && new_x < WIDTH && new_y < HEIGHT)
+		{
+			int d = vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)];
+			if (d == 'C')
+			{
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = 'O';
+				break;
+			}
+			else if (d == 'O')
+			{
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = 'C';
+				break ;
+			}
+		}
+		i++;
+	}
+}
+
 int	key_press(int keysym, t_vars *vars)
 {
 	printf("%i\n", keysym);
@@ -134,21 +161,9 @@ int	key_press(int keysym, t_vars *vars)
 		vars->status->mm = !(vars->status->mm);
 		draw(vars); // remove this
 	}
-	else if (keysym == 31)
+	else if (keysym == 49)
 	{
-		int i = BLOCK_SIZE + 1;
-		while (i < BLOCK_SIZE * 2)
-		{
-			int new_x = vars->player->x + (cos(vars->player->pa + vars->player->rspeed) * i);
-			int new_y = vars->player->y + (sin(vars->player->pa + vars->player->rspeed) * i);
-			if (new_x > 0 && new_y > 0 && new_x < WIDTH && new_y < HEIGHT && \
-				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == 'D')
-			{
-				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = '0';
-				break ;
-			}
-			i++;
-		}
+		open_close_door(vars);
 		draw(vars); // remove this
 	}
 	else if (keysym == ESC_KEY)
@@ -281,7 +296,7 @@ bool	open_texture(t_vars *vars)
 {
 	t_data	*data;
 
-	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "./n.xpm",&vars->door.width, &vars->door.height);
+	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/door.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
 	vars->north.img = mlx_xpm_file_to_image(vars->mlx, vars->map->no,&vars->north.width, &vars->north.height);
