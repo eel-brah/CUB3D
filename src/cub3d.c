@@ -345,9 +345,7 @@ int render(t_vars *vars)
 	if (vars->status->mm)
 		draw_minimap_player(vars);
 	if (vars->player->rotate)
-	{
 		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
-	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 	return 0;
 }
