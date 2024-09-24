@@ -93,6 +93,12 @@ void player_movement(t_vars *vars, int dirc, int sp)
 	else if (!wall_collision(vars, player->x + xs, player->y))
 	{
 		player->x += xs;
+		// player->y = BLOCK_SIZE * round(player->y / BLOCK_SIZE);
+		// player->y = BLOCK_SIZE * floor((player->y+player->r) / BLOCK_SIZE) + player->r;
+		if (dirc == -1)
+			player->y = BLOCK_SIZE * floor((player->y+player->r) / BLOCK_SIZE) + player->r;
+		if (dirc == 1)
+			player->y = BLOCK_SIZE * ceil((player->y-player->r) / BLOCK_SIZE) - player->r;
 	}
 	else if (!wall_collision(vars, player->x, player->y + ys))
 	{
@@ -103,8 +109,16 @@ void player_movement(t_vars *vars, int dirc, int sp)
 		// }
 		// printf("%f %f\n", player->x+player->r,(player->x+player->r)/BLOCK_SIZE);
 		player->y += ys;
+		if (dirc == -1)
+			player->x = BLOCK_SIZE * floor((player->x+player->r) / BLOCK_SIZE) + player->r;
+		if (dirc == 1)
+			player->x = BLOCK_SIZE * ceil((player->x-player->r) / BLOCK_SIZE) - player->r;
 	}
 
+	// else
+	// {
+	// 	
+	// }
 	draw(vars); // draw only it it moves
 }
 
