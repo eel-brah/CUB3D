@@ -56,11 +56,11 @@ void    draw_minimap(t_vars *vars, t_mini *minimap)
 	unsigned int	color;
 	if (minimap->height < MMSIZE || minimap->width < MMSIZE)
 	{
-		y = 0;
-		while (y < MMSIZE*BLOCK_SIZE* MMSF)
+		y = MMSHIFT;
+		while (y < MMSIZE*BLOCK_SIZE* MMSF+MMSHIFT)
 		{
-			x = 0;
-			while (x < MMSIZE*BLOCK_SIZE* MMSF)
+			x = MMSHIFT;
+			while (x < MMSIZE*BLOCK_SIZE* MMSF+MMSHIFT)
 				put_pixel(vars, x++, y, 0x00);
 			y++;
 		}
