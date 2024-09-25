@@ -47,6 +47,7 @@ void init_player(t_vars *vars)
 	t_player	*player;
 
 	player = vars->player;
+	vars->current = vars->sword[0];
 	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
@@ -54,6 +55,9 @@ void init_player(t_vars *vars)
 	player->pa = vars->map->player_face;
 	player->steps = 2;
 	player->rspeed = deg2rad(2);
+	vars->player->rotate = 0;
+	vars->player->rotate2 = 0;
+	vars->player->mouse = 1;
 }
 
 int	isit_wall(t_vars *vars, float x, float y)

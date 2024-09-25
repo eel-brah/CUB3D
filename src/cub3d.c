@@ -151,6 +151,18 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 
 int	key_realese(int keysym, t_vars *vars)
 {
+	if (keysym == 7)
+	{
+		vars->animate_sw = false;
+		vars->animate = false;
+		// anime_sword(vars);
+	}
+	if (keysym == 8)
+	{
+		vars->animate = false;
+		vars->animate_ax = false;
+		// anime_axe(vars);
+	}
 	if (keysym == UP_KEY)
 		vars->keys.up_key = false;
 	if (keysym == UP_W_KEY)
@@ -168,6 +180,65 @@ int	key_realese(int keysym, t_vars *vars)
 	if (keysym == RIGHT_KEY)
 		vars->keys.right_key = false;
 	return 0;
+}
+int anime_sword(t_vars *vars)
+{
+	unsigned long long i = 0;
+	int j;
+
+	j = 0;
+	if (vars->animate_sw)
+	{
+		vars->animate = false;
+		vars->animate_sw = false;
+		vars->current = vars->sword[0];
+
+		while (i < 100000000)
+		{
+			if(i % 25000000 == 0)
+			{
+				printf("herehehrehrhehr\n");
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->sword[j].img, 0, 0);
+				//mlx_destroy_image(vars->mlx, vars->sword[j].img);
+				if (j == 3)
+					j = 0;
+				j++;
+			}
+			i++;
+		}
+		//load_sword(vars);
+		vars->current = vars->sword[3];
+	}
+	return (1);
+}
+
+int anime_axe(t_vars *vars)
+{
+	unsigned long long i = 0;
+	int j;
+
+	j = 0;
+	if (vars->animate_ax)
+	{
+		vars->animate = false;
+		vars->animate_ax = false;
+		vars->current = vars->axe[0];
+		while (i < 100000000)
+		{
+			if(i % 20000000 == 0)
+			{
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->axe[j].img, 0, 0);
+				//mlx_destroy_image(vars->mlx, vars->axe[j].img);
+				if (j == 4)
+					j = 0;
+				j++;
+			}
+			i++;
+		}
+		//load_axe(vars);
+		vars->current = vars->axe[3];
+	}
+	return (1);
 }
 
 int	key_press(int keysym, t_vars *vars)
@@ -189,6 +260,18 @@ int	key_press(int keysym, t_vars *vars)
 	// 	player_movement(vars, 1, 0);
 	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
 	// 	player_movement(vars, -1, 0);
+	if (keysym == 7)
+	{
+		vars->animate_sw = true;
+		vars->animate = true;
+		// anime_sword(vars);
+	}
+	if (keysym == 8)
+	{
+		vars->animate = true;
+		vars->animate_ax = true;
+		// anime_axe(vars);
+	}
 	if (keysym == UP_KEY)
 		vars->keys.up_key = true;
 	if (keysym == UP_W_KEY)
@@ -220,7 +303,9 @@ int	key_press(int keysym, t_vars *vars)
 	return 1;
 }
 #define MAX_ROTATION_SPEED 20.0f
-#define SENSITIVITY 0.001f  // Adjust this value to change rotation sensitivity
+#define SENSITIVITY 0.001f  // Adjust this value to change rotation sensitivit
+
+
 
 int mouse_move(int x, int y, t_vars *vars)
 {
@@ -234,20 +319,23 @@ int mouse_move(int x, int y, t_vars *vars)
         last_x = x;
         return 1;
     }
-	if (x >= WIDTH - 100)
+	if (vars->player->mouse && x >= WIDTH - 100)
 	{
 		vars->player->rotate = 1;
+		vars->player->rotate2 = 0;
 		vars->player->ra = 0.02;
 	}
-	else if (x <=  100)
+	else if (vars->player->mouse && x <=  100)
 	{
 		vars->player->rotate = 1;
+		vars->player->rotate2 = 0;
 		vars->player->ra = -0.02;
 
 	}
-	else if (x >= 0 && x < WIDTH && y < HEIGHT && y >= 0)
+	else if (vars->player->mouse)
 	{
-		usleep(10);
+		// usleep(10);
+
 		vars->player->rotate = 0;
 		vars->player->rotate2 = 1;
 		delta_x = x - last_x;
@@ -259,10 +347,15 @@ int mouse_move(int x, int y, t_vars *vars)
 		
 		normalized_rotation = fmaxf(-1.0f, fminf(1.0f, normalized_rotation));
 		// vars->player->rotate2 = 1;
-		// vars->player->ra = 0.02 * (delta_x > 0) + -0.02 * !(delta_x > 0);
-		vars->player->ra = normalized_rotation * MAX_ROTATION_SPEED;
+		// vars->player->ra = (0.02 * (delta_x > 0) + -0.02 * !(delta_x > 0));
+		vars->player->ra = normalized_rotation *3;
 		//player_rotation(vars, normalized_rotation * MAX_ROTATION_SPEED);
 		// player_rotation(vars, (delta_x >= 0 ? 0.02: -0.02) * MAX_ROTATION_SPEED);
+	}
+	else
+	{
+		vars->player->rotate = 0;
+		vars->player->rotate2 = 0;
 	}
 
     return 1;
@@ -337,7 +430,39 @@ void print_map(t_vars *vars)
 int mouse_hook(int b, int x, int y, t_vars *vars)
 {
 	(void)vars;
+	static int	i;
+
 	printf("%i %i %i\n",b ,x, y);
+	if (b == 3)
+	{
+		vars->animate =true;
+		if (i == 0)
+			vars->animate_sw =true;
+		else if (i == 1)
+			vars->animate_ax = true;
+		i++;
+	}
+	if (b == 4)
+	{
+		vars->animate =true;
+		if (i == 0)
+			vars->animate_sw =true;
+		else if (i == 1)
+			vars->animate_sw =true;
+		i++;
+	}
+	if (b == 5)
+	{
+		vars->animate =true;
+		if (i == 0)
+			anime_sword(vars);
+		else if (i == 1)
+			anime_axe(vars);
+		i--;
+	}
+	i = i % 2;
+	// if (b == 1)
+	// 	vars->player->mouse = !(vars->player->mouse);
 	return 1;
 }
 int mouse_hook_move(int x, int y, t_vars *vars)
@@ -347,10 +472,52 @@ int mouse_hook_move(int x, int y, t_vars *vars)
 	return 1;
 }
 
+bool	load_sword(t_vars *vars)
+{
+	vars->sword[0].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/1.xpm" ,&vars->sword[0].width, &vars->sword[0].height);
+	if (!vars->sword[0].img)
+		return (false);
+	vars->sword[1].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/2.xpm" ,&vars->sword[1].width, &vars->sword[1].height);
+	if (!vars->sword[1].img)
+		return (false);
+	vars->sword[2].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/3.xpm" ,&vars->sword[2].width, &vars->sword[2].height);
+	if (!vars->sword[2].img)
+		return (false);
+	vars->sword[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/4.xpm" ,&vars->sword[3].width, &vars->sword[3].height);
+	if (!vars->sword[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_axe(t_vars *vars)
+{
+	vars->axe[0].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/1.xpm" ,&vars->axe[0].width, &vars->axe[0].height);
+	if (!vars->axe[0].img)
+		return (false);
+	vars->axe[1].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/2.xpm" ,&vars->axe[1].width, &vars->axe[1].height);
+	if (!vars->axe[1].img)
+		return (false);
+	vars->axe[2].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/3.xpm" ,&vars->axe[2].width, &vars->axe[2].height);
+	if (!vars->axe[2].img)
+		return (false);
+	vars->axe[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->axe[3].width, &vars->axe[3].height);
+	if (!vars->axe[3].img)
+		return (false);
+	vars->axe[4].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/5.xpm" ,&vars->axe[4].width, &vars->axe[4].height);
+	if (!vars->axe[4].img)
+		return (false);
+	return (true);
+}
 bool	open_texture(t_vars *vars)
 {
 	t_data	*data;
 
+	
+		
+	if (!load_sword(vars))
+		return (false);
+	if (!load_axe(vars))
+		return (false);
 	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/door.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
@@ -366,6 +533,8 @@ bool	open_texture(t_vars *vars)
 	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&(vars->east.width), &(vars->east.height));
 	if (!vars->east.img)
 		return (false);
+	// data = &vars->sword;
+	// data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->door;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->north;
@@ -378,6 +547,16 @@ bool	open_texture(t_vars *vars)
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 
 	return (true);
+}
+int animation(t_vars *vars)
+{
+	t_data data;
+
+	data = vars->sword[0];
+	//data.addr = mlx_get_data_addr(data.img,&data.bpp,&data.line_length,&data.endian);
+	mlx_put_image_to_window(vars->mlx, vars->win, data.img,0, 0);
+	
+	return (0);
 }
 int render(t_vars *vars)
 {
@@ -401,10 +580,16 @@ int render(t_vars *vars)
 		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
 	if (vars->player->rotate2)
 	{
-		player_rotation(vars, vars->player->ra);
+		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
 		vars->player->rotate2 = 0;
 	}
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+	if (vars->animate_sw)
+		anime_sword(vars);
+	else if (vars->animate_ax)
+		anime_axe(vars);
+	else
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->current.img,0, 0);
 	return 0;
 }
 int	main(int argc, char **argv)
@@ -449,18 +634,21 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
+	vars.animate = false;
+	vars.animate_sw = false;
+	vars.animate_ax = false;
 	print_map(&vars);
 	setup(&vars); // check if faild
-	
-	
+    mlx_hook(vars.win, 6, 0, mouse_move, &vars);
     mlx_hook(vars.win, 2, 0, key_press, &vars);
     mlx_hook(vars.win, 3, 0, key_realese, &vars);
 	mlx_hook(vars.win, 17, 0, close_and_clear, &vars);
+	mlx_mouse_hook(vars.win, mouse_hook, &vars);
     // mlx_hook(vars.win, 6, 0, mouse_movse, &vars);
-    mlx_hook(vars.win, 6, 0, mouse_move, &vars);
-	// render(&vars);
+    mlx_hook(vars.win, 4, 0, mouse_hook, &vars);
 	mlx_loop_hook(vars.mlx, render, &vars);
-    // mlx_hook(vars.win, 4, 0, mouse_hook, &vars);
+	// mlx_loop_hook(vars.mlx, animation, &vars);
+	// render(&vars);
     // mlx_hook(vars.win, 6, 0, mouse_hook_move, &vars);
 	// mlx_mouse_hook(vars.win, mouse_hook, &vars);
 	// mlx_loop_hook(vars.mlx, movement, vars);

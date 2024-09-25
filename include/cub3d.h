@@ -27,8 +27,8 @@
 #define BORDER_COLOR 0x00295F98
 
 
-#define HEIGHT 800
-#define WIDTH 1500
+#define HEIGHT 1080
+#define WIDTH 1920
 #define BLOCK_SIZE 50
 #define MMSF 0.3
 #define MMSIZE 12
@@ -84,6 +84,7 @@ typedef struct s_player
 	bool	rotate;
 	bool	rotate2;
 	float		ra;
+	float		mouse;
 }	t_player;
 typedef	struct s_mini
 {
@@ -164,7 +165,13 @@ typedef struct s_vars
 	t_data	west;
 	t_data	south;
 	t_data	east;
+	t_data	sword[4];
+	t_data	axe[5];
+	t_data	current;
 	t_data	door;
+	bool	animate;
+	bool	animate_sw;
+	bool	animate_ax;
 	t_map	*map;
 	t_player *player;
 	t_rays	*rays;
@@ -260,3 +267,9 @@ int				ft_atoi_over(const char *str);
 void			exit_err(t_map *map, char *tmp, char *line, char *msg);
 t_map			*parse(char *file);
 bool			open_texture(t_vars *vars);
+
+
+// animation
+
+bool    load_sword(t_vars *vars);
+bool    load_axe(t_vars *vars);
