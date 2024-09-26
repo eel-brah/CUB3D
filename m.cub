@@ -1,9 +1,9 @@
-        NO images/stonebrick.xpm
-        SO    images/stonebrick.xpm        
-WE images/n_wall2.xpm   
-EA images/n_wall2.xpm   
-F 17,124,19
-C 15,157,215
+        NO images/texture/3.xpm
+        SO    images/texture/5.xpm      
+WE images/texture/1.xpm 
+EA images/texture/4.xpm
+F 64,64,64
+C 169,175,181
 
 11111111111111111111111111111111
 100E0C00001100000000000011111111

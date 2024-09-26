@@ -16,7 +16,7 @@
 #define BACKGROUND 0x00383c40
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 18
+#define PLAYER_SIZE 9
 
 #define MMC 0x00EAE4DD
 #define DRC 0x00A04747
@@ -29,7 +29,7 @@
 
 #define HEIGHT 1080
 #define WIDTH 1920
-#define BLOCK_SIZE 50
+#define BLOCK_SIZE 32
 #define MMSF 0.3
 #define MMSIZE 12
 #define MMSHIFT 10
@@ -156,20 +156,29 @@ typedef struct s_status
 // 	int	width;
 // }	t_map;
 
+typedef	struct s_item
+{
+
+	t_data	item[4];
+	bool	animate;
+}	t_item;
+
 typedef struct s_vars
 {
 	void	*mlx;
 	void	*win;
 	t_data	*img;
+	t_item	items[9];
 	t_data	north;
 	t_data	west;
 	t_data	south;
 	t_data	east;
-	t_data	sword[4];
+	t_data	player_cam[6];
+	bool	cam_animate;
 	t_data	axe[5];
 	t_data	current;
+	t_data	last;
 	t_data	door;
-	bool	animate;
 	bool	animate_sw;
 	bool	animate_ax;
 	t_map	*map;
@@ -178,6 +187,7 @@ typedef struct s_vars
 	t_ray	*ray;
 	t_status *status;
 	t_keys	keys;
+	bool	cam;
 }	t_vars;
 
 typedef struct s_line

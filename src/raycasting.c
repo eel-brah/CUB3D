@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:40 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/24 10:01:16 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:17:51 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,18 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x, hitpoints.v_y) + !v_found * FLT_MAX;
     hd = h_found * distance(player->x, player->y, hitpoints.h_x, hitpoints.h_y) + !h_found * FLT_MAX;
 
-	ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
-	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
+	if (hd > vd)
+	{
+		ray->x_whpoint = hitpoints.v_x;
+		ray->y_whpoint = hitpoints.v_y;
+	}
+	else
+	{
+		ray->x_whpoint = hitpoints.h_x;
+		ray->y_whpoint = hitpoints.h_y;
+	}
+	// ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
+	// ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
 
 	// printf("[%f %f]\n", ray->x_whpoint, ray->y_whpoint);
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
@@ -132,16 +142,7 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 
 // 	v{850.000000 316.297607} h{740.000000 350.000000}
 // h{740.000000 350.000000}
-	// if (hd > vd)
-	// {
-	// 	ray->x_whpoint = hitpoints.v_x;
-	// 	ray->y_whpoint = hitpoints.v_y;
-	// }
-	// else
-	// {
-	// 	ray->x_whpoint = hitpoints.h_x;
-	// 	ray->y_whpoint = hitpoints.h_y;
-	// }
+
 }
 
 

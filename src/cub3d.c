@@ -21,6 +21,12 @@ int map[] =
 
 void	init(t_vars	*vars)
 {
+	int i = 0;
+
+	while (i < 9)
+		vars->items[i++].animate = false;
+	vars->cam = false;
+	vars->cam_animate = false;
 	vars->keys.a_key = false;
 	vars->keys.d_key = false;
 	vars->keys.s_key = false;
@@ -153,16 +159,16 @@ int	key_realese(int keysym, t_vars *vars)
 {
 	if (keysym == 7)
 	{
-		vars->animate_sw = false;
-		vars->animate = false;
-		// anime_sword(vars);
+		if (vars->cam)
+			vars->player->pa -= PI;
+		vars->cam = false;
 	}
-	if (keysym == 8)
-	{
-		vars->animate = false;
-		vars->animate_ax = false;
-		// anime_axe(vars);
-	}
+	// if (keysym == 8)
+	// {
+	// 	vars->animate = false;
+	// 	vars->animate_ax = false;
+	// 	// anime_axe(vars);
+	// }
 	if (keysym == UP_KEY)
 		vars->keys.up_key = false;
 	if (keysym == UP_W_KEY)
@@ -181,65 +187,111 @@ int	key_realese(int keysym, t_vars *vars)
 		vars->keys.right_key = false;
 	return 0;
 }
-int anime_sword(t_vars *vars)
+// int anime_sword(t_vars *vars)
+// {
+// 	static unsigned int i = 0;
+// 	static unsigned int j = 0;
+
+
+// 	if(i % 3 == 0)
+// 	{
+// 		printf("alo %i\n",j);
+// 		if (j == 0)
+// 			mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+// 		mlx_put_image_to_window(vars->mlx, vars->win, vars->sword[j].img, 0, 0);
+// 		if (j == 3)
+// 		{
+// 			vars->current = vars->sword[j];
+// 			vars->animate_sw = false;
+// 			// vars->last = vars->sword;
+// 			j = 0;
+// 			i = 0;
+// 			return 1;
+// 		}
+// 		j++;
+		
+// 	}
+// 	i++;
+// 	return (1);
+// }
+
+int animation(t_vars *vars, t_item *item)
 {
-	unsigned long long i = 0;
-	int j;
+	static unsigned int i = 0;
+	static unsigned int j = 0;
+	static unsigned int k = 1;
 
-	j = 0;
-	if (vars->animate_sw)
+	if (vars->cam)
 	{
-		vars->animate = false;
-		vars->animate_sw = false;
-		vars->current = vars->sword[0];
-
-		while (i < 100000000)
+		
+		if (vars->cam_animate)
 		{
-			if(i % 25000000 == 0)
+			if (i % 3 == 0)
 			{
-				printf("herehehrehrhehr\n");
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->sword[j].img, 0, 0);
-				//mlx_destroy_image(vars->mlx, vars->sword[j].img);
-				if (j == 3)
-					j = 0;
-				j++;
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->player_cam[k].img, 0, 0);
+				k++;
+				if (k == 6)
+				{
+					k = 1;
+					vars->cam_animate = false;
+				}
 			}
-			i++;
 		}
-		//load_sword(vars);
-		vars->current = vars->sword[3];
+		else
+		{
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player_cam[0].img, 0, 0);
+		}
 	}
+	if(!vars->cam && i % 2 == 0)
+	{
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+		mlx_put_image_to_window(vars->mlx, vars->win, item->item[j].img, 0, 0);
+		if (j == 3)
+		{
+			item->animate = false;
+			printf("alo here her \n");
+			vars->current = item->item[j];
+			j = 0;
+			i = 0;
+			return 1;
+		}
+		j++;
+		
+	}
+	i++;
+	if (i == 1000000000)
+		i = 0;
 	return (1);
 }
 
-int anime_axe(t_vars *vars)
-{
-	unsigned long long i = 0;
-	int j;
 
-	j = 0;
-	if (vars->animate_ax)
-	{
-		vars->animate = false;
-		vars->animate_ax = false;
-		vars->current = vars->axe[0];
-		while (i < 100000000)
-		{
-			if(i % 20000000 == 0)
-			{
-				mlx_put_image_to_window(vars->mlx, vars->win, vars->axe[j].img, 0, 0);
-				//mlx_destroy_image(vars->mlx, vars->axe[j].img);
-				if (j == 4)
-					j = 0;
-				j++;
-			}
-			i++;
-		}
-		//load_axe(vars);
-		vars->current = vars->axe[3];
-	}
-	return (1);
-}
+// int anime_axe(t_vars *vars)
+// {
+// 	static unsigned int i = 0;
+// 	static unsigned int j = 0;
+
+// 	if(i % 3 == 0)
+// 	{
+// 		printf("alo %i\n",j);
+// 		if (j == 0)
+// 			mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+// 		mlx_put_image_to_window(vars->mlx, vars->win, vars->axe[j].img, 0, 0);
+// 		if (j == 4)
+// 		{
+// 			vars->current = vars->axe[j];
+// 			vars->animate_ax = false;
+// 			j = 0;
+// 			i = 0;
+// 			return 1;
+// 		}
+// 		j++;
+		
+// 	}
+// 	i++;
+// 	return (1);
+// }
 
 int	key_press(int keysym, t_vars *vars)
 {
@@ -262,42 +314,44 @@ int	key_press(int keysym, t_vars *vars)
 	// 	player_movement(vars, -1, 0);
 	if (keysym == 7)
 	{
-		vars->animate_sw = true;
-		vars->animate = true;
+		if (!vars->cam)
+			vars->player->pa += PI;
+		vars->cam = true;
+		vars->keys.up_key = false;
+		vars->keys.w_key = false;
+		vars->keys.s_key = false;
+		vars->keys.down_key = false;
+		vars->keys.a_key = false;
+		vars->keys.d_key = false;
+		vars->keys.left_key = false;
+		vars->keys.right_key = false;
+		// vars->animate_sw = false;
+		// vars->animate = true;
 		// anime_sword(vars);
 	}
-	if (keysym == 8)
-	{
-		vars->animate = true;
-		vars->animate_ax = true;
-		// anime_axe(vars);
+
+	if (!vars->cam)
+	{	if (keysym == UP_KEY)
+			vars->keys.up_key = true;
+		if (keysym == UP_W_KEY)
+			vars->keys.w_key = true;
+		if (keysym == DOWN_S_KEY)
+			vars->keys.s_key = true;
+		if (keysym == DOWN_KEY)
+			vars->keys.down_key = true;
+		if (keysym == LEFT_A_KEY)
+			vars->keys.a_key = true;
+		if (keysym == RIGHT_D_KEY)
+			vars->keys.d_key = true;
+		if (keysym == LEFT_KEY)
+			vars->keys.left_key = true;
+		if (keysym == RIGHT_KEY)
+			vars->keys.right_key = true;
+		if (keysym == 49)
+			open_close_door(vars);
 	}
-	if (keysym == UP_KEY)
-		vars->keys.up_key = true;
-	if (keysym == UP_W_KEY)
-		vars->keys.w_key = true;
-	if (keysym == DOWN_S_KEY)
-		vars->keys.s_key = true;
-	if (keysym == DOWN_KEY)
-		vars->keys.down_key = true;
-	if (keysym == LEFT_A_KEY)
-		vars->keys.a_key = true;
-	if (keysym == RIGHT_D_KEY)
-		vars->keys.d_key = true;
-	if (keysym == LEFT_KEY)
-		vars->keys.left_key = true;
-	if (keysym == RIGHT_KEY)
-		vars->keys.right_key = true;
 	if (keysym == 46)
-	{
 		vars->status->mm = !(vars->status->mm);
-		// draw(vars); // remove this
-	}
-	if (keysym == 49)
-	{
-		open_close_door(vars);
-		// draw(vars); // remove this
-	}
 	if (keysym == ESC_KEY)
 		close_and_clear(vars);
 	return 1;
@@ -313,7 +367,8 @@ int mouse_move(int x, int y, t_vars *vars)
     static int last_x = -1;
     float delta_x;
     float normalized_rotation;
-
+	if (!vars->cam)
+{
     if (last_x == -1)
     {
         last_x = x;
@@ -356,6 +411,7 @@ int mouse_move(int x, int y, t_vars *vars)
 	{
 		vars->player->rotate = 0;
 		vars->player->rotate2 = 0;
+	}
 	}
 
     return 1;
@@ -430,37 +486,39 @@ void print_map(t_vars *vars)
 int mouse_hook(int b, int x, int y, t_vars *vars)
 {
 	(void)vars;
-	static int	i;
+	static int	i = 0;
 
-	printf("%i %i %i\n",b ,x, y);
-	if (b == 3)
+	printf("%i %i %i   i : %i \n",b ,x, y,i);
+	// printf("=============\n");
+	// if (b == 3)
+	// {
+	// 	vars->cam = !(vars->cam);
+	// }
+	if (vars->cam && b == 1)
 	{
-		vars->animate =true;
-		if (i == 0)
-			vars->animate_sw =true;
-		else if (i == 1)
-			vars->animate_ax = true;
-		i++;
+		vars->cam_animate = true;
 	}
-	if (b == 4)
+	if (!vars->cam && (b == 4 || b == 2))
 	{
-		vars->animate =true;
-		if (i == 0)
-			vars->animate_sw =true;
-		else if (i == 1)
-			vars->animate_sw =true;
 		i++;
+		i = i % 9;
+		vars->items[i].animate =true;
+
+		vars->items[!(i == 8) * (i+1)].animate =false;
+		vars->items[(i == 0) * 8 + !(i == 0) * (i-1)].animate =false;
 	}
-	if (b == 5)
+	else if (!vars->cam && (b == 5 || b == 1))
 	{
-		vars->animate =true;
-		if (i == 0)
-			anime_sword(vars);
-		else if (i == 1)
-			anime_axe(vars);
 		i--;
+		if (i == -1)
+			i = 8;
+		vars->items[i].animate =true;
+
+		vars->items[!(i == 8) * (i+1)].animate =false;
+		vars->items[(i == 0) * 8 + !(i == 0) * (i-1)].animate =false;
 	}
-	i = i % 2;
+	
+	// i = i % 9;
 	// if (b == 1)
 	// 	vars->player->mouse = !(vars->player->mouse);
 	return 1;
@@ -474,40 +532,205 @@ int mouse_hook_move(int x, int y, t_vars *vars)
 
 bool	load_sword(t_vars *vars)
 {
-	vars->sword[0].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/1.xpm" ,&vars->sword[0].width, &vars->sword[0].height);
-	if (!vars->sword[0].img)
+	vars->items[0].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/1-sword/1.xpm" ,&vars->items[0].item[0].width, &vars->items[0].item[0].height);
+	if (!vars->items[0].item[0].img)
 		return (false);
-	vars->sword[1].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/2.xpm" ,&vars->sword[1].width, &vars->sword[1].height);
-	if (!vars->sword[1].img)
+	vars->items[0].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/1-sword/2.xpm" ,&vars->items[0].item[1].width, &vars->items[0].item[1].height);
+	if (!vars->items[0].item[1].img)
 		return (false);
-	vars->sword[2].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/3.xpm" ,&vars->sword[2].width, &vars->sword[2].height);
-	if (!vars->sword[2].img)
+	vars->items[0].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/1-sword/3.xpm" ,&vars->items[0].item[2].width, &vars->items[0].item[2].height);
+	if (!vars->items[0].item[2].img)
 		return (false);
-	vars->sword[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Sword/4.xpm" ,&vars->sword[3].width, &vars->sword[3].height);
-	if (!vars->sword[3].img)
+	vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/1-sword/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	if (!vars->items[0].item[3].img)
 		return (false);
 	return (true);
 }
 
 bool	load_axe(t_vars *vars)
 {
-	vars->axe[0].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/1.xpm" ,&vars->axe[0].width, &vars->axe[0].height);
-	if (!vars->axe[0].img)
+	vars->items[1].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/1.xpm" ,&vars->items[1].item[0].width, &vars->items[1].item[0].height);
+	if (!vars->items[0].item[0].img)
 		return (false);
-	vars->axe[1].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/2.xpm" ,&vars->axe[1].width, &vars->axe[1].height);
-	if (!vars->axe[1].img)
+	vars->items[1].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/3.xpm" ,&vars->items[1].item[1].width, &vars->items[1].item[1].height);
+	if (!vars->items[1].item[1].img)
 		return (false);
-	vars->axe[2].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/3.xpm" ,&vars->axe[2].width, &vars->axe[2].height);
-	if (!vars->axe[2].img)
+	vars->items[1].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[1].item[2].width, &vars->items[1].item[2].height);
+	if (!vars->items[1].item[2].img)
 		return (false);
-	vars->axe[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->axe[3].width, &vars->axe[3].height);
-	if (!vars->axe[3].img)
-		return (false);
-	vars->axe[4].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/5.xpm" ,&vars->axe[4].width, &vars->axe[4].height);
-	if (!vars->axe[4].img)
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[1].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[1].item[3].width, &vars->items[1].item[3].height);
+	if (!vars->items[1].item[3].img)
 		return (false);
 	return (true);
 }
+
+bool	load_pickaxe(t_vars *vars)
+{
+	vars->items[2].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/1.xpm" ,&vars->items[2].item[0].width, &vars->items[2].item[0].height);
+	if (!vars->items[2].item[0].img)
+		return (false);
+	vars->items[2].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/3.xpm" ,&vars->items[2].item[1].width, &vars->items[2].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[2].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/4.xpm" ,&vars->items[2].item[2].width, &vars->items[2].item[2].height);
+	if (!vars->items[2].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[2].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/4.xpm" ,&vars->items[2].item[3].width, &vars->items[2].item[3].height);
+	if (!vars->items[2].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_bow(t_vars *vars)
+{
+	vars->items[3].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/1.xpm" ,&vars->items[3].item[0].width, &vars->items[3].item[0].height);
+	if (!vars->items[3].item[0].img)
+		return (false);
+	vars->items[3].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/3.xpm" ,&vars->items[3].item[1].width, &vars->items[3].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[3].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/4.xpm" ,&vars->items[3].item[2].width, &vars->items[3].item[2].height);
+	if (!vars->items[3].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[3].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/4.xpm" ,&vars->items[3].item[3].width, &vars->items[3].item[3].height);
+	if (!vars->items[3].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_totem(t_vars *vars)
+{
+	vars->items[4].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/1.xpm" ,&vars->items[4].item[0].width, &vars->items[4].item[0].height);
+	if (!vars->items[4].item[0].img)
+		return (false);
+	vars->items[4].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/3.xpm" ,&vars->items[4].item[1].width, &vars->items[4].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[4].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/4.xpm" ,&vars->items[4].item[2].width, &vars->items[4].item[2].height);
+	if (!vars->items[4].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[4].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/4.xpm" ,&vars->items[4].item[3].width, &vars->items[4].item[3].height);
+	if (!vars->items[4].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_diamond(t_vars *vars)
+{
+	vars->items[5].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/1.xpm" ,&vars->items[5].item[0].width, &vars->items[5].item[0].height);
+	if (!vars->items[5].item[0].img)
+		return (false);
+	vars->items[5].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/3.xpm" ,&vars->items[5].item[1].width, &vars->items[5].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[5].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/4.xpm" ,&vars->items[5].item[2].width, &vars->items[5].item[2].height);
+	if (!vars->items[5].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[5].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/4.xpm" ,&vars->items[5].item[3].width, &vars->items[5].item[3].height);
+	if (!vars->items[5].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_apple(t_vars *vars)
+{
+	vars->items[6].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/1.xpm" ,&vars->items[6].item[0].width, &vars->items[6].item[0].height);
+	if (!vars->items[6].item[0].img)
+		return (false);
+	vars->items[6].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/3.xpm" ,&vars->items[6].item[1].width, &vars->items[6].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[6].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/4.xpm" ,&vars->items[6].item[2].width, &vars->items[6].item[2].height);
+	if (!vars->items[6].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[6].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/4.xpm" ,&vars->items[6].item[3].width, &vars->items[6].item[3].height);
+	if (!vars->items[6].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_potion(t_vars *vars)
+{
+	vars->items[7].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/1.xpm" ,&vars->items[7].item[0].width, &vars->items[7].item[0].height);
+	if (!vars->items[7].item[0].img)
+		return (false);
+	vars->items[7].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/3.xpm" ,&vars->items[7].item[1].width, &vars->items[7].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[7].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/4.xpm" ,&vars->items[7].item[2].width, &vars->items[7].item[2].height);
+	if (!vars->items[7].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[7].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/4.xpm" ,&vars->items[7].item[3].width, &vars->items[7].item[3].height);
+	if (!vars->items[7].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_food(t_vars *vars)
+{
+	vars->items[8].item[0].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/1.xpm" ,&vars->items[8].item[0].width, &vars->items[8].item[0].height);
+	if (!vars->items[8].item[0].img)
+		return (false);
+	vars->items[8].item[1].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/3.xpm" ,&vars->items[8].item[1].width, &vars->items[8].item[1].height);
+	if (!vars->items[0].item[1].img)
+		return (false);
+	vars->items[8].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/4.xpm" ,&vars->items[8].item[2].width, &vars->items[8].item[2].height);
+	if (!vars->items[8].item[2].img)
+		return (false);
+	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
+	// if (!vars->items[0].item[3].img)
+	// 	return (false);
+	vars->items[8].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/4.xpm" ,&vars->items[8].item[3].width, &vars->items[8].item[3].height);
+	if (!vars->items[8].item[3].img)
+		return (false);
+	return (true);
+}
+
+bool	load_player(t_vars *vars)
+{
+	vars->player_cam[0].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit1.xpm" ,&vars->player_cam[0].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[0].img)
+		return (false);
+	vars->player_cam[1].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit2.xpm" ,&vars->player_cam[1].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[1].img)
+		return (false);
+	vars->player_cam[2].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit3.xpm" ,&vars->player_cam[2].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[2].img)
+		return (false);
+	vars->player_cam[3].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit4.xpm" ,&vars->player_cam[3].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[3].img)
+		return (false);
+	vars->player_cam[4].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit5.xpm" ,&vars->player_cam[4].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[4].img)
+		return (false);
+	vars->player_cam[5].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit6.xpm" ,&vars->player_cam[5].width, &vars->player_cam[0].height);
+	if (!vars->player_cam[5].img)
+		return (false);
+	
+	return (true);
+}
+
 bool	open_texture(t_vars *vars)
 {
 	t_data	*data;
@@ -517,6 +740,22 @@ bool	open_texture(t_vars *vars)
 	if (!load_sword(vars))
 		return (false);
 	if (!load_axe(vars))
+		return (false);
+	if (!load_pickaxe(vars))
+		return (false);
+	if (!load_bow(vars))
+		return (false);
+	if (!load_totem(vars))
+		return (false);
+	if(!load_diamond(vars))
+		return (false);
+	if(!load_apple(vars))
+		return (false);
+	if(!load_potion(vars))
+		return (false);
+	if(!load_food(vars))
+		return (false);
+	if(!load_player(vars))
 		return (false);
 	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/door.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
@@ -548,16 +787,7 @@ bool	open_texture(t_vars *vars)
 
 	return (true);
 }
-int animation(t_vars *vars)
-{
-	t_data data;
 
-	data = vars->sword[0];
-	//data.addr = mlx_get_data_addr(data.img,&data.bpp,&data.line_length,&data.endian);
-	mlx_put_image_to_window(vars->mlx, vars->win, data.img,0, 0);
-	
-	return (0);
-}
 int render(t_vars *vars)
 {
 	if (vars->keys.w_key == true || vars->keys.up_key == true)
@@ -583,13 +813,31 @@ int render(t_vars *vars)
 		player_rotation(vars, vars->player->ra * MAX_ROTATION_SPEED);
 		vars->player->rotate2 = 0;
 	}
-	mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
-	if (vars->animate_sw)
-		anime_sword(vars);
-	else if (vars->animate_ax)
-		anime_axe(vars);
-	else
+
+	
+	int i = 0;
+	while (!vars->cam && i < 9)
+	{
+		if (vars->items[i].animate)
+		{
+			animation(vars,&vars->items[i]);
+
+			break;
+		}
+		i++;
+	}
+	if (!vars->cam && i == 9)
+	{
+		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->current.img,0, 0);
+	}
+	else if (vars->cam)
+	{
+		// mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+		 animation(vars, &vars->items[0]);
+	}
+	// if (vars->cam)
+	// 	animation(vars, &vars->items[0]);
 	return 0;
 }
 int	main(int argc, char **argv)
@@ -634,9 +882,6 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
-	vars.animate = false;
-	vars.animate_sw = false;
-	vars.animate_ax = false;
 	print_map(&vars);
 	setup(&vars); // check if faild
     mlx_hook(vars.win, 6, 0, mouse_move, &vars);

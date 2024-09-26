@@ -47,7 +47,7 @@ void init_player(t_vars *vars)
 	t_player	*player;
 
 	player = vars->player;
-	vars->current = vars->sword[0];
+	vars->current = vars->items[0].item[3];
 	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;

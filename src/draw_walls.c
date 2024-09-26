@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/24 11:56:54 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:42:11 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ unsigned int	get_colorr(t_data *data, int x, int y)
 {
 	char	*dst;
 
+	// printf("x %d y %d\n", x,y);
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 	// dst = 100 << 24;
 	// return (160 << 24 | *(unsigned int*)dst);
@@ -83,17 +84,23 @@ void draw_wall(t_vars *vars)
 					data = vars->north;
 			}
 		}
-		
+		float h;
+		xx= 0;
 		if (vars->rays[i].is_vertical)
-			xx = (int)vars->rays[i].y_whpoint % BLOCK_SIZE;
+			h = (int)((int)vars->rays[i].y_whpoint) % BLOCK_SIZE;
 		else
-			xx = (int)vars->rays[i].x_whpoint % BLOCK_SIZE;
-		int ss;
+			h = (int)((int)vars->rays[i].x_whpoint) % BLOCK_SIZE;
+		h /= BLOCK_SIZE;
+		h *= data.width;
+		float dist_top;
 		while (y < bottom)
 		{
-			ss = y + (wall_height / 2) - (HEIGHT / 2);
+			// ss = (y - top) * ((float )data.height /wall_height);
+			dist_top =(y + (float)((wall_height / 2) - (HEIGHT / 2)));
 			// 64 ---> form mlx_xpm_file_to_image
-			unsigned int a = get_colorr(&data, xx, (ss) * data.height /(wall_height));
+			// printf("x %d y %d\n",xx ,(int)((dist_top) * (data.height / wall_height)));
+			// if (y - top == 0)
+			unsigned int a = get_colorr(&data, (int)h, (int)((dist_top) * (data.height / wall_height)));
 			put_pixel(vars, i, y, a);
 			y++;
 		}
