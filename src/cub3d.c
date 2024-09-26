@@ -26,7 +26,7 @@ void	init(t_vars	*vars)
 	while (i < 9)
 		vars->items[i++].animate = false;
 	vars->cam = false;
-	vars->cam_animate = false;
+	vars->player_animate_hit = false;
 	vars->keys.a_key = false;
 	vars->keys.d_key = false;
 	vars->keys.s_key = false;
@@ -35,6 +35,7 @@ void	init(t_vars	*vars)
 	vars->keys.down_key = false;
 	vars->keys.left_key = false;
 	vars->keys.right_key = false;
+	vars->player->rotate = false;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 	{
@@ -157,7 +158,7 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 
 int	key_realese(int keysym, t_vars *vars)
 {
-	if (keysym == 7)
+	if (keysym == 259)
 	{
 		if (vars->cam)
 			vars->player->pa -= PI;
@@ -223,20 +224,30 @@ int animation(t_vars *vars, t_item *item)
 
 	if (vars->cam)
 	{
-		
-		if (vars->cam_animate)
+		if (vars->player_animate_hit && vars->player_animate_shield )
+		{
+			vars->player_animate_hit = false;
+			vars->player_animate_shield = false;
+		}
+		else if (vars->player_animate_hit)
 		{
 			if (i % 3 == 0)
 			{
 				mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 				mlx_put_image_to_window(vars->mlx, vars->win, vars->player_cam[k].img, 0, 0);
 				k++;
-				if (k == 6)
+				if (k == 7)
 				{
 					k = 1;
-					vars->cam_animate = false;
+					vars->player_animate_hit = false;
 				}
 			}
+		}
+		else if (vars->player_animate_shield)
+		{
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->player_cam_shield.img, 0, 0);
+
 		}
 		else
 		{
@@ -295,7 +306,7 @@ int animation(t_vars *vars, t_item *item)
 
 int	key_press(int keysym, t_vars *vars)
 {
-	printf("%i\n", keysym);
+	// printf("%i\n", keysym);
 	// if (keysym == UP_W_KEY || keysym == UP_KEY)
 	// 	player_movement(vars, 1, 0);
 	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
@@ -312,22 +323,26 @@ int	key_press(int keysym, t_vars *vars)
 	// 	player_movement(vars, 1, 0);
 	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
 	// 	player_movement(vars, -1, 0);
-	if (keysym == 7)
+	if (keysym == 259)
 	{
-		if (!vars->cam)
-			vars->player->pa += PI;
-		vars->cam = true;
-		vars->keys.up_key = false;
-		vars->keys.w_key = false;
-		vars->keys.s_key = false;
-		vars->keys.down_key = false;
-		vars->keys.a_key = false;
-		vars->keys.d_key = false;
-		vars->keys.left_key = false;
-		vars->keys.right_key = false;
-		// vars->animate_sw = false;
-		// vars->animate = true;
-		// anime_sword(vars);
+		// if (vars->rays[vars->ray->rays_num / 2].hit_dis >= BLOCK_SIZE * 1.5 && vars->rays[vars->ray->rays_num / 4].hit_dis >= BLOCK_SIZE * 1.5)
+		// {
+			if (!vars->cam)
+				vars->player->pa += PI;
+			vars->cam = true;
+			vars->keys.up_key = false;
+			vars->keys.w_key = false;
+			vars->keys.s_key = false;
+			vars->keys.down_key = false;
+			vars->keys.a_key = false;
+			vars->keys.d_key = false;
+			vars->keys.left_key = false;
+			vars->keys.right_key = false;
+			vars->player->rotate = false;
+			// vars->animate_sw = false;
+			// vars->animate = true;
+			// anime_sword(vars);
+		// }
 	}
 
 	if (!vars->cam)
@@ -496,7 +511,11 @@ int mouse_hook(int b, int x, int y, t_vars *vars)
 	// }
 	if (vars->cam && b == 1)
 	{
-		vars->cam_animate = true;
+		vars->player_animate_hit = true;
+	}
+	else if (vars->cam && b == 2)
+	{
+		vars->player_animate_shield = true;
 	}
 	if (!vars->cam && (b == 4 || b == 2))
 	{
@@ -709,25 +728,30 @@ bool	load_food(t_vars *vars)
 
 bool	load_player(t_vars *vars)
 {
-	vars->player_cam[0].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit1.xpm" ,&vars->player_cam[0].width, &vars->player_cam[0].height);
+	vars->player_cam[0].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/shield1.xpm" ,&vars->player_cam[0].width, &vars->player_cam[0].height);
 	if (!vars->player_cam[0].img)
 		return (false);
-	vars->player_cam[1].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit2.xpm" ,&vars->player_cam[1].width, &vars->player_cam[0].height);
+	vars->player_cam[1].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit1.xpm" ,&vars->player_cam[1].width, &vars->player_cam[1].height);
 	if (!vars->player_cam[1].img)
 		return (false);
-	vars->player_cam[2].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit3.xpm" ,&vars->player_cam[2].width, &vars->player_cam[0].height);
+	vars->player_cam[2].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit2.xpm" ,&vars->player_cam[2].width, &vars->player_cam[2].height);
 	if (!vars->player_cam[2].img)
 		return (false);
-	vars->player_cam[3].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit4.xpm" ,&vars->player_cam[3].width, &vars->player_cam[0].height);
+	vars->player_cam[3].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit3.xpm" ,&vars->player_cam[3].width, &vars->player_cam[3].height);
 	if (!vars->player_cam[3].img)
 		return (false);
-	vars->player_cam[4].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit5.xpm" ,&vars->player_cam[4].width, &vars->player_cam[0].height);
+	vars->player_cam[4].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit4.xpm" ,&vars->player_cam[4].width, &vars->player_cam[4].height);
 	if (!vars->player_cam[4].img)
 		return (false);
-	vars->player_cam[5].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit6.xpm" ,&vars->player_cam[5].width, &vars->player_cam[0].height);
+	vars->player_cam[5].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit5.xpm" ,&vars->player_cam[5].width, &vars->player_cam[5].height);
 	if (!vars->player_cam[5].img)
 		return (false);
-	
+	vars->player_cam[6].img = mlx_xpm_file_to_image(vars->mlx, "images/cam/hit6.xpm" ,&vars->player_cam[6].width, &vars->player_cam[6].height);
+	if (!vars->player_cam[6].img)
+		return (false);
+	vars->player_cam_shield.img = mlx_xpm_file_to_image(vars->mlx, "images/cam/shield2.xpm" ,&vars->player_cam_shield.width, &vars->player_cam_shield.height);
+	if (!vars->player_cam_shield.img)
+		return (false);
 	return (true);
 }
 
