@@ -16,7 +16,7 @@
 #define BACKGROUND 0x00383c40
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 8
+#define PLAYER_SIZE 12
 
 #define MMC 0x00EAE4DD
 #define DRC 0x00A04747
@@ -29,8 +29,8 @@
 
 #define HEIGHT 1080
 #define WIDTH 1920
-#define BLOCK_SIZE 32
-#define MMSF 0.5
+#define BLOCK_SIZE 50
+#define MMSF 0.3
 #define MMSIZE 12
 #define MMSHIFT 10
 

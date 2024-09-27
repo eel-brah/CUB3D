@@ -538,6 +538,8 @@ int mouse_hook(int b, int x, int y, t_vars *vars)
 	// {
 	// 	vars->cam = !(vars->cam);
 	// }
+	if (b == 3)
+		vars->player->mouse = !(vars->player->mouse);
 	if (vars->cam && b == 1)
 	{
 		vars->player_animate_hit = true;
@@ -567,8 +569,6 @@ int mouse_hook(int b, int x, int y, t_vars *vars)
 	}
 	
 	// i = i % 9;
-	// if (b == 1)
-	// 	vars->player->mouse = !(vars->player->mouse);
 	return 1;
 }
 int mouse_hook_move(int x, int y, t_vars *vars)
