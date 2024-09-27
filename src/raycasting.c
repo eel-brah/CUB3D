@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:40 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/27 11:44:48 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:11:34 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
     {
 		yc = y - (up * 1); 
         
-		int a = isit_wall(vars, x, yc);
-		if(a)
+		int a = check_block(vars, x, yc);
+		if(a == 1)
         {
-        	hitpoints->h_is_door = (a == 2);
+			hitpoints->h_is_door_open = (a == 3);
+        	hitpoints->h_is_door_close = (a == 2);
 			hitpoints->h_x = x;
             hitpoints->h_y = y;
+			if (hitpoints->h_is_door_open && a != 1)
+				continue;
             return 1;
         }
         x += xstep;
@@ -82,12 +85,15 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 	while (1)
     {
 		xc = x - (!right * 1); 
-		int a = isit_wall(vars, xc, y);
+		int a = check_block(vars, xc, y);
         if(a)
         {
-			hitpoints->v_is_door = (a == 2);
+			hitpoints->v_is_door_open = (a == 3);
+			hitpoints->v_is_door_close = (a == 2);
             hitpoints->v_x = x;
             hitpoints->v_y = y;
+			if (hitpoints->v_is_door_open && a != 1)
+				continue;
             return 1;
         }
         x += xstep;
@@ -112,25 +118,15 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x, hitpoints.v_y) + !v_found * FLT_MAX;
     hd = h_found * distance(player->x, player->y, hitpoints.h_x, hitpoints.h_y) + !h_found * FLT_MAX;
-
-	if (hd > vd)
-	{
-		ray->x_whpoint = hitpoints.v_x;
-		ray->y_whpoint = hitpoints.v_y;
-	}
-	else
-	{
-		ray->x_whpoint = hitpoints.h_x;
-		ray->y_whpoint = hitpoints.h_y;
-	}
-	// ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
-	// ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
+	ray->x_whpoint = (hd > vd) * hitpoints.v_x + !(hd > vd) * hitpoints.h_x;
+	ray->y_whpoint = (hd > vd) * hitpoints.v_y + !(hd > vd) * hitpoints.h_y;
 
 	// printf("[%f %f]\n", ray->x_whpoint, ray->y_whpoint);
 	ray->hit_dis = (hd > vd) * vd + !(hd > vd) * hd;
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_vertical = (hd > vd) * 1;
-	ray->is_door = (hd > vd) * hitpoints.v_is_door + !(hd > vd) * hitpoints.h_is_door;
+	ray->is_door_close = (hd > vd) * hitpoints.v_is_door_close + !(hd > vd) * hitpoints.h_is_door_close;
+	ray->is_door_open = (hd > vd) * hitpoints.v_is_door_open + !(hd > vd) * hitpoints.h_is_door_open;
 	// if (ray->hit_dis == 0){
 	// 	printf("v{%f %f} h{%f %f}\n", hitpoints.v_x, hitpoints.v_y, hitpoints.h_x, hitpoints.h_y);
 	// 	printf("h{%f %f %f %f}\n", player->x, player->y, ray->x_whpoint, ray->y_whpoint);
@@ -158,9 +154,12 @@ void cast_rays(t_vars *vars)
 	i = 0;
 	while (i < vars->ray->rays_num)
 	{
+		vars->rays[i].is_door_close = false;
+		vars->rays[i].is_door_open = false;
 		angle += (angle < 0) * (2 * PI);
 		angle -= (angle > 2 * PI) * (2 * PI);
         wall_hit_cord(vars, vars->player, (vars->rays)+i, angle);
+		vars->rays[i].is_door = (vars->rays[i].is_door_open || vars->rays[i].is_door_close);
 		vars->rays[i].angle = angle;
 		angle += vars->ray->fov / vars->ray->rays_num;
 		i++;

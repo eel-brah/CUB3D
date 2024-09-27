@@ -109,8 +109,9 @@ typedef struct s_rays
 	float	hit_dis;
 	float	angle;
 	bool	is_vertical;
-	bool	is_door;
+	bool	is_door_close;
 	bool	is_door_open;
+	bool	is_door;
 }	t_rays;
 
 typedef struct s_keys
@@ -132,7 +133,7 @@ typedef struct s_wall
 	float	hit_dis;
 	float	angle;
 	bool	is_vertical;
-	bool	is_door;
+	bool	is_door_close;
 }	t_wall;
 typedef struct s_hitpoint
 {
@@ -140,9 +141,9 @@ typedef struct s_hitpoint
     float 	v_x;
     float 	h_y;
     float 	v_y;
-	bool	v_is_door;
+	bool	v_is_door_close;
 	bool	v_is_door_open;
-	bool	h_is_door;
+	bool	h_is_door_close;
 	bool	h_is_door_open;
 }   t_hitpoint;
 
@@ -250,7 +251,7 @@ void	init_player(t_vars *vars);
 void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc, int sp);
 void	player_rotation(t_vars *vars, float dirc);
-int	isit_wall(t_vars *vars, float x, float y);
+int	check_block(t_vars *vars, float x, float y);
 int		isit_outob(float x, float y);
 
 void	draw(t_vars *vars);

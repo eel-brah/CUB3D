@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/27 11:45:03 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:50:34 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void draw_wall(t_vars *vars)
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
 		int	xx;
-		if (vars->rays[i].is_door)
+		if (vars->rays[i].is_door_close)
 		{
 			data = vars->door;
 		}

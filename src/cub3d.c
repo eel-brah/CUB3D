@@ -129,9 +129,10 @@ int	close_and_clear(t_vars *vars)
 //     }
 // }
 
-void	open_close_door(t_vars *vars) // door has walls on the side
+void	close_door(t_vars *vars) // door has walls on the side
 {
 	int i;
+	printf("LLLL22\n");
 	
 	i = BLOCK_SIZE + vars->player->r;
 	while (i < BLOCK_SIZE * 2)
@@ -156,22 +157,24 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 	}
 }
 
-// void	open_close_door2(t_vars *vars) // door has walls on the side
-// {
-// 	float dis = vars->rays[vars->ray->rays_num/2].hit_dis;
-// 	bool door = vars->rays[vars->ray->rays_num/2].is_door_close || vars->rays[vars->ray->rays_num/2].is_door_open;
-// 	int xy;
+void	open_door(t_vars *vars) // door has walls on the side
+{
+	float dis = vars->rays[vars->ray->rays_num/2].hit_dis;
+	bool door = vars->rays[vars->ray->rays_num/2].is_door_close;
+	int xy;
+
+	printf("KKKKK33\n");
 	
-// 	if (door && dis < 50)
-// 	{
-// 		printf("KKKKKKKK\n");
-// 		xy = (int)vars->rays[vars->ray->rays_num/2].y_whpoint / BLOCK_SIZE * vars->map->cols + (int)vars->rays[vars->ray->rays_num/2].x_whpoint / BLOCK_SIZE;
-// 		if (vars->map->map[xy] == 'C')
-// 			vars->map->map[xy] = 'O';
-// 		else if (vars->map->map[xy] == 'O')
-// 			vars->map->map[xy] = 'C';
-// 	}
-// }
+	if (door && dis <= 80)
+	{
+		xy = (int)vars->rays[vars->ray->rays_num/2].y_whpoint / BLOCK_SIZE * vars->map->cols + (int)vars->rays[vars->ray->rays_num/2].x_whpoint / BLOCK_SIZE;
+		if (vars->map->map[xy] == 'C')
+			vars->map->map[xy] = 'O';
+		vars->rays[vars->ray->rays_num/2].is_door_close = false;
+		vars->rays[vars->ray->rays_num/2].is_door_open = true;
+	}
+	printf("LL\n");
+}
 
 
 int	key_realese(int keysym, t_vars *vars)
@@ -390,8 +393,10 @@ int	key_press(int keysym, t_vars *vars)
 			vars->keys.right_key = true;
 		if (keysym == 49)
 		{
-			open_close_door(vars);
-			// open_close_door2(vars);
+			if (vars->rays[vars->ray->rays_num/2].is_door && vars->rays[vars->ray->rays_num/2].is_door_open)
+				close_door(vars);
+			else if (vars->rays[vars->ray->rays_num/2].is_door_close)
+				open_door(vars);
 		}
 	}
 	if (keysym == 46)
