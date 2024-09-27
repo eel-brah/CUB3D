@@ -16,7 +16,7 @@
 #define BACKGROUND 0x00383c40
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 12
+#define PLAYER_SIZE 14
 
 #define MMC 0x00EAE4DD
 #define DRC 0x00A04747
@@ -149,6 +149,7 @@ typedef struct s_hitpoint
 typedef struct s_status
 {
 	bool	mm;
+	bool	full_map;
 }	t_status;
 
 // typedef struct s_map

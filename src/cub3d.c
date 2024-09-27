@@ -204,6 +204,8 @@ int	key_realese(int keysym, t_vars *vars)
 		vars->keys.left_key = false;
 	if (keysym == RIGHT_KEY)
 		vars->keys.right_key = false;
+	if (keysym == 35)
+		vars->status->full_map = false;
 	return 0;
 }
 // int anime_sword(t_vars *vars)
@@ -396,6 +398,8 @@ int	key_press(int keysym, t_vars *vars)
 	}
 	if (keysym == 46)
 		vars->status->mm = !(vars->status->mm);
+	if (keysym == 35)
+		vars->status->full_map = true;
 	if (keysym == ESC_KEY)
 		close_and_clear(vars);
 	return 1;

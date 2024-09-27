@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/27 11:45:03 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:23:33 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void draw_wall(t_vars *vars)
 		{
 			if (vars->rays[i].is_vertical)
 			{
-				// For vertical intersections, we use the x-coordinate to determine east or west
 				if (vars->rays[i].x_whpoint > vars->player->x)
 					data = vars->east;
 				else
@@ -77,7 +76,6 @@ void draw_wall(t_vars *vars)
 			}
 			else
 			{
-				// For horizontal intersections, we use the y-coordinate to determine north or south
 				if (vars->rays[i].y_whpoint > vars->player->y)
 					data = vars->south;
 				else
