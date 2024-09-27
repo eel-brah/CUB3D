@@ -110,6 +110,7 @@ typedef struct s_rays
 	float	angle;
 	bool	is_vertical;
 	bool	is_door;
+	bool	is_door_open;
 }	t_rays;
 
 typedef struct s_keys
@@ -140,7 +141,9 @@ typedef struct s_hitpoint
     float 	h_y;
     float 	v_y;
 	bool	v_is_door;
+	bool	v_is_door_open;
 	bool	h_is_door;
+	bool	h_is_door_open;
 }   t_hitpoint;
 
 typedef struct s_status

@@ -156,6 +156,24 @@ void	open_close_door(t_vars *vars) // door has walls on the side
 	}
 }
 
+// void	open_close_door2(t_vars *vars) // door has walls on the side
+// {
+// 	float dis = vars->rays[vars->ray->rays_num/2].hit_dis;
+// 	bool door = vars->rays[vars->ray->rays_num/2].is_door_close || vars->rays[vars->ray->rays_num/2].is_door_open;
+// 	int xy;
+	
+// 	if (door && dis < 50)
+// 	{
+// 		printf("KKKKKKKK\n");
+// 		xy = (int)vars->rays[vars->ray->rays_num/2].y_whpoint / BLOCK_SIZE * vars->map->cols + (int)vars->rays[vars->ray->rays_num/2].x_whpoint / BLOCK_SIZE;
+// 		if (vars->map->map[xy] == 'C')
+// 			vars->map->map[xy] = 'O';
+// 		else if (vars->map->map[xy] == 'O')
+// 			vars->map->map[xy] = 'C';
+// 	}
+// }
+
+
 int	key_realese(int keysym, t_vars *vars)
 {
 	if (keysym == 259)
@@ -220,10 +238,15 @@ int animation(t_vars *vars, t_item *item)
 {
 	static unsigned int i = 0;
 	static unsigned int j = 0;
-	static unsigned int k = 1;
+	static unsigned int k = 1; // reset if vars->cam false
 
 	if (vars->cam)
 	{
+		if (vars->rays[vars->ray->rays_num/2].hit_dis < 50)
+		{
+			vars->player_animate_hit = false;
+			return 1;
+		}
 		if (vars->player_animate_hit && vars->player_animate_shield )
 		{
 			vars->player_animate_hit = false;
@@ -303,30 +326,34 @@ int animation(t_vars *vars, t_item *item)
 // 	i++;
 // 	return (1);
 // }
+bool	check_wall_dis(t_vars *vars) // door has walls on the side
+{
+	int i;
+	float angle;
+	int end;
+	int new_x;
+	int new_y;
+
+
+	angle = vars->player->pa + PI;
+	i = BLOCK_SIZE;
+	end = BLOCK_SIZE * 1.5;
+	while (i < end)
+	{
+		new_x = vars->player->x + (cos(angle + vars->player->rspeed) * i);
+		new_y = vars->player->y + (sin(angle + vars->player->rspeed) * i);
+		if (!(new_x >= 0 && new_y >= 0 && new_x < WIDTH && new_y < HEIGHT) || (new_x >= 0 && new_y >= 0 && new_x < WIDTH && new_y < HEIGHT 
+			&& (vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == '1' || vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == 'C')))
+			return 0;
+		i++;
+	}
+	return 1;
+}
 
 int	key_press(int keysym, t_vars *vars)
 {
-	// printf("%i\n", keysym);
-	// if (keysym == UP_W_KEY || keysym == UP_KEY)
-	// 	player_movement(vars, 1, 0);
-	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
-	// 	player_movement(vars, -1, 0);
-	// if (keysym == LEFT_A_KEY)
-	// 	player_movement(vars, -1, 90);
-	// if (keysym == RIGHT_D_KEY)
-	// 	player_movement(vars, 1, 90);
-	// if (keysym == LEFT_KEY)
-	// 	player_rotation(vars, -1);
-	// if (keysym == RIGHT_KEY)
-	// 	player_rotation(vars, 1);
-	// if (keysym == UP_W_KEY || keysym == UP_KEY)
-	// 	player_movement(vars, 1, 0);
-	// if (keysym == DOWN_S_KEY || keysym == DOWN_KEY)
-	// 	player_movement(vars, -1, 0);
 	if (keysym == 259)
 	{
-		// if (vars->rays[vars->ray->rays_num / 2].hit_dis >= BLOCK_SIZE * 1.5 && vars->rays[vars->ray->rays_num / 4].hit_dis >= BLOCK_SIZE * 1.5)
-		// {
 			if (!vars->cam)
 				vars->player->pa += PI;
 			vars->cam = true;
@@ -342,7 +369,6 @@ int	key_press(int keysym, t_vars *vars)
 			// vars->animate_sw = false;
 			// vars->animate = true;
 			// anime_sword(vars);
-		// }
 	}
 
 	if (!vars->cam)
@@ -363,7 +389,10 @@ int	key_press(int keysym, t_vars *vars)
 		if (keysym == RIGHT_KEY)
 			vars->keys.right_key = true;
 		if (keysym == 49)
+		{
 			open_close_door(vars);
+			// open_close_door2(vars);
+		}
 	}
 	if (keysym == 46)
 		vars->status->mm = !(vars->status->mm);
@@ -781,7 +810,7 @@ bool	open_texture(t_vars *vars)
 		return (false);
 	if(!load_player(vars))
 		return (false);
-	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/door.xpm" ,&vars->door.width, &vars->door.height);
+	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door2.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
 	vars->north.img = mlx_xpm_file_to_image(vars->mlx, vars->map->no,&vars->north.width, &vars->north.height);
