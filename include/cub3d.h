@@ -19,8 +19,8 @@
 #define PLAYER_SIZE 14
 
 #define MMC 0x00EAE4DD
-#define DRC 0x00A04747
-#define DRCC 0x00D8A25E
+#define DRCC 0x00A04747
+#define DROC 0x00D8A25E
 #define WALL_COLOR 0x00181C14
 #define SEALING_COLOR 0x00ECDFCC
 #define FLOOR_COLOR 0x003C3D37
@@ -246,7 +246,7 @@ unsigned int	create_trgb(int t, int r, int g, int b);
 // Minimap
 void 	draw_minimap_player(t_vars *vars);
 void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width);
-void	draw_block(t_vars *vars, int x, int y, int size, unsigned int b);
+void	draw_block(t_vars *vars, int x, int y, int size, char c);
 void	draw_player(t_vars *vars, t_mini *minimap);
 
 // Player

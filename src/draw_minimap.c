@@ -6,13 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:35 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:12:38 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/28 12:43:16 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-
 
 void draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 {
@@ -59,25 +57,40 @@ void draw_player(t_vars *vars, t_mini *minimap)
 	draw_dirc_line(vars, (vars->player->x-minimap->x*BLOCK_SIZE), (vars->player->y-minimap->y*BLOCK_SIZE), vars->player);
 }
 
-void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width)
+void	draw_mm_background(int height, int width, t_vars *vars)
 {
 	int	y;
 	int	x;
-	unsigned int	color;
-	if (minimap->height < height || minimap->width < width)
+
+	y = MMSHIFT;
+	while (y < height * BLOCK_SIZE * MMSF + MMSHIFT)
 	{
-		y = MMSHIFT;
-		while (y < height * BLOCK_SIZE * MMSF + MMSHIFT)
-		{
-			x = MMSHIFT;
-			while (x < width * BLOCK_SIZE * MMSF + MMSHIFT)
-				put_pixel(vars, x++, y, 0x00);
-			y++;
-		}
+		x = MMSHIFT;
+		while (x < width * BLOCK_SIZE * MMSF + MMSHIFT)
+			put_pixel(vars, x++, y, 0x00);
+		y++;
 	}
-	
+}
+
+int	get_block_x(float x)
+{
+	return ((x * BLOCK_SIZE * MMSF) + MMSHIFT);
+}
+
+int	get_block_y(float y)
+{
+	return ((y * BLOCK_SIZE * MMSF) + MMSHIFT);
+}
+
+void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width)
+{
+	int		y;
+	int		x;
+	char	color;
+
+	if (minimap->height < height || minimap->width < width)
+		draw_mm_background(height, width, vars);
 	y = minimap->y;
-	
 	while (y < minimap->ymax )
 	{
 		fix_minimap_y(vars, minimap);
@@ -85,13 +98,13 @@ void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width)
 		while (x < minimap->xmax)
 		{
 			fix_minimap_x(vars, minimap);
-			color = (vars->map->map[y * vars->map->cols + x] == '0') * vars->map->f_color + (vars->map->map[y * vars->map->cols + x] == 'C') * DRC + (vars->map->map[y * vars->map->cols + x] == 'O') * DRCC;
-			draw_block(vars, ((x - minimap->x)*BLOCK_SIZE*MMSF)+MMSHIFT, ((y - minimap->y)*BLOCK_SIZE*MMSF)+MMSHIFT, BLOCK_SIZE*MMSF, color);
+			color = vars->map->map[y * vars->map->cols + x];
+			draw_block(vars, get_block_x(x - minimap->x),
+				get_block_y(y - minimap->y), BLOCK_SIZE * MMSF, color);
 			x++;
 		}
 		y++;
 	}
-	
 }
 
 void    draw_border_lines_1(t_vars *vars, t_line line)
@@ -101,6 +114,7 @@ void    draw_border_lines_1(t_vars *vars, t_line line)
 	line.y2 += 1;
 	draw_line(vars, line, BORDER_COLOR);
 }
+
 void    draw_border_lines_2(t_vars *vars, t_line line)
 {
 	draw_line(vars, line, BORDER_COLOR);
@@ -136,37 +150,33 @@ void	calc_map_wh(t_vars *vars, t_mini *minimap, int hight, int width)
 	minimap->width = (vars->map->cols >= width) * width + !(vars->map->cols >= width) * vars->map->cols;
 }
 
+void	calc_map_pos(t_vars *vars, t_mini *minimap, int hight, int width)
+{
+	minimap->player_poz_x = floor(vars->player->x / BLOCK_SIZE);
+	minimap->player_poz_y =  floor(vars->player->y / BLOCK_SIZE);
+	
+	minimap->y = (minimap->player_poz_y - (minimap->height / 2)) * (minimap->height >= hight);
+	minimap->y = (minimap->y > 0) * minimap->y;
+
+	minimap->ymax = minimap->player_poz_y + (minimap->height / 2) + (minimap->height % 2) * 1;
+	minimap->ymax = (minimap->ymax < vars->map->rows) * minimap->ymax + !(minimap->ymax < vars->map->rows) * (vars->map->rows);
+
+	minimap->x = (minimap->player_poz_x - (minimap->width / 2)) * (minimap->width >= width);
+	minimap->x = (minimap->x > 0) * minimap->x;
+	minimap->xmax = minimap->player_poz_x + (minimap->width / 2) + (minimap->width % 2) * 1;
+	minimap->xmax = (minimap->xmax < vars->map->cols) * minimap->xmax + !(minimap->xmax < vars->map->cols) * (vars->map->cols );
+}
+
 void draw_minimap_player(t_vars *vars)
 {
 	t_mini	minimap;
 	int		hight;
 	int		width;
 
-	if (vars->status->full_map)
-	{
-		hight = vars->map->rows;
-		width = vars->map->cols;
-	}
-	else
-	{
-		hight = MMSIZE;
-		width = MMSIZE;
-	}
+	hight = (vars->status->full_map) * vars->map->rows + !(vars->status->full_map) * MMSIZE;
+	width = (vars->status->full_map) * vars->map->cols + !(vars->status->full_map) * MMSIZE;
 	calc_map_wh(vars, &minimap, hight, width);
-	minimap.player_poz_x = floor(vars->player->x / BLOCK_SIZE);
-	minimap.player_poz_y =  floor(vars->player->y / BLOCK_SIZE);
-	
-	minimap.y = (minimap.player_poz_y - (minimap.height / 2)) * (minimap.height >= hight);
-	minimap.y = (minimap.y > 0) * minimap.y;
-
-	minimap.ymax = minimap.player_poz_y + (minimap.height / 2) + (minimap.height % 2) * 1;
-	minimap.ymax = (minimap.ymax < vars->map->rows) * minimap.ymax + !(minimap.ymax < vars->map->rows) * (vars->map->rows);
-
-	minimap.x = (minimap.player_poz_x - (minimap.width / 2)) * (minimap.width >= width);
-	minimap.x = (minimap.x > 0) * minimap.x;
-	minimap.xmax = minimap.player_poz_x + (minimap.width / 2) + (minimap.width % 2) * 1;
-	minimap.xmax = (minimap.xmax < vars->map->cols) * minimap.xmax + !(minimap.xmax < vars->map->cols) * (vars->map->cols );
-
+	calc_map_pos(vars, &minimap, hight, width);
 	fix_minimap_y(vars, &minimap);
 	fix_minimap_x(vars, &minimap);
 	draw_minimap(vars, &minimap, hight, width);
@@ -192,11 +202,20 @@ void draw_minimap_player(t_vars *vars)
 // 	}
 // }
 
-void    draw_block(t_vars *vars, int x, int y, int size, unsigned int color)
+void    draw_block(t_vars *vars, int x, int y, int size, char c)
 {
-	float		bx;
-	float		by;
+	float			bx;
+	float			by;
+	unsigned int	color;
 
+	if (c == '0')
+		color = vars->map->f_color;
+	else if (c == '1')
+		color = 0;
+	else if (c == 'C')
+		color = DRCC;
+	else if (c == 'O')
+		color = DROC;
 	by = y;
 	while (by <= y + size)
 	{
