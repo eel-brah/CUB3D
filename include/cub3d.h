@@ -246,7 +246,7 @@ unsigned int	create_trgb(int t, int r, int g, int b);
 // Minimap
 void 	draw_minimap_player(t_vars *vars);
 void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width);
-void	draw_block(t_vars *vars, int x, int y, int size, char c);
+void	draw_block(t_vars *vars, int x, int y, char c);
 void	draw_player(t_vars *vars, t_mini *minimap);
 
 // Player

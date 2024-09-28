@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:08:45 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:15:48 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_bools(t_vars *vars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 9)
@@ -36,18 +36,18 @@ bool	init(t_vars	*vars)
 {
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
-		return false;
+		return (false);
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "CUB3D");
 	if (!vars->win)
-		return false;
+		return (false);
 	vars->img->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	if (!vars->img->img)
 	{
 		mlx_destroy_window(vars->mlx, vars->mlx);
-		return false;
+		return (false);
 	}
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bpp, &vars->img->line_length, &vars->img->endian);
 	init_bools(vars);
-	return true;
+	return (true);
 }

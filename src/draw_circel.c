@@ -1,55 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_circel.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 15:50:38 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/09/28 15:58:47 by eel-brah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
-void put8pixels(t_vars *vars, int xc, int yc, int x, int y)
+
+typedef struct	s_circ
 {
-    t_line line;
+	int	xc;
+	int	yc;
+	int	x;
+	int	y;
+}	t_circ;
 
-    line.x1 = xc+x;
-    line.y1 = yc+y;
-    line.x2 = xc-x;
-    line.y2 = yc+y;
-    draw_line(vars, line, PLAYER_COLOR);
-    line.y1 = yc-y;
-    line.y2 = yc-y;
-    draw_line(vars, line, PLAYER_COLOR);
-    line.x1 = xc+y;
-    line.y1 = yc+x;
-    line.x2 = xc-y;
-    line.y2 = yc+x;
-    draw_line(vars, line, PLAYER_COLOR);
-    line.y1 = yc-x;
-    line.y2 = yc-x;
-    draw_line(vars, line, PLAYER_COLOR);
+void	fill_circ(t_vars *vars, t_circ *circ)
+{
+	t_line	line;
 
-    put_pixel(vars, xc+x, yc+y, PLAYER_COLOR);
-    put_pixel(vars, xc-x, yc+y, PLAYER_COLOR);
-    put_pixel(vars, xc+x, yc-y, PLAYER_COLOR);
-    put_pixel(vars, xc-x, yc-y, PLAYER_COLOR);
-    put_pixel(vars, xc+y, yc+x, PLAYER_COLOR);
-    put_pixel(vars, xc-y, yc+x, PLAYER_COLOR);
-    put_pixel(vars, xc+y, yc-x, PLAYER_COLOR);
-    put_pixel(vars, xc-y, yc-x, PLAYER_COLOR);
+	line.x1 = circ->xc + circ->x;
+	line.y1 = circ->yc + circ->y;
+	line.x2 = circ->xc - circ->x;
+	line.y2 = circ->yc + circ->y;
+	draw_line(vars, line, PLAYER_COLOR);
+	line.y1 = circ->yc - circ->y;
+	line.y2 = circ->yc - circ->y;
+	draw_line(vars, line, PLAYER_COLOR);
+	line.x1 = circ->xc + circ->y;
+	line.y1 = circ->yc + circ->x;
+	line.x2 = circ->xc - circ->y;
+	line.y2 = circ->yc + circ->x;
+	draw_line(vars, line, PLAYER_COLOR);
+	line.y1 = circ->yc - circ->x;
+	line.y2 = circ->yc - circ->x;
+	draw_line(vars, line, PLAYER_COLOR);
 }
 
-void draw_circle(t_vars *vars, int xc, int yc, int r)
+void	put_cpixels(t_vars *vars, t_circ *circ)
 {
-    int x;
-    int y;
-    int d;
+	put_pixel(vars, circ->xc + circ->x, circ->yc + circ->y, PLAYER_COLOR);
+	put_pixel(vars, circ->xc - circ->x, circ->yc + circ->y, PLAYER_COLOR);
+	put_pixel(vars, circ->xc + circ->x, circ->yc - circ->y, PLAYER_COLOR);
+	put_pixel(vars, circ->xc - circ->x, circ->yc - circ->y, PLAYER_COLOR);
+	put_pixel(vars, circ->xc + circ->y, circ->yc + circ->x, PLAYER_COLOR);
+	put_pixel(vars, circ->xc - circ->y, circ->yc + circ->x, PLAYER_COLOR);
+	put_pixel(vars, circ->xc + circ->y, circ->yc - circ->x, PLAYER_COLOR);
+	put_pixel(vars, circ->xc - circ->y, circ->yc - circ->x, PLAYER_COLOR);
+	fill_circ(vars, circ);
+}
 
-    x = 0;
-    y = r;
-    d = 3 - 2 * r;
-    put8pixels(vars, xc, yc, x, y);
-    while (y >= x)
-    {
-        if (d > 0)
-        {
-            y--; 
-            d = d + 4 * (x - y) + 10;
-        }
-        else
-            d = d + 4 * x + 6;
-        x++;
-        put8pixels(vars, xc, yc, x, y);
-    }
+void	draw_circle(t_vars *vars, int xc, int yc, int r)
+{
+	t_circ	circ;
+	int		d;
+
+	circ.xc = xc;
+	circ.yc = yc;
+	circ.x = 0;
+	circ.y = r;
+	d = 3 - 2 * r;
+	put_cpixels(vars, &circ);
+	while (circ.y >= circ.x)
+	{
+		if (d > 0)
+		{
+			circ.y--;
+			d = d + 4 * (circ.x - circ.y) + 10;
+		}
+		else
+			d = d + 4 * circ.x + 6;
+		circ.x++;
+		put_cpixels(vars, &circ);
+	}
 }

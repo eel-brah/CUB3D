@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:07 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:08:15 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:31:37 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,64 @@ void	move_rotate_player(t_vars *vars)
 		player_rotation(vars, 1);
 }
 
+typedef	struct s_cols
+{
+	float	x;
+	float	y;
+	int		ty;
+	int		tx;
+}	t_cols;
+
+void	wall_collision_calc(t_player *player, int i, t_cols *cols)
+{
+	if (i == 0)
+	{
+		cols->ty = floor((cols->y - player->r) / BLOCK_SIZE);
+		cols->tx = floor(cols->x / BLOCK_SIZE);
+	}
+	else if (i == 1)
+		cols->ty = floor((cols->y + player->r) / BLOCK_SIZE);
+	else if (i == 2)
+		cols->tx = floor((cols->x + player->r) / BLOCK_SIZE);
+	else if (i == 3)
+		cols->ty = floor(cols->y / BLOCK_SIZE);
+	else if (i == 4)
+		cols->tx = floor((cols->x - player->r) / BLOCK_SIZE);
+	else if (i == 5)
+		cols->ty = floor((cols->y - player->r) / BLOCK_SIZE);
+	else if (i == 6)
+		cols->tx = floor((cols->x + player->r) / BLOCK_SIZE);
+	else if (i == 7)
+	{
+		cols->ty = floor((cols->y + player->r) / BLOCK_SIZE);
+		cols->tx = floor((cols->x - player->r) / BLOCK_SIZE);
+	}
+}
+
 bool	wall_collision(t_vars *vars, float x, float y)
 {
-	int ty;
-	int tx;
-	t_player * player = vars->player;
+	t_cols	cols;
+	int		i;
 
-	int i = 0;
+	cols.x = x;
+	cols.y = y;
+	i = 0;
 	while (i < 8)
 	{
-		if (i == 0)
+		wall_collision_calc(vars->player, i, &cols);
+		if (cols.ty >= 0 && cols.ty < vars->map->rows
+			&& cols.tx >= 0 && cols.tx < vars->map->cols)
 		{
-			ty = floor((y - player->r)/BLOCK_SIZE);
-			tx = floor((x)/BLOCK_SIZE);
-		}
-		else if (i == 1)
-			ty = floor((y + player->r)/BLOCK_SIZE);
-		else if (i == 2)
-			tx = floor((x + player->r)/BLOCK_SIZE);
-		else if (i == 3)
-			ty = floor((y)/BLOCK_SIZE);
-		else if (i == 4)
-			tx = floor((x - player->r)/BLOCK_SIZE);
-		else if (i == 5)
-			ty = floor((y - player->r)/BLOCK_SIZE);
-		else if (i == 6)
-			tx = floor((x + player->r)/BLOCK_SIZE);
-		else if (i == 7)
-		{
-			ty = floor((y + player->r)/BLOCK_SIZE);
-			tx = floor((x - player->r)/BLOCK_SIZE);
-		}
-		if (ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols)
-		{
-			if (vars->map->map[ty * vars->map->cols + tx] == '1' || vars->map->map[ty * vars->map->cols + tx] == 'C')
-				return true;
+			if (vars->map->map[cols.ty * vars->map->cols + cols.tx] == '1'
+				|| vars->map->map[cols.ty * vars->map->cols + cols.tx] == 'C')
+				return (true);
 		}
 		i++;
 	}
-	return false;
+	return (false);
 }
 
-void init_player(t_vars *vars)
+void	init_player(t_vars *vars)
 {
 	t_player	*player;
 
@@ -86,7 +102,7 @@ void init_player(t_vars *vars)
 	vars->player->mouse = 1;
 }
 
-void player_movement(t_vars *vars, int dirc, int sp)
+void	player_movement(t_vars *vars, int dirc, int sp)
 {
 	t_player	*player;
 	float		xs;
@@ -106,13 +122,12 @@ void player_movement(t_vars *vars, int dirc, int sp)
 		player->y += ys;
 }
 
-void player_rotation(t_vars *vars, float dirc)
+void	player_rotation(t_vars *vars, float dirc)
 {
 	t_player	*player;
 
 	player = vars->player;
 	player->pa += dirc * player->rspeed;
-
 	if (player->pa < 0)
 		player->pa += 2 * PI;
 	else if (player->pa > 2 * PI)
