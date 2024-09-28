@@ -5,21 +5,19 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/23 14:08:14 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/27 14:23:33 by eel-brah         ###   ########.fr       */
+/*   Created: 2024/09/28 12:02:44 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/09/28 12:02:47 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
 
-unsigned int	get_colorr(t_data *data, int x, int y)
+unsigned int	get_color_from_img(t_data *data, int x, int y)
 {
 	char	*dst;
 
-	// printf("x %d y %d\n", x,y);
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
-	// dst = 100 << 24;
 	// return (160 << 24 | *(unsigned int*)dst);
 	return (*(unsigned int*)dst);
 }
@@ -27,10 +25,10 @@ unsigned int	get_colorr(t_data *data, int x, int y)
 void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 {
 	int i = 0;
-	while(i < top)
+	while(i <= top)
 		put_pixel(vars, x, i++, vars->map->c_color);
 	i = HEIGHT;
-	while(i > bottom)
+	while(i >= bottom)
 		put_pixel(vars, x, i--, vars->map->f_color);
 }
 
@@ -60,11 +58,8 @@ void draw_wall(t_vars *vars)
 		bottom = HEIGHT / 2 + wall_height / 2;
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
-		int	xx;
 		if (vars->rays[i].is_door)
-		{
 			data = vars->door;
-		}
 		else
 		{
 			if (vars->rays[i].is_vertical)
@@ -83,27 +78,49 @@ void draw_wall(t_vars *vars)
 			}
 		}
 		float h;
-		xx= 0;
 		if (vars->rays[i].is_vertical)
-			h = (int)((int)vars->rays[i].y_whpoint) % BLOCK_SIZE;
+			h = fmod(vars->rays[i].y_whpoint, BLOCK_SIZE);
 		else
-			h = (int)((int)vars->rays[i].x_whpoint) % BLOCK_SIZE;
+			h = fmod(vars->rays[i].x_whpoint, BLOCK_SIZE);
 		h /= BLOCK_SIZE;
 		h *= data.width;
 		float dist_top;
 		while (y < bottom)
 		{
-			// ss = (y - top) * ((float )data.height /wall_height);
 			dist_top =(y + (float)((wall_height / 2) - (HEIGHT / 2)));
-			// 64 ---> form mlx_xpm_file_to_image
-			// printf("x %d y %d\n",xx ,(int)((dist_top) * (data.height / wall_height)));
-			// if (y - top == 0)
-			unsigned int a = get_colorr(&data, (int)h, (int)((dist_top) * (data.height / wall_height)));
+			unsigned int a = get_color_from_img(&data, h, (dist_top * (data.height / wall_height)));
 			put_pixel(vars, i, y, a);
 			y++;
 		}
 		// create_trgb(100, 24, 28, 20)
 		color_sealing_floor(i, top, bottom, vars);
+		i++;
+	}
+}
+
+void	open_close_door(t_vars *vars) // door has walls on the side
+{
+	int i;
+	
+	i = BLOCK_SIZE + vars->player->r;
+	while (i < BLOCK_SIZE * 2)
+	{
+		int new_x = vars->player->x + (cos(vars->player->pa + vars->player->rspeed) * i);
+		int new_y = vars->player->y + (sin(vars->player->pa + vars->player->rspeed) * i);
+		if (new_x > 0 && new_y > 0 && new_x < WIDTH && new_y < HEIGHT)
+		{
+			int d = vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)];
+			if (d == 'C')
+			{
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = 'O';
+				break;
+			}
+			else if (d == 'O')
+			{
+				vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] = 'C';
+				break ;
+			}
+		}
 		i++;
 	}
 }

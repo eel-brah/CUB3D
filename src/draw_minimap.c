@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_minimap.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 12:02:35 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/09/28 12:12:38 by eel-brah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 
@@ -47,22 +59,22 @@ void draw_player(t_vars *vars, t_mini *minimap)
 	draw_dirc_line(vars, (vars->player->x-minimap->x*BLOCK_SIZE), (vars->player->y-minimap->y*BLOCK_SIZE), vars->player);
 }
 
-void    draw_minimap(t_vars *vars, t_mini *minimap)
+void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width)
 {
 	int	y;
 	int	x;
 	unsigned int	color;
-	// if (minimap->height < MMSIZE || minimap->width < MMSIZE)
-	// {
-	// 	y = MMSHIFT;
-	// 	while (y < MMSIZE*BLOCK_SIZE* MMSF+MMSHIFT)
-	// 	{
-	// 		x = MMSHIFT;
-	// 		while (x < MMSIZE*BLOCK_SIZE* MMSF+MMSHIFT)
-	// 			put_pixel(vars, x++, y, 0x00);
-	// 		y++;
-	// 	}
-	// }
+	if (minimap->height < height || minimap->width < width)
+	{
+		y = MMSHIFT;
+		while (y < height * BLOCK_SIZE * MMSF + MMSHIFT)
+		{
+			x = MMSHIFT;
+			while (x < width * BLOCK_SIZE * MMSF + MMSHIFT)
+				put_pixel(vars, x++, y, 0x00);
+			y++;
+		}
+	}
 	
 	y = minimap->y;
 	
@@ -157,7 +169,7 @@ void draw_minimap_player(t_vars *vars)
 
 	fix_minimap_y(vars, &minimap);
 	fix_minimap_x(vars, &minimap);
-	draw_minimap(vars, &minimap);
+	draw_minimap(vars, &minimap, hight, width);
 	draw_player(vars, &minimap);
 	draw_border(vars, hight, width);
 }
@@ -186,10 +198,10 @@ void    draw_block(t_vars *vars, int x, int y, int size, unsigned int color)
 	float		by;
 
 	by = y;
-	while (by < y + size)
+	while (by <= y + size)
 	{
 		bx = x;
-		while (bx < x + size)
+		while (bx <= x + size)
 		{
 			put_pixel(vars, roundf(bx), roundf(by), color);
 			bx++;

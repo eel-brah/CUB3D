@@ -1,6 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   player.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 12:03:07 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/09/28 12:08:15 by eel-brah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
-
+void	move_rotate_player(t_vars *vars)
+{
+	if (vars->keys.w_key == true || vars->keys.up_key == true)
+		player_movement(vars, 1, 0);
+	if (vars->keys.s_key == true || vars->keys.down_key == true)
+		player_movement(vars, -1, 0);
+	if (vars->keys.a_key == true)
+		player_movement(vars, -1, 90);
+	if (vars->keys.d_key == true)
+		player_movement(vars, 1, 90);
+	if (vars->keys.left_key == true)
+		player_rotation(vars, -1);
+	if (vars->keys.right_key == true)
+		player_rotation(vars, 1);
+}
 
 bool	wall_collision(t_vars *vars, float x, float y)
 {
@@ -42,6 +68,7 @@ bool	wall_collision(t_vars *vars, float x, float y)
 	}
 	return false;
 }
+
 void init_player(t_vars *vars)
 {
 	t_player	*player;
@@ -51,33 +78,12 @@ void init_player(t_vars *vars)
 	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
-	// player->pa = PI * 1.5f;
 	player->pa = vars->map->player_face;
 	player->steps = 2;
 	player->rspeed = deg2rad(2);
 	vars->player->rotate = 0;
 	vars->player->rotate2 = 0;
 	vars->player->mouse = 1;
-}
-
-int	isit_wall(t_vars *vars, float x, float y)
-{
-	// if (isit_outob(vars, x, y))
-	// 	return true;
-	int ty;
-	int tx;
-	bool	flag;
-
-	ty = floor(y/BLOCK_SIZE);
-	tx = floor(x/BLOCK_SIZE);
-	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
-	if ( flag && (vars->map->map[ty * vars->map->cols + tx] == '0' || vars->map->map[ty * vars->map->cols + tx] == 'O'))
-		return 0;
-	if (flag && vars->map->map[ty * vars->map->cols + tx] == 'C')
-		return 2;
-	// if (vars->map->map[((int)floor(y/BLOCK_SIZE))* vars->map->cols +((int)floor(x/BLOCK_SIZE))] == '0')
-	// 	return false;
-	return 1;
 }
 
 void player_movement(t_vars *vars, int dirc, int sp)
@@ -95,35 +101,9 @@ void player_movement(t_vars *vars, int dirc, int sp)
 		player->y += ys;
 	}
 	else if (!wall_collision(vars, player->x + xs, player->y))
-	{
 		player->x += xs;
-		// player->y = BLOCK_SIZE * round(player->y / BLOCK_SIZE);
-		// player->y = BLOCK_SIZE * floor((player->y+player->r) / BLOCK_SIZE) + player->r;
-		// if (dirc == -1)
-		// 	player->y = BLOCK_SIZE * floor((player->y+player->r) / BLOCK_SIZE) + player->r;
-		// if (dirc == 1)
-		// 	player->y = BLOCK_SIZE * ceil((player->y-player->r) / BLOCK_SIZE) - player->r;
-	}
 	else if (!wall_collision(vars, player->x, player->y + ys))
-	{
-		// if ((int)(player->x+player->r) % BLOCK_SIZE != 0)
-		// {
-		// 	int t = ceil((player->x+player->r)/BLOCK_SIZE);
-		// 	player->x = (BLOCK_SIZE * t) - player->r;
-		// }
-		// printf("%f %f\n", player->x+player->r,(player->x+player->r)/BLOCK_SIZE);
 		player->y += ys;
-		// if (dirc == -1)
-		// 	player->x = BLOCK_SIZE * floor((player->x+player->r) / BLOCK_SIZE) + player->r;
-		// if (dirc == 1)
-		// 	player->x = BLOCK_SIZE * ceil((player->x-player->r) / BLOCK_SIZE) - player->r;
-	}
-
-	// else
-	// {
-	// 	
-	// }
-	// draw(vars); // draw only it it moves
 }
 
 void player_rotation(t_vars *vars, float dirc)
@@ -137,5 +117,4 @@ void player_rotation(t_vars *vars, float dirc)
 		player->pa += 2 * PI;
 	else if (player->pa > 2 * PI)
 		player->pa -= 2 * PI;
-	// draw(vars);
 }

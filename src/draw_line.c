@@ -1,17 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/28 12:02:31 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/09/28 12:02:32 by eel-brah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
-
-void	put_pixel(t_vars *vars, int x, int y, unsigned int color)
-{
-	char	*dst;
-
-	t_data *data = vars->img;
-
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
-	{
-		dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
-		*(unsigned int *)dst = color;
-	}
-}
 
 int	absv(int i)
 {
@@ -79,6 +78,7 @@ void	draw_line_2(t_delta delta, t_line line,
 		i++;
 	}
 }
+
 void	draw_line(t_vars *vars, t_line line, unsigned int color)
 {
 	t_delta	delta;

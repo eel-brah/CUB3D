@@ -231,42 +231,54 @@ extern int map[];
 	// 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
 // Functions
+
+bool	init(t_vars	*vars);
+int	close_and_clear(t_vars *vars);
+
 // Utils
-void	put_pixel(t_vars *vars, int x, int y, unsigned int color);
-void	draw_line(t_vars *vars, t_line line, unsigned int color);
-void	draw_circle(t_vars *vars, int xc, int yc, int r);
-float	deg2rad(float deg);
-float	rad2deg(float rad);
+void			put_pixel(t_vars *vars, int x, int y, unsigned int color);
+void			draw_line(t_vars *vars, t_line line, unsigned int color);
+void			draw_circle(t_vars *vars, int xc, int yc, int r);
+float			deg2rad(float deg);
+float			rad2deg(float rad);
 unsigned int	create_trgb(int t, int r, int g, int b);
 
-// Map
-// void	set_background(t_data *img);
-void	draw_minimap(t_vars *vars, t_mini *minimap);
+// Minimap
+void 	draw_minimap_player(t_vars *vars);
+void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width);
 void	draw_block(t_vars *vars, int x, int y, int size, unsigned int b);
-
-void draw_minimap_player(t_vars *vars);
+void	draw_player(t_vars *vars, t_mini *minimap);
 
 // Player
 void	init_player(t_vars *vars);
-void	draw_player(t_vars *vars, t_mini *minimap);
 void	player_movement(t_vars *vars, int dirc, int sp);
 void	player_rotation(t_vars *vars, float dirc);
-int	isit_wall(t_vars *vars, float x, float y);
-int		isit_outob(float x, float y);
+void	move_rotate_player(t_vars *vars);
 
-void	draw(t_vars *vars);
+int		isit_outob(float x, float y);
+int		isit_wall(t_vars *vars, float x, float y);
+
+// Inputs
+int	key_realese(int keysym, t_vars *vars);
+int	key_press(int keysym, t_vars *vars);
+int mouse_move(int x, int y, t_vars *vars);
+int mouse_hook(int b, int x, int y, t_vars *vars);
 
 // Raycasting
 void	init_ray(t_vars *vars);
 void	cast_rays(t_vars *vars);
 float	distance(float x1, float y1, float x2, float y2);
-void	draw_rays(t_vars *vars);
+// void	draw_rays(t_vars *vars);
+bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle);
+bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle);
+
 
 // Walls
-void draw_wall(t_vars *vars);
+void 	draw_wall(t_vars *vars);
 void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle);
+void	open_close_door(t_vars *vars);
 
-
+// Parsing
 unsigned int	get_color(char **spl);
 bool			is_all_num(char **arr);
 int				len_2d(char **sp);
@@ -286,6 +298,5 @@ bool			open_texture(t_vars *vars);
 
 
 // animation
-
-bool    load_sword(t_vars *vars);
-bool    load_axe(t_vars *vars);
+int 	animation(t_vars *vars, t_item *item);
+void	animate(t_vars *vars);
