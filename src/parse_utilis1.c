@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/24 09:53:30 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:36:31 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,32 +80,33 @@ bool	check_line(char *line)
 	return (true);
 }
 
+static bool	fill_path(t_map *map, char *line, char **path)
+{
+	if (*path)
+		return (exit_err(map, NULL, line, "Duplicate Path"), exit(1), false);
+	*path = ft_strtrim(line + 2, " 	\n");
+	return (true);
+}
+
+static bool	check_path(t_map *map, char *line)
+{
+	if (!map->ea || !map->so || !map->no || !map->we)
+		return (exit_err(map, NULL, line, "Missing Path"), exit(1), false);
+	if (map->c_color == 300 || map->f_color == 300)
+		return (exit_err(map, NULL, line, "Missing Color"), exit(1), false);
+	return (true);
+}
+
 bool	fill_wall(t_map *map, char *line, int *count)
 {
 	if (line[0] == 'N' && line[1] == 'O' && line[2] == ' ')
-	{
-		if (map->no)
-			return (exit_err(map, NULL, line, "Duplicate Path"), exit(1), false);
-		map->no = ft_strtrim(line + 2, " 	\n");
-	}
+		fill_path(map, line, &map->no);
 	else if (line[0] == 'S' && line[1] == 'O' && line[2] == ' ')
-	{
-		if (map->so)
-			return (exit_err(map, NULL, line, "Duplicate Path"), exit(1), false);
-		map->so = ft_strtrim(line + 2, " 	\n");
-	}
+		fill_path(map, line, &map->so);
 	else if (line[0] == 'W' && line[1] == 'E' && line[2] == ' ')
-	{
-		if (map->we)
-			return (exit_err(map, NULL, line, "Duplicate Path"), exit(1), false);
-		map->we = ft_strtrim(line + 2, " 	\n");
-	}
+		fill_path(map, line, &map->we);
 	else if (line[0] == 'E' && line[1] == 'A' && line[2] == ' ')
-	{
-		if (map->ea)
-			return (exit_err(map, NULL, line, "Duplicate Path"), exit(1), false);
-		map->ea = ft_strtrim(line + 2, " 	\n");
-	}
+		fill_path(map, line, &map->ea);
 	else if (line[0] == 'C' && line[1])
 	{
 		if (map->c_color != 300)
@@ -119,15 +120,8 @@ bool	fill_wall(t_map *map, char *line, int *count)
 		fill_color(map, line);
 	}
 	else if (line[0] == '0' || line[0] == '1')
-	{
-		if (!map->ea || !map->so || !map->no || !map->we)
-			return (exit_err(map, NULL, line, "Missing Path"), exit(1), false);
-		if (map->c_color == 300 || map->f_color == 300)
-			return (exit_err(map, NULL, line, "Missing Color"), exit(1), false);
-	}
+		check_path(map, line);
 	else
 		return (exit_err(map, NULL, line, "Inavlide Map"), exit(1), false);
-	free(line);
-	(*count)++;
-	return (true);
+	return (free(line), (*count)++, true);
 }

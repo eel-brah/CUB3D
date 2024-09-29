@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:39 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/24 10:40:11 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/28 15:05:40 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,24 @@ static bool	set_player_info(t_map *map, int i, int j, char c)
 		map->player_face = PI * 0.5;
 	return (true);
 }
+bool	check(t_map *map, int i, int j, char *ermsg)
+{
+	if (i == 0 || j == 0 || i == map->max_line - 1 || j == map->max_col - 1)
+		return (write(2, ermsg, 16), free_map(map), exit(1), false);
+	if (map->map[((i - 1) * (map->max_col)) + j] == 'V' || map->map[((i + 1) * (map->max_col)) + j] == 'V'
+		|| map->map[(i * (map->max_col)) + j - 1] == 'V' || map->map[(i * (map->max_col)) + j + 1] == 'V')
+		return (write(2, ermsg, 16), free_map(map), exit(1), false);
+	return (true);
+}
 
+static bool	check_doors(t_map *map, int i, int j, char *ermsg)
+{
+	check(map, i, j, ermsg);
+	if (!((map->map[((i - 1) * (map->max_col)) + j] == '1' && map->map[((i + 1) * (map->max_col)) + j] == '1')
+		|| (map->map[(i * (map->max_col)) + j - 1] == '1' && map->map[(i * (map->max_col)) + j + 1] == '1')))
+		return (write(2, "doors", 5), free_map(map), exit(1), false);
+	return (true);
+}
 bool	check_walls(t_map *map, char *ermsg, int line)
 {
 	int		i;
@@ -50,24 +67,9 @@ bool	check_walls(t_map *map, char *ermsg, int line)
 				map->map[(i * (map->max_col)) + j] = '0';
 			}
 			if (map->map[(i * (map->max_col)) + j] == '0')
-			{
-				if (i == 0 || j == 0 || i == line - 1 || j == map->max_col - 1)
-					return (write(2, ermsg, 16), free_map(map), exit(1), false);
-				if (map->map[((i - 1) * (map->max_col)) + j] == 'V' || map->map[((i + 1) * (map->max_col)) + j] == 'V'
-					|| map->map[(i * (map->max_col)) + j - 1] == 'V' || map->map[(i * (map->max_col)) + j + 1] == 'V')
-					return (write(2, ermsg, 16), free_map(map), exit(1), false);
-			}
+				check(map, i, j, ermsg);
 			if (map->map[(i * (map->max_col)) + j] == 'C')
-			{
-				if (i == 0 || j == 0 || i == line - 1 || j == map->max_col - 1)
-					return (write(2, ermsg, 16), free_map(map), exit(1), false);
-				if (map->map[((i - 1) * (map->max_col)) + j] == 'V' || map->map[((i + 1) * (map->max_col)) + j] == 'V'
-					|| map->map[(i * (map->max_col)) + j - 1] == 'V' || map->map[(i * (map->max_col)) + j + 1] == 'V')
-					return (write(2, ermsg, 16), free_map(map), exit(1), false);
-				if (!((map->map[((i - 1) * (map->max_col)) + j] == '1' && map->map[((i + 1) * (map->max_col)) + j] == '1')
-					|| (map->map[(i * (map->max_col)) + j - 1] == '1' && map->map[(i * (map->max_col)) + j + 1] == '1')))
-					return (write(2, "doors", 5), free_map(map), exit(1), false);
-			}
+				check_doors(map, i, j, ermsg);
 			j++;
 		}
 		i++;

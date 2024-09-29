@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/22 13:32:58 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:05:19 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ t_map	*parse(char *file)
 		return (perror("malloc"), exit(2), NULL);
 	initial_map(map);
 	fill_map(map, fd, true, 0);
+	map->rows = map->max_line;
+	map->cols = map->max_col;
 	if (!map->we)
 		return (free_map(map), ft_print_error("Empty Map"), exit(1), NULL);
 	fill_array(map, 0);
