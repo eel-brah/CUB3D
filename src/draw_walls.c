@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:44 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:02:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:24:53 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ unsigned int	get_color_from_img(t_data *data, int x, int y)
 	return (*(unsigned int*)dst);
 }
 
-void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
+void	color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while(i <= top)
 		put_pixel(vars, x, i++, vars->map->c_color);
 	i = HEIGHT;
@@ -37,6 +39,42 @@ void color_sealing_floor(int x, int top, int bottom, t_vars *vars)
 #define EAST 2
 #define WEST 3
 
+float	get_image_x(t_vars *vars, int i, int width)
+{
+	float	x;
+
+	if (vars->rays[i].is_vertical)
+		x = fmod(vars->rays[i].y_whpoint, BLOCK_SIZE);
+	else
+		x = fmod(vars->rays[i].x_whpoint, BLOCK_SIZE);
+	x /= BLOCK_SIZE;
+	return (x *= width);
+}
+
+t_data	*get_texture(t_vars *vars, int i)
+{
+	if (vars->rays[i].is_door)
+		return (&vars->door);
+	else
+	{
+		if (vars->rays[i].is_vertical)
+		{
+			if (vars->rays[i].x_whpoint > vars->player->x)
+				return (&vars->east);
+			else
+				return (&vars->west);
+		}
+		else
+		{
+			if (vars->rays[i].y_whpoint > vars->player->y)
+				return (&vars->south);
+			else
+				return (&vars->north);
+		}
+	}
+	return (&vars->east);
+}
+
 void draw_wall(t_vars *vars)
 {
 	float wall_height;
@@ -45,10 +83,12 @@ void draw_wall(t_vars *vars)
 	int bottom;
 	int y;
 	float wall_dis;
-	t_data data;
+	t_data *data;
+	float x;
+	int i = 0;
+	float dist_top;
 
 	proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
-	int i = 0;
 	while (i < vars->ray->rays_num)
 	{
 		wall_dis = vars->rays[i].hit_dis * cos(vars->rays[i].angle - vars->player->pa);
@@ -58,49 +98,24 @@ void draw_wall(t_vars *vars)
 		bottom = HEIGHT / 2 + wall_height / 2;
 		bottom = (bottom > HEIGHT) * HEIGHT + !(bottom > HEIGHT) * bottom;
 		y = top;
-		if (vars->rays[i].is_door)
-			data = vars->door;
-		else
-		{
-			if (vars->rays[i].is_vertical)
-			{
-				if (vars->rays[i].x_whpoint > vars->player->x)
-					data = vars->east;
-				else
-					data = vars->west;
-			}
-			else
-			{
-				if (vars->rays[i].y_whpoint > vars->player->y)
-					data = vars->south;
-				else
-					data = vars->north;
-			}
-		}
-		float h;
-		if (vars->rays[i].is_vertical)
-			h = fmod(vars->rays[i].y_whpoint, BLOCK_SIZE);
-		else
-			h = fmod(vars->rays[i].x_whpoint, BLOCK_SIZE);
-		h /= BLOCK_SIZE;
-		h *= data.width;
-		float dist_top;
+		data = get_texture(vars, i);
+		x = get_image_x(vars, i, data->width);
 		while (y < bottom)
 		{
-			dist_top =(y + (float)((wall_height / 2) - (HEIGHT / 2)));
-			unsigned int a = get_color_from_img(&data, h, (dist_top * (data.height / wall_height)));
-			put_pixel(vars, i, y, a);
+			dist_top = (y + (float)((wall_height / 2) - (HEIGHT / 2)));
+			put_pixel(vars, i, y, get_color_from_img(data, x, (dist_top * (data->height / wall_height))));
 			y++;
 		}
-		// create_trgb(100, 24, 28, 20)
 		color_sealing_floor(i, top, bottom, vars);
 		i++;
 	}
 }
 
+// create_trgb(100, 24, 28, 20)
+
 void	open_close_door(t_vars *vars) // door has walls on the side
 {
-	int i;
+	int	i;
 	
 	i = BLOCK_SIZE + vars->player->r;
 	while (i < BLOCK_SIZE * 2)

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:08:26 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:32:48 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ bool setup(t_vars *vars)
 	return true;
 }
 
+// F 64,64,                        +64 
 int	main(int argc, char **argv)
 {
 	t_vars		vars;

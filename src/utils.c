@@ -6,25 +6,25 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:27 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:03:31 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 13:08:19 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-float deg2rad(float deg)
+float	deg2rad(float deg)
 {
-    return deg * (PI / 180.0f);
+	return (deg * (PI / 180.0f));
 }
 
-float rad2deg(float rad)
+float	rad2deg(float rad)
 {
-    return rad * (180.0f / PI);
+	return (rad * (180.0f / PI));
 }
 
-float distance(float x1, float y1, float x2, float y2)
+float	distance(float x1, float y1, float x2, float y2)
 {
-    return sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2));
+	return (sqrt(pow((x2 - x1), 2) + pow((y2 - y1), 2)));
 }
 
 unsigned int	create_trgb(int t, int r, int g, int b)
@@ -35,18 +35,12 @@ unsigned int	create_trgb(int t, int r, int g, int b)
 void	put_pixel(t_vars *vars, int x, int y, unsigned int color)
 {
 	char	*dst;
+	t_data	*data;
 
-	t_data *data = vars->img;
-
+	data = vars->img;
 	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 		*(unsigned int *)dst = color;
 	}
 }
-
-// float fov = deg2rad(66);
-// int rays_num = 360;
-// float ray_angle += fov/rays_num;
-
-// float dis_ab = sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay));
