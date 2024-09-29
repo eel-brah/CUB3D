@@ -26,6 +26,8 @@
 #define FLOOR_COLOR 0x003C3D37
 #define BORDER_COLOR 0x00295F98
 
+#define MAX_ROTATION_SPEED 20.0f
+#define SENSITIVITY 0.001f
 
 #define HEIGHT 1080
 #define WIDTH 1920
@@ -140,9 +142,9 @@ typedef struct s_hitpoint
     float 	v_x;
     float 	h_y;
     float 	v_y;
-	bool	v_is_door;
+	bool	v_door;
 	bool	v_is_door_open;
-	bool	h_is_door;
+	bool	h_door;
 	bool	h_is_door_open;
 }   t_hitpoint;
 
@@ -150,15 +152,12 @@ typedef struct s_status
 {
 	bool	mm;
 	bool	full_map;
+	bool	player_animate_hit;
+	bool	player_animate_shield;
+	t_data	current;
+	bool	cam;
+	int		k;
 }	t_status;
-
-// typedef struct s_map
-// {
-// 	int	rows;
-// 	int	cols;
-// 	int	height;
-// 	int	width;
-// }	t_map;
 
 typedef	struct s_item
 {
@@ -173,27 +172,21 @@ typedef struct s_vars
 	void	*win;
 	t_data	*img;
 	t_item	items[9];
-	t_data	north;
-	t_data	west;
-	t_data	south;
-	t_data	east;
 	t_data	player_cam[7];
 	t_data	player_cam_shield;
-	bool	player_animate_hit;
-	bool	player_animate_shield;
-	t_data	axe[5];
-	t_data	current;
-	t_data	last;
-	t_data	door;
-	bool	animate_sw;
-	bool	animate_ax;
 	t_map	*map;
 	t_player *player;
 	t_rays	*rays;
 	t_ray	*ray;
-	t_status *status;
 	t_keys	keys;
-	bool	cam;
+
+	t_data	north;
+	t_data	west;
+	t_data	south;
+	t_data	east;
+	t_data	door;
+	
+	t_status *status;
 }	t_vars;
 
 typedef struct s_line
@@ -213,27 +206,34 @@ typedef struct s_delta
 	int	ys;
 }	t_delta;
 
+typedef struct	s_circ
+{
+	int	xc;
+	int	yc;
+	int	x;
+	int	y;
+}	t_circ;
 
+typedef	struct s_cols
+{
+	float	x;
+	float	y;
+	int		ty;
+	int		tx;
+}	t_cols;
 
-
-
-extern float ppz_x, ppz_y, pdx, pdy, pa;
-extern int map[];
-	// 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	// 1, 0, 0, 0, 0, 1, 0, 0, 0, 1,
-	// 1, 0, 0, 0, 0, 1, 1, 1, 0, 1,
-	// 1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-	// 1, 1, 1, 1, 0, 0, 0, 0, 0, 1,
-	// 1, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-	// 1, 0, 0, 1, 0, 0, 1, 0, 0, 1,
-	// 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-	// 1, 0, 0, 0, 0, 0, 1, 0, 0, 1,
-	// 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+typedef	struct s_step
+{
+	float	x;
+	float	y;
+}	t_step;
 
 // Functions
 
 bool	init(t_vars	*vars);
-int	close_and_clear(t_vars *vars);
+int		close_and_clear(t_vars *vars);
+int render(t_vars *vars);
+
 
 // Utils
 void			put_pixel(t_vars *vars, int x, int y, unsigned int color);
@@ -248,6 +248,13 @@ void 	draw_minimap_player(t_vars *vars);
 void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width);
 void	draw_block(t_vars *vars, int x, int y, char c);
 void	draw_player(t_vars *vars, t_mini *minimap);
+void	draw_border(t_vars *vars, int height, int width);
+void	draw_mm_background(int height, int width, t_vars *vars);
+void	draw_block(t_vars *vars, int x, int y, char c);
+void	fix_minimap_y(t_vars *vars, t_mini *minimap);
+void	fix_minimap_x(t_vars *vars, t_mini *minimap);
+int		get_block_x(float x);
+int		get_block_y(float y);
 
 // Player
 void	init_player(t_vars *vars);
@@ -255,7 +262,6 @@ void	player_movement(t_vars *vars, int dirc, int sp);
 void	player_rotation(t_vars *vars, float dirc);
 void	move_rotate_player(t_vars *vars);
 
-int		isit_outob(float x, float y);
 int		isit_wall(t_vars *vars, float x, float y);
 
 // Inputs

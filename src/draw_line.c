@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:31 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:02:32 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:47:15 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,3 @@ void	draw_line(t_vars *vars, t_line line, unsigned int color)
 	else
 		draw_line_2(delta, line, vars, color);
 }
-

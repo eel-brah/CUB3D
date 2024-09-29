@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 12:47:05 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:08:26 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,23 +49,23 @@ int	close_and_clear(t_vars *vars)
 // 	return 1;
 // }
 
-void print_map(t_vars *vars)
-{
-	int i = 0;
-	int j = 0;
-	while(j < vars->map->rows)
-	{
-		i = 0;
-		while(i < vars->map->cols)
-		{
-			printf("%c ", vars->map->map[j * vars->map->cols + i]);
-			i++;
-		}
-		printf("\n");
-		j++;
-	}
-	printf("\n");
-}
+// void print_map(t_vars *vars)
+// {
+// 	int i = 0;
+// 	int j = 0;
+// 	while(j < vars->map->rows)
+// 	{
+// 		i = 0;
+// 		while(i < vars->map->cols)
+// 		{
+// 			printf("%c ", vars->map->map[j * vars->map->cols + i]);
+// 			i++;
+// 		}
+// 		printf("\n");
+// 		j++;
+// 	}
+// 	printf("\n");
+// }
 
 
 int render(t_vars *vars)
@@ -77,11 +77,6 @@ int render(t_vars *vars)
 		draw_minimap_player(vars);
 	if (vars->player->rotate)
 		player_rotation(vars, vars->player->ra);
-	if (vars->player->rotate2)
-	{
-		player_rotation(vars, vars->player->ra);
-		vars->player->rotate2 = 0;
-	}
 	animate(vars);
 	return 0;
 }
@@ -141,7 +136,7 @@ int	main(int argc, char **argv)
 	status.mm = 1;
 	vars.status = &status;
 	vars.map = map;
-	print_map(&vars);
+	// print_map(&vars);
 	if (!setup(&vars))
 		return 1;
 	mlx_loop(vars.mlx);

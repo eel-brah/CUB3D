@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 16:15:48 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:04:37 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void	init_bools(t_vars *vars)
 	i = 0;
 	while (i < 9)
 		vars->items[i++].animate = false;
-	vars->cam = false;
-	vars->player_animate_hit = false;
+	vars->status->cam = false;
+	vars->status->player_animate_hit = false;
+	vars->status->player_animate_shield = false;
 	vars->keys.a_key = false;
 	vars->keys.d_key = false;
 	vars->keys.s_key = false;
@@ -49,5 +50,22 @@ bool	init(t_vars	*vars)
 	vars->img->addr = mlx_get_data_addr(vars->img->img,
 			&vars->img->bpp, &vars->img->line_length, &vars->img->endian);
 	init_bools(vars);
+	vars->status->k = 1;
 	return (true);
+}
+
+void	init_player(t_vars *vars)
+{
+	t_player	*player;
+
+	player = vars->player;
+	vars->status->current = vars->items[0].item[3];
+	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
+	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
+	player->r = PLAYER_SIZE;
+	player->pa = vars->map->player_face;
+	player->steps = 2;
+	player->rspeed = deg2rad(2);
+	vars->player->rotate = 0;
+	vars->player->mouse = 1;
 }

@@ -6,35 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:07 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 16:31:37 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 12:04:54 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-void	move_rotate_player(t_vars *vars)
-{
-	if (vars->keys.w_key == true || vars->keys.up_key == true)
-		player_movement(vars, 1, 0);
-	if (vars->keys.s_key == true || vars->keys.down_key == true)
-		player_movement(vars, -1, 0);
-	if (vars->keys.a_key == true)
-		player_movement(vars, -1, 90);
-	if (vars->keys.d_key == true)
-		player_movement(vars, 1, 90);
-	if (vars->keys.left_key == true)
-		player_rotation(vars, -1);
-	if (vars->keys.right_key == true)
-		player_rotation(vars, 1);
-}
-
-typedef	struct s_cols
-{
-	float	x;
-	float	y;
-	int		ty;
-	int		tx;
-}	t_cols;
 
 void	wall_collision_calc(t_player *player, int i, t_cols *cols)
 {
@@ -85,23 +61,6 @@ bool	wall_collision(t_vars *vars, float x, float y)
 	return (false);
 }
 
-void	init_player(t_vars *vars)
-{
-	t_player	*player;
-
-	player = vars->player;
-	vars->current = vars->items[0].item[3];
-	player->x = vars->map->player_x_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
-	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
-	player->r = PLAYER_SIZE;
-	player->pa = vars->map->player_face;
-	player->steps = 2;
-	player->rspeed = deg2rad(2);
-	vars->player->rotate = 0;
-	vars->player->rotate2 = 0;
-	vars->player->mouse = 1;
-}
-
 void	player_movement(t_vars *vars, int dirc, int sp)
 {
 	t_player	*player;
@@ -132,4 +91,20 @@ void	player_rotation(t_vars *vars, float dirc)
 		player->pa += 2 * PI;
 	else if (player->pa > 2 * PI)
 		player->pa -= 2 * PI;
+}
+
+void	move_rotate_player(t_vars *vars)
+{
+	if (vars->keys.w_key == true || vars->keys.up_key == true)
+		player_movement(vars, 1, 0);
+	if (vars->keys.s_key == true || vars->keys.down_key == true)
+		player_movement(vars, -1, 0);
+	if (vars->keys.a_key == true)
+		player_movement(vars, -1, 90);
+	if (vars->keys.d_key == true)
+		player_movement(vars, 1, 90);
+	if (vars->keys.left_key == true)
+		player_rotation(vars, -1);
+	if (vars->keys.right_key == true)
+		player_rotation(vars, 1);
 }

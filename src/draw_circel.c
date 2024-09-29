@@ -6,19 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:50:38 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/28 15:58:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 11:46:51 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
-
-typedef struct	s_circ
-{
-	int	xc;
-	int	yc;
-	int	x;
-	int	y;
-}	t_circ;
 
 void	fill_circ(t_vars *vars, t_circ *circ)
 {
