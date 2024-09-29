@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/28 16:05:19 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:48:26 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ t_map	*parse(char *file)
 	fill_map(map, fd, true, 0);
 	map->rows = map->max_line;
 	map->cols = map->max_col;
-	if (!map->we)
-		return (free_map(map), ft_print_error("Empty Map"), exit(1), NULL);
+	if (!map->we && !map->so && !map->no && !map->ea && map->c_color == 300 && map->f_color == 300)
+        return (free_map(map), ft_print_error("Empty Map"), exit(1), NULL);
 	fill_array(map, 0);
 	check_walls(map, "Error\nMap Walls\n", map->max_line);
 	return (map);

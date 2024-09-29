@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:19 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 12:10:32 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:48:47 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,12 @@ int	isit_wall(t_vars *vars, float x, float y)
 	tx = floor(x / BLOCK_SIZE);
 	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
 	xy = ty * vars->map->cols + tx;
-	if (flag && (vars->map->map[xy] == '0' || vars->map->map[xy] == 'O'))
+	if (flag && vars->map->map[xy] == '0')
 		return (0);
 	if (flag && vars->map->map[xy] == 'C')
 		return (2);
+	if (flag && vars->map->map[xy] == 'O')
+		return (3);
 	return (1);
 }
 
@@ -50,6 +52,8 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	hitpoints.v_y = 0;
 	hitpoints.v_door = 0;
 	hitpoints.h_door = 0;
+	hitpoints.h_is_door_open = 0;
+	hitpoints.v_is_door_open = 0;
 	h_found = wall_hit_cord_h(vars, player, &hitpoints, angle);
 	v_found = wall_hit_cord_v(vars, player, &hitpoints, angle);
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x,
@@ -62,6 +66,8 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_door = (hd > vd) * hitpoints.v_door + !(hd > vd) * hitpoints.h_door;
+	ray->is_door_open = hitpoints.v_is_door_open || hitpoints.h_is_door_open;
+	// printf("%i\n", ray->is_door_open);
 }
 
 void	cast_rays(t_vars *vars)
@@ -70,6 +76,7 @@ void	cast_rays(t_vars *vars)
 	int		i;
 
 	angle = vars->player->pa - vars->ray->fov / 2;
+	free(vars->rays);
 	vars->rays = malloc(sizeof(t_rays) * vars->ray->rays_num);
 	i = 0;
 	while (i < vars->ray->rays_num)

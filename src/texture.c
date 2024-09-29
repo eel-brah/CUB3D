@@ -210,8 +210,6 @@ bool	open_texture(t_vars *vars)
 {
 	t_data	*data;
 
-	
-		
 	if (!load_sword(vars))
 		return (false);
 	if (!load_axe(vars))
@@ -232,9 +230,36 @@ bool	open_texture(t_vars *vars)
 		return (false);
 	if(!load_player(vars))
 		return (false);
-	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door2.xpm" ,&vars->door.width, &vars->door.height);
+
+	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/door2.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
+
+	vars->left_left.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/left_left.xpm" ,&vars->left_left.width, &vars->left_left.height);
+	if (!vars->left_left.img)
+		return (false);
+	vars->left_right.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/left_right.xpm" ,&vars->left_right.width, &vars->left_right.height);
+	if (!vars->left_right.img)
+		return (false);
+	vars->right_left.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/right_left.xpm" ,&vars->right_left.width, &vars->right_left.height);
+	if (!vars->right_left.img)
+		return (false);
+	vars->right_right.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/right_right.xpm" ,&vars->right_right.width, &vars->right_right.height);
+	if (!vars->right_right.img)
+		return (false);
+	vars->up_up.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/up_up.xpm" ,&vars->up_up.width, &vars->up_up.height);
+	if (!vars->up_up.img)
+		return (false);
+	vars->up_down.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/up_down.xpm" ,&vars->up_down.width, &vars->up_down.height);
+	if (!vars->up_down.img)
+		return (false);
+	vars->down_down.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/down_down.xpm" ,&vars->down_down.width, &vars->down_down.height);
+	if (!vars->down_down.img)
+		return (false);
+	vars->down_up.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/down_up.xpm" ,&vars->down_up.width, &vars->down_up.height);
+	if (!vars->down_up.img)
+		return (false);
+
 	vars->north.img = mlx_xpm_file_to_image(vars->mlx, vars->map->no,&vars->north.width, &vars->north.height);
 	if (!vars->north.img)
 		return (false);
@@ -251,6 +276,23 @@ bool	open_texture(t_vars *vars)
 	// data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->door;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->left_left;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->left_right;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->right_left;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->right_right;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->up_up;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->up_down;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->down_down;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+	data = &vars->down_up;
+	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
+
 	data = &vars->north;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->west;

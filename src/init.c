@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 12:04:37 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/29 18:49:02 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ bool	init(t_vars	*vars)
 			&vars->img->bpp, &vars->img->line_length, &vars->img->endian);
 	init_bools(vars);
 	vars->status->k = 1;
+	vars->rays = NULL;
 	return (true);
 }
 

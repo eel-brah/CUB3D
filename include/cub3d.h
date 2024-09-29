@@ -184,7 +184,16 @@ typedef struct s_vars
 	t_data	west;
 	t_data	south;
 	t_data	east;
+
 	t_data	door;
+	t_data	left_left;
+	t_data	left_right;
+	t_data	right_left;
+	t_data	right_right;
+	t_data	up_up;
+	t_data	up_down;
+	t_data	down_up;
+	t_data	down_down;
 	
 	t_status *status;
 }	t_vars;
