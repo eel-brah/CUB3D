@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:19 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:44:25 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:11:47 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	cast_rays(t_vars *vars)
 	angle = vars->player->pa - vars->ray->fov / 2;
 	free(vars->rays);
 	vars->rays = malloc(sizeof(t_rays) * vars->ray->rays_num);
-	// protect malloc here and don't forget to free and exit -__-
+	if (!vars->rays)
+		clear_and_close(vars);
 	i = 0;
 	while (i < vars->ray->rays_num)
 	{

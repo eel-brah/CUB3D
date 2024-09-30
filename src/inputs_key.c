@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:05:47 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:37:14 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:11:47 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,6 @@ int	key_press(int keysym, t_vars *vars)
 			vars->status->full_map = true;
 	}
 	if (keysym == ESC_KEY)
-		close_and_clear(vars);
+		clear_and_close(vars);
 	return 1;
 }

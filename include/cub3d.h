@@ -242,7 +242,7 @@ typedef	struct s_step
 // Functions
 
 bool	init(t_vars	*vars);
-int		close_and_clear(t_vars *vars);
+int		clear_and_close(t_vars *vars);
 int render(t_vars *vars);
 
 
@@ -314,14 +314,14 @@ int				ft_atoi_over(const char *str);
 void			exit_err(t_map *map, char *tmp, char *line, char *msg);
 t_map			*parse(char *file);
 bool			open_texture(t_vars *vars);
-bool	open_doors(t_vars *vars);
+bool	open_door(t_vars *vars);
 bool	load_weapons(t_vars *vars);
 bool	load_sword(t_vars *vars);
 bool	load_axe(t_vars *vars);
 bool	load_pickaxe(t_vars *vars);
 bool	load_bow(t_vars *vars);
 bool	load_totem(t_vars *vars);
-bool	open_doors(t_vars *vars);
+bool	open_door(t_vars *vars);
 bool	load_player(t_vars *vars);
 bool	mlx_get_data(t_data *data);
 bool	mlx_xpm(t_vars *var, t_data *data, char *s);

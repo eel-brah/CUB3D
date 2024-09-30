@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:15:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 12:22:08 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:08:53 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ bool	open_texture(t_vars *vars)
 		return (false);
 	if (!load_weapons(vars))
 		return (false);
-	if(!open_doors(vars))
+	if(!open_door(vars))
 		return (false);
 	if (!open_wall_text(vars))
 		return (false);

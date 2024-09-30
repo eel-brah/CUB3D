@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:13:10 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 15:54:16 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:08:53 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	mlx_xpm(t_vars *var, t_data *data, char *s)
 	return (true);
 }
 
-bool	open_doors1(t_vars *vars)
+bool	open_door1(t_vars *vars)
 {
 	t_data	*data;
 
@@ -49,7 +49,7 @@ bool	open_doors1(t_vars *vars)
 	return (vars->texture[vars->nb_text++] = vars->right_left.img, true);
 }
 
-bool	open_doors2(t_vars *vars)
+bool	open_door2(t_vars *vars)
 {
 	if (!mlx_xpm(vars, &vars->right_right, "images/texture/door/r_right.xpm"))
 		return (false);
@@ -69,7 +69,7 @@ bool	open_doors2(t_vars *vars)
 	return (true);
 }
 
-bool	open_doors3(t_vars *vars)
+bool	open_door3(t_vars *vars)
 {
 	if (!mlx_get_data(&vars->door))
 		return (false);
@@ -82,7 +82,7 @@ bool	open_doors3(t_vars *vars)
 	return (true);
 }
 
-bool	open_doors4(t_vars *vars)
+bool	open_door4(t_vars *vars)
 {
 	if (!mlx_get_data(&vars->right_right))
 		return (false);
@@ -97,15 +97,15 @@ bool	open_doors4(t_vars *vars)
 	return (true);
 }
 
-bool	open_doors(t_vars *vars)
+bool	open_door(t_vars *vars)
 {
-	if (!open_doors1(vars))
+	if (!open_door1(vars))
 		return (false);
-	if (!open_doors2(vars))
+	if (!open_door2(vars))
 		return (false);
-	if (!open_doors3(vars))
+	if (!open_door3(vars))
 		return (false);
-	if (!open_doors4(vars))
+	if (!open_door4(vars))
 		return (false);
 	return (true);
 }

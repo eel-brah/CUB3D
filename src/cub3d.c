@@ -6,13 +6,13 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:03:25 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:13:25 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-int	close_and_clear(t_vars *vars)
+int	clear_and_close(t_vars *vars)
 {
 	ft_printf("\033[4;35m\033[1;95mCUB3D\033[0m \033[0;95mClosed\033[0m\n");
 	free(vars->rays);
@@ -68,10 +68,7 @@ bool setup(t_vars *vars)
 	if (!open_texture(vars))
 	{
 		write(2, "Texture opening failed\n", 24);
-		free_map(vars->map);
-		mlx_destroy_image(vars->mlx, vars->img->img);
-		mlx_destroy_window(vars->mlx, vars->win);
-		// destory images
+		clear_and_close(vars);
 		return false;
 	}
 	init_ray(vars);
@@ -79,7 +76,7 @@ bool setup(t_vars *vars)
 	mlx_hook(vars->win, 6, 0, mouse_move, vars);
     mlx_hook(vars->win, 2, 0, key_press, vars);
     mlx_hook(vars->win, 3, 0, key_realese, vars);
-	mlx_hook(vars->win, 17, 0, close_and_clear, vars);
+	mlx_hook(vars->win, 17, 0, clear_and_close, vars);
     mlx_hook(vars->win, 4, 0, mouse_hook, vars);
 	mlx_loop_hook(vars->mlx, render, vars);
 	return true;
