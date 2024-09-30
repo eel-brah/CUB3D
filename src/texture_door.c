@@ -6,57 +6,64 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:13:10 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 12:27:54 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:54:16 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
+bool	mlx_xpm(t_vars *var, t_data *data, char *s)
+{
+	data->img = mlx_xpm_file_to_image(var->mlx, s, &data->width, &data->height);
+	if (!data->img)
+		return (false);
+	return (true);
+}
+
 bool	open_doors1(t_vars *vars)
 {
+	t_data	*data;
+
 	vars->door.img = mlx_xpm_file_to_image(vars->mlx, \
 	"images/texture/door/door2.xpm", &vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
 	vars->texture[vars->nb_text++] = vars->door.img;
+	data = &vars->left_left;
 	vars->left_left.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/left_left.xpm", &vars->left_left.width, &vars->left_left.height);
+	"images/texture/door/left_left.xpm", &data->width, &data->height);
 	if (!vars->left_left.img)
 		return (false);
 	vars->texture[vars->nb_text++] = vars->left_left.img;
+	data = &vars->left_right;
 	vars->left_right.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/left_right.xpm" ,&vars->left_right.width, &vars->left_right.height);
+	"images/texture/door/left_right.xpm", &data->width, &data->height);
 	if (!vars->left_right.img)
 		return (false);
 	vars->texture[vars->nb_text++] = vars->left_right.img;
+	data = &vars->right_left;
 	vars->right_left.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/right_left.xpm", &vars->right_left.width, &vars->right_left.height);
+	"images/texture/door/right_left.xpm", &data->width, &data->height);
 	if (!vars->right_left.img)
 		return (false);
-	vars->texture[vars->nb_text++] = vars->right_left.img;
-	return (true);
+	return (vars->texture[vars->nb_text++] = vars->right_left.img, true);
 }
 
 bool	open_doors2(t_vars *vars)
 {
-	vars->right_right.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/right_right.xpm" ,&vars->right_right.width, &vars->right_right.height);
-	if (!vars->right_right.img)
+	if (!mlx_xpm(vars, &vars->right_right, "images/texture/door/r_right.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->right_right.img;
-	vars->up_up.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/up_up.xpm" ,&vars->up_up.width, &vars->up_up.height);
-	if (!vars->up_up.img)
+	if (!mlx_xpm(vars, &vars->up_up, "images/texture/door/up_up.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->up_up.img;
-	vars->up_down.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/up_down.xpm" ,&vars->up_down.width, &vars->up_down.height);
-	if (!vars->up_down.img)
+	if (!mlx_xpm(vars, &vars->up_down, "images/texture/door/up_down.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->up_down.img;
-	vars->down_down.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/down_down.xpm" ,&vars->down_down.width, &vars->down_down.height);
-	if (!vars->down_down.img)
+	if (!mlx_xpm(vars, &vars->down_down, "images/texture/door/down_down.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->down_down.img;
-	vars->down_up.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/down_up.xpm" ,&vars->down_up.width, &vars->down_up.height);
-	if (!vars->down_up.img)
+	if (!mlx_xpm(vars, &vars->down_up, "images/texture/door/down_up.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->down_up.img;
 	return (true);
@@ -64,50 +71,28 @@ bool	open_doors2(t_vars *vars)
 
 bool	open_doors3(t_vars *vars)
 {
-	t_data	*data;
-
-	data = &vars->door;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->door))
 		return (false);
-	data = &vars->left_left;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->left_left))
 		return (false);
-	data = &vars->left_right;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->left_right))
 		return (false);
-	data = &vars->right_left;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->right_left))
 		return (false);
 	return (true);
 }
 
 bool	open_doors4(t_vars *vars)
 {
-	t_data	*data;
-
-	data = &vars->right_right;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->right_right))
 		return (false);
-	data = &vars->up_up;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->up_up))
 		return (false);
-	data = &vars->up_down;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->up_down))
 		return (false);
-	data = &vars->down_down;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->down_down))
 		return (false);
-	data = &vars->down_up;
-	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
+	if (!mlx_get_data(&vars->down_up))
 		return (false);
 	return (true);
 }

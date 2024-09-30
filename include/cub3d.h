@@ -321,6 +321,8 @@ bool	load_bow(t_vars *vars);
 bool	load_totem(t_vars *vars);
 bool	open_doors(t_vars *vars);
 bool	load_player(t_vars *vars);
+bool	mlx_get_data(t_data *data);
+bool	mlx_xpm(t_vars *var, t_data *data, char *s);
 // animation
 int 	animation(t_vars *vars, t_item *item);
 void	animate(t_vars *vars);
