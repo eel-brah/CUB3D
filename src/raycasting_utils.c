@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:10 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 16:16:30 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:44:02 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player,
 			hitpoints->h_y = y;
 			return (1);
 		}
-		else if (a == 3)
-			hitpoints->h_is_door_open = true;
 		x += step.x;
 		y += step.y;
 	}
@@ -92,8 +90,6 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player,
 			hitpoints->v_y = y;
 			return (1);
 		}
-		else if (a == 3)
-			hitpoints->v_is_door_open = true;
 		x += step.x;
 		y += step.y;
 	}

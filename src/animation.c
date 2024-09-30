@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:20 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:45:33 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:44:26 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_wall_away(t_vars *vars)
 {
-	if (vars->rays[vars->ray->rays_num / 2].hit_dis < 50)
+	if (vars->rays[vars->ray->rays_num / 2].hit_dis < 80)
 	{
 		vars->status->player_animate_hit = false;
 		vars->status->cam = false;
@@ -40,7 +40,7 @@ void	cam_animation_helper(t_vars *vars)
 	}
 }
 
-void	can_animation(int i, t_vars *vars)
+void	cam_animation(int i, t_vars *vars)
 {
 	if (!is_wall_away(vars))
 		return ;
@@ -73,8 +73,8 @@ int	animation(t_vars *vars, t_item *item)
 	static unsigned int	j = 0;
 
 	if (vars->status->cam)
-		can_animation(i, vars);
-	if (!vars->status->cam && i % 2 == 0)
+		cam_animation(i, vars);
+	else if (i % 2 == 0)
 	{
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->img->img, 0, 0);
 		mlx_put_image_to_window(vars->mlx, vars->win, item->item[j].img, 0, 0);

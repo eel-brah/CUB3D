@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:27 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 13:08:19 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:22:38 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 float	deg2rad(float deg)
 {
 	return (deg * (PI / 180.0f));
-}
-
-float	rad2deg(float rad)
-{
-	return (rad * (180.0f / PI));
 }
 
 float	distance(float x1, float y1, float x2, float y2)
@@ -43,4 +38,13 @@ void	put_pixel(t_vars *vars, int x, int y, unsigned int color)
 		dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
 		*(unsigned int *)dst = color;
 	}
+}
+
+unsigned int	get_color_from_img(t_data *data, int x, int y)
+{
+	char	*dst;
+
+	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
+	// return (160 << 24 | *(unsigned int*)dst);
+	return (*(unsigned int*)dst);
 }

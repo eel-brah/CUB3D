@@ -17,6 +17,7 @@
 #define PLAYER_COLOR 0x00FFFF00
 #define DIRC_LINE 0x0000FF00
 #define PLAYER_SIZE 14
+#define DOOR_OPEN 1
 
 #define MMC 0x00EAE4DD
 #define DRCC 0x00A04747
@@ -103,6 +104,7 @@ typedef struct s_ray
 {
 	float	fov;
 	int		rays_num;
+	float	proj_wall_dis;
 }	t_ray;
 typedef struct s_rays
 {
@@ -112,7 +114,6 @@ typedef struct s_rays
 	float	angle;
 	bool	is_vertical;
 	bool	is_door;
-	bool	is_door_open;
 }	t_rays;
 
 typedef struct s_keys
@@ -127,15 +128,14 @@ typedef struct s_keys
 	bool	d_key;
 }	t_keys;
 
-typedef struct s_wall
+typedef struct	s_wall
 {
-	float	x_whpoint;
-	float	y_whpoint;
-	float	hit_dis;
-	float	angle;
-	bool	is_vertical;
-	bool	is_door;
+	float	height;
+	int		top;
+	int		bottom;
+	t_data	*texture;
 }	t_wall;
+
 typedef struct s_hitpoint
 {
     float	 h_x;
@@ -143,9 +143,7 @@ typedef struct s_hitpoint
     float 	h_y;
     float 	v_y;
 	bool	v_door;
-	bool	v_is_door_open;
 	bool	h_door;
-	bool	h_is_door_open;
 }   t_hitpoint;
 
 typedef struct s_status
@@ -249,8 +247,8 @@ void			put_pixel(t_vars *vars, int x, int y, unsigned int color);
 void			draw_line(t_vars *vars, t_line line, unsigned int color);
 void			draw_circle(t_vars *vars, int xc, int yc, int r);
 float			deg2rad(float deg);
-float			rad2deg(float rad);
 unsigned int	create_trgb(int t, int r, int g, int b);
+unsigned int	get_color_from_img(t_data *data, int x, int y);
 
 // Minimap
 void 	draw_minimap_player(t_vars *vars);
@@ -292,6 +290,8 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, floa
 void 	draw_wall(t_vars *vars);
 void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle);
 void	open_close_door(t_vars *vars);
+t_data	*get_texture(t_vars *vars, int i);
+int	door_check(t_vars *vars, float tx, float ty);
 
 // Parsing
 unsigned int	get_color(char **spl);

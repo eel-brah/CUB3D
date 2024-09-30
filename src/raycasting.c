@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:19 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 09:19:38 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 11:44:25 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_ray(t_vars *vars)
 {
 	vars->ray->fov = deg2rad(66);
 	vars->ray->rays_num = WIDTH;
+	vars->ray->proj_wall_dis = (WIDTH / 2) / tan(vars->ray->fov / 2);
 }
 
 int	isit_wall(t_vars *vars, float x, float y)
@@ -29,26 +30,13 @@ int	isit_wall(t_vars *vars, float x, float y)
 	tx = floor(x / BLOCK_SIZE);
 	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
 	xy = ty * vars->map->cols + tx;
-	if (flag && vars->map->map[xy] == '0')
+	if (flag && (vars->map->map[xy] == '0' || vars->map->map[xy] == 'O'))
 		return (0);
 	if (flag && vars->map->map[xy] == 'C')
 		return (2);
-	if (flag && vars->map->map[xy] == 'O')
-		return (3);
 	return (1);
 }
 
-void	set_hitpont(t_hitpoint *hitpoints)
-{
-	hitpoints->h_x = 0;
-	hitpoints->h_y = 0;
-	hitpoints->v_x = 0;
-	hitpoints->v_y = 0;
-	hitpoints->v_door = 0;
-	hitpoints->h_door = 0;
-	hitpoints->h_is_door_open = 0;
-	hitpoints->v_is_door_open = 0;
-}
 void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 {
 	t_hitpoint	hitpoints;
@@ -57,7 +45,7 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	float		vd;
 	float		hd;
 
-	set_hitpont(&hitpoints);
+	ft_memset(&hitpoints, 0, sizeof(t_hitpoint));
 	h_found = wall_hit_cord_h(vars, player, &hitpoints, angle);
 	v_found = wall_hit_cord_v(vars, player, &hitpoints, angle);
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x,
@@ -70,8 +58,6 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_vertical = (hd > vd) * 1;
 	ray->is_door = (hd > vd) * hitpoints.v_door + !(hd > vd) * hitpoints.h_door;
-	ray->is_door_open = hitpoints.v_is_door_open || hitpoints.h_is_door_open;
-	// printf("%i\n", ray->is_door_open);
 }
 
 void	cast_rays(t_vars *vars)
