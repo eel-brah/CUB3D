@@ -3,48 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   texture_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:13:10 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:08:53 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:58:08 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-bool	mlx_xpm(t_vars *var, t_data *data, char *s)
-{
-	data->img = mlx_xpm_file_to_image(var->mlx, s, &data->width, &data->height);
-	if (!data->img)
-		return (false);
-	return (true);
-}
-
 bool	open_door1(t_vars *vars)
 {
-	t_data	*data;
-
-	vars->door.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/door2.xpm", &vars->door.width, &vars->door.height);
-	if (!vars->door.img)
-		return (false);
-	vars->texture[vars->nb_text++] = vars->door.img;
-	data = &vars->left_left;
-	vars->left_left.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/left_left.xpm", &data->width, &data->height);
-	if (!vars->left_left.img)
+	if (!mlx_xpm(vars, &vars->left_left, "images/texture/door/left_left.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->left_left.img;
-	data = &vars->left_right;
-	vars->left_right.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/left_right.xpm", &data->width, &data->height);
-	if (!vars->left_right.img)
+	if (!mlx_xpm(vars, &vars->left_right, "images/texture/door/left_right.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->left_right.img;
-	data = &vars->right_left;
-	vars->right_left.img = mlx_xpm_file_to_image(vars->mlx, \
-	"images/texture/door/right_left.xpm", &data->width, &data->height);
-	if (!vars->right_left.img)
+	if (!mlx_xpm(vars, &vars->right_left, "images/texture/door/right_left.xpm"))
 		return (false);
 	return (vars->texture[vars->nb_text++] = vars->right_left.img, true);
 }
@@ -99,6 +75,9 @@ bool	open_door4(t_vars *vars)
 
 bool	open_door(t_vars *vars)
 {
+	if (!mlx_xpm(vars, &vars->door, "images/texture/door/door2.xpm"))
+		return (false);
+	vars->texture[vars->nb_text++] = vars->door.img;
 	if (!open_door1(vars))
 		return (false);
 	if (!open_door2(vars))

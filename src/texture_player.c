@@ -6,11 +6,19 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:21:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 15:59:11 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:56:12 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
+
+bool	mlx_xpm(t_vars *var, t_data *data, char *s)
+{
+	data->img = mlx_xpm_file_to_image(var->mlx, s, &data->width, &data->height);
+	if (!data->img)
+		return (false);
+	return (true);
+}
 
 bool	mlx_get_data(t_data *data)
 {
@@ -55,4 +63,17 @@ bool	load_player(t_vars *vars)
 		return (false);
 	vars->texture[vars->nb_text++] = vars->player_cam_shield.img;
 	return (true);
+}
+
+void	free_texture(t_vars *vars, void **data)
+{
+	int	i;
+
+	i = 0;
+	while (data && data[i])
+	{
+		mlx_destroy_image(vars->mlx, data[i]);
+		i++;
+	}
+	free(data);
 }

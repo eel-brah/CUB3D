@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:13:25 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:43:42 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	clear_and_close(t_vars *vars)
 {
 	ft_printf("\033[4;35m\033[1;95mCUB3D\033[0m \033[0;95mClosed\033[0m\n");
 	free(vars->rays);
+	free_texture(vars, vars->texture);
 	free_map(vars->map);
 	mlx_destroy_image(vars->mlx, vars->img->img);
 	mlx_destroy_window(vars->mlx, vars->win);
