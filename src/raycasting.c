@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycasting.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:19 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 18:48:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 09:19:38 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ int	isit_wall(t_vars *vars, float x, float y)
 	return (1);
 }
 
+void	set_hitpont(t_hitpoint *hitpoints)
+{
+	hitpoints->h_x = 0;
+	hitpoints->h_y = 0;
+	hitpoints->v_x = 0;
+	hitpoints->v_y = 0;
+	hitpoints->v_door = 0;
+	hitpoints->h_door = 0;
+	hitpoints->h_is_door_open = 0;
+	hitpoints->v_is_door_open = 0;
+}
 void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 {
 	t_hitpoint	hitpoints;
@@ -46,14 +57,7 @@ void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle)
 	float		vd;
 	float		hd;
 
-	hitpoints.h_x = 0;
-	hitpoints.h_y = 0;
-	hitpoints.v_x = 0;
-	hitpoints.v_y = 0;
-	hitpoints.v_door = 0;
-	hitpoints.h_door = 0;
-	hitpoints.h_is_door_open = 0;
-	hitpoints.v_is_door_open = 0;
+	set_hitpont(&hitpoints);
 	h_found = wall_hit_cord_h(vars, player, &hitpoints, angle);
 	v_found = wall_hit_cord_v(vars, player, &hitpoints, angle);
 	vd = v_found * distance(player->x, player->y, hitpoints.v_x,
@@ -78,6 +82,7 @@ void	cast_rays(t_vars *vars)
 	angle = vars->player->pa - vars->ray->fov / 2;
 	free(vars->rays);
 	vars->rays = malloc(sizeof(t_rays) * vars->ray->rays_num);
+	// protect malloc here and don't forget to free and exit -__-
 	i = 0;
 	while (i < vars->ray->rays_num)
 	{

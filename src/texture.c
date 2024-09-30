@@ -28,9 +28,6 @@ bool	load_axe(t_vars *vars)
 	vars->items[1].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[1].item[2].width, &vars->items[1].item[2].height);
 	if (!vars->items[1].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[1].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/2-axe/4.xpm" ,&vars->items[1].item[3].width, &vars->items[1].item[3].height);
 	if (!vars->items[1].item[3].img)
 		return (false);
@@ -48,9 +45,6 @@ bool	load_pickaxe(t_vars *vars)
 	vars->items[2].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/4.xpm" ,&vars->items[2].item[2].width, &vars->items[2].item[2].height);
 	if (!vars->items[2].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[2].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/3-pickaxe/4.xpm" ,&vars->items[2].item[3].width, &vars->items[2].item[3].height);
 	if (!vars->items[2].item[3].img)
 		return (false);
@@ -68,9 +62,6 @@ bool	load_bow(t_vars *vars)
 	vars->items[3].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/4.xpm" ,&vars->items[3].item[2].width, &vars->items[3].item[2].height);
 	if (!vars->items[3].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[3].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/4-bow/4.xpm" ,&vars->items[3].item[3].width, &vars->items[3].item[3].height);
 	if (!vars->items[3].item[3].img)
 		return (false);
@@ -88,9 +79,6 @@ bool	load_totem(t_vars *vars)
 	vars->items[4].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/4.xpm" ,&vars->items[4].item[2].width, &vars->items[4].item[2].height);
 	if (!vars->items[4].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[4].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/5-totem/4.xpm" ,&vars->items[4].item[3].width, &vars->items[4].item[3].height);
 	if (!vars->items[4].item[3].img)
 		return (false);
@@ -108,9 +96,6 @@ bool	load_diamond(t_vars *vars)
 	vars->items[5].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/4.xpm" ,&vars->items[5].item[2].width, &vars->items[5].item[2].height);
 	if (!vars->items[5].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[5].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/6-diamond/4.xpm" ,&vars->items[5].item[3].width, &vars->items[5].item[3].height);
 	if (!vars->items[5].item[3].img)
 		return (false);
@@ -128,9 +113,6 @@ bool	load_apple(t_vars *vars)
 	vars->items[6].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/4.xpm" ,&vars->items[6].item[2].width, &vars->items[6].item[2].height);
 	if (!vars->items[6].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[6].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/7-apple/4.xpm" ,&vars->items[6].item[3].width, &vars->items[6].item[3].height);
 	if (!vars->items[6].item[3].img)
 		return (false);
@@ -148,9 +130,6 @@ bool	load_potion(t_vars *vars)
 	vars->items[7].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/4.xpm" ,&vars->items[7].item[2].width, &vars->items[7].item[2].height);
 	if (!vars->items[7].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[7].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/8-potion/4.xpm" ,&vars->items[7].item[3].width, &vars->items[7].item[3].height);
 	if (!vars->items[7].item[3].img)
 		return (false);
@@ -168,9 +147,6 @@ bool	load_food(t_vars *vars)
 	vars->items[8].item[2].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/4.xpm" ,&vars->items[8].item[2].width, &vars->items[8].item[2].height);
 	if (!vars->items[8].item[2].img)
 		return (false);
-	// vars->items[0].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/Axe/4.xpm" ,&vars->items[0].item[3].width, &vars->items[0].item[3].height);
-	// if (!vars->items[0].item[3].img)
-	// 	return (false);
 	vars->items[8].item[3].img = mlx_xpm_file_to_image(vars->mlx, "images/9-food/4.xpm" ,&vars->items[8].item[3].width, &vars->items[8].item[3].height);
 	if (!vars->items[8].item[3].img)
 		return (false);
@@ -206,10 +182,8 @@ bool	load_player(t_vars *vars)
 	return (true);
 }
 
-bool	open_texture(t_vars *vars)
+bool	load_weapons(t_vars *vars)
 {
-	t_data	*data;
-
 	if (!load_sword(vars))
 		return (false);
 	if (!load_axe(vars))
@@ -230,11 +204,19 @@ bool	open_texture(t_vars *vars)
 		return (false);
 	if(!load_player(vars))
 		return (false);
+	return (true);
+}
 
+bool	open_texture(t_vars *vars)
+{
+	t_data	*data;
+
+	
+	if (!load_weapons(vars))
+		return (false);
 	vars->door.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/door2.xpm" ,&vars->door.width, &vars->door.height);
 	if (!vars->door.img)
 		return (false);
-
 	vars->left_left.img = mlx_xpm_file_to_image(vars->mlx, "images/texture/door/left_left.xpm" ,&vars->left_left.width, &vars->left_left.height);
 	if (!vars->left_left.img)
 		return (false);
@@ -272,8 +254,6 @@ bool	open_texture(t_vars *vars)
 	vars->east.img = mlx_xpm_file_to_image(vars->mlx, vars->map->ea,&(vars->east.width), &(vars->east.height));
 	if (!vars->east.img)
 		return (false);
-	// data = &vars->sword;
-	// data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->door;
 	data->addr = mlx_get_data_addr(data->img,&data->bpp, &data->line_length, &data->endian);
 	data = &vars->left_left;
