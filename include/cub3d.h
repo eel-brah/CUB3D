@@ -193,6 +193,8 @@ typedef struct s_vars
 	t_data	down_up;
 	t_data	down_down;
 	
+	int		nb_text;
+	void	**texture;
 	t_status *status;
 }	t_vars;
 
@@ -310,8 +312,15 @@ int				ft_atoi_over(const char *str);
 void			exit_err(t_map *map, char *tmp, char *line, char *msg);
 t_map			*parse(char *file);
 bool			open_texture(t_vars *vars);
-
-
+bool	open_doors(t_vars *vars);
+bool	load_weapons(t_vars *vars);
+bool	load_sword(t_vars *vars);
+bool	load_axe(t_vars *vars);
+bool	load_pickaxe(t_vars *vars);
+bool	load_bow(t_vars *vars);
+bool	load_totem(t_vars *vars);
+bool	open_doors(t_vars *vars);
+bool	load_player(t_vars *vars);
 // animation
 int 	animation(t_vars *vars, t_item *item);
 void	animate(t_vars *vars);
