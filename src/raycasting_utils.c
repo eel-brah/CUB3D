@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:10 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:44:02 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:04:31 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	wall_hit_cord_h(t_vars *vars, t_player *player,
 	while (1)
 	{
 		a = isit_wall(vars, x, y - (up * 1));
-		if (a == 1 || a == 2)
+		if (a)
 		{
 			hitpoints->h_door = (a == 2);
 			hitpoints->h_x = x;
@@ -83,7 +83,7 @@ bool	wall_hit_cord_v(t_vars *vars, t_player *player,
 	while (1)
 	{
 		a = isit_wall(vars, x - (!right * 1), y);
-		if (a == 1 || a == 2)
+		if (a)
 		{
 			hitpoints->v_door = (a == 2);
 			hitpoints->v_x = x;

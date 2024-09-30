@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 12:11:37 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:04:03 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	init_bools(t_vars *vars)
 	vars->keys.left_key = false;
 	vars->keys.right_key = false;
 	vars->player->rotate = false;
+	vars->status->mm = true;
 }
 
 bool	init(t_vars	*vars)
@@ -66,8 +67,8 @@ void	init_player(t_vars *vars)
 	player->y = vars->map->player_y_pos * BLOCK_SIZE + BLOCK_SIZE / 2;
 	player->r = PLAYER_SIZE;
 	player->pa = vars->map->player_face;
-	player->steps = 2;
-	player->rspeed = deg2rad(2);
+	player->steps = PLAYER_SPEED;
+	player->rspeed = deg2rad(PLAYER_RSPEED);
 	vars->player->rotate = 0;
 	vars->player->mouse = 1;
 }

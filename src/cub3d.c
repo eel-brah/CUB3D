@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 12:32:48 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:03:25 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,6 @@ int	close_and_clear(t_vars *vars)
 	// destory images
 	exit(0);
 }
-
-
-// bool	check_wall_dis(t_vars *vars) // door has walls on the side
-// {
-// 	int i;
-// 	float angle;
-// 	int end;
-// 	int new_x;
-// 	int new_y;
-
-
-// 	angle = vars->player->pa + PI;
-// 	i = BLOCK_SIZE;
-// 	end = BLOCK_SIZE * 1.5;
-// 	while (i < end)
-// 	{
-// 		new_x = vars->player->x + (cos(angle + vars->player->rspeed) * i);
-// 		new_y = vars->player->y + (sin(angle + vars->player->rspeed) * i);
-// 		if (!(new_x >= 0 && new_y >= 0 && new_x < WIDTH && new_y < HEIGHT) || (new_x >= 0 && new_y >= 0 && new_x < WIDTH && new_y < HEIGHT 
-// 			&& (vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == '1' || vars->map->map[(new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE)] == 'C')))
-// 			return 0;
-// 		i++;
-// 	}
-// 	return 1;
-// }
 
 // void print_map(t_vars *vars)
 // {
@@ -83,7 +58,7 @@ int render(t_vars *vars)
 
 bool setup(t_vars *vars)
 {
-	ft_printf("\033[4;35m\033[1;95mCUB3D\033[0m \033[0;95mLouding...\033[0m\n");
+	ft_printf("\033[4;35m\033[1;95mCUB3D\033[0m \033[0;95mLoading...\033[0m\n");
 	if (!init(vars))
 	{
 		ft_putendl_fd("MLX faild", 2);
@@ -110,6 +85,25 @@ bool setup(t_vars *vars)
 	return true;
 }
 
+bool	parse_map(int argc, char **argv, t_vars *vars)
+{
+	t_map	*map;
+
+	if (argc != 2)
+	{
+		write(2, "Error\nUsage: ./cub3d map.cub\n", 30);
+		return (1);
+	}
+	map = parse(argv[1]);
+	if (!map)
+	{
+		write(2, "Parsing Failed\n", 16);
+		return (1);
+	}
+	vars->map = map;
+	return (0);
+}
+
 // F 64,64,                        +64 
 int	main(int argc, char **argv)
 {
@@ -118,28 +112,15 @@ int	main(int argc, char **argv)
 	t_player	player;
 	t_ray		ray;
 	t_status	status;
-	t_map		*map;
 
-	if (argc < 2)
-	{
-		write(2, "Error\nUsage: ./cub3d map.cub\n", 30);
-		return (-1);
-	}
-	map = parse(argv[1]);
-	if (!map)
-	{
-		write(2, "Parsing Failed\n", 16);
-		return (-1);
-	}
+	if (parse_map(argc, argv, &vars))
+		return (1);
 	vars.img = &img;
 	vars.player = &player;
 	vars.ray = &ray;
-	status.mm = 1;
 	vars.status = &status;
-	vars.map = map;
-	// print_map(&vars);
 	if (!setup(&vars))
 		return 1;
 	mlx_loop(vars.mlx);
-	free_map(map);
+	// free_map(map);
 }
