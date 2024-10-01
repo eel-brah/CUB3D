@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:24:25 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:49:04 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:22:43 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_data	*horizontal_texture(t_vars *vars, int i)
 		if (DOOR_OPEN && door_check(vars, x, y - 1) == 3
 			&& door_check(vars, x, y - 2) == 1)
 		{
-			if (vars->player->pa < PI / 2.0f || vars->player->pa > 1.5f * PI)
+			if (vars->door_right)
 				return (&vars->right_right);
 			return (&vars->right_left);
 		}
@@ -33,7 +33,7 @@ t_data	*horizontal_texture(t_vars *vars, int i)
 	else if (DOOR_OPEN && door_check(vars, x, y) == 3
 		&& door_check(vars, x, y + 1) == 1)
 	{
-		if (vars->player->pa < PI / 2.0f || vars->player->pa > 1.5f * PI)
+		if (vars->door_right)
 			return (&vars->left_left);
 		return (&vars->left_right);
 	}
@@ -52,7 +52,7 @@ t_data	*vertical_texture(t_vars *vars, int i)
 		if (DOOR_OPEN && door_check(vars, x - 1, y) == 3
 			&& door_check(vars, x - 2, y) == 1)
 		{
-			if (!(vars->player->pa > 0 && vars->player->pa < PI))
+			if (vars->door_up)
 				return (&vars->down_down);
 			return (&vars->down_up);
 		}
@@ -61,7 +61,7 @@ t_data	*vertical_texture(t_vars *vars, int i)
 	else if (DOOR_OPEN && door_check(vars, x, y) == 3
 		&& door_check(vars, x + 1, y) == 1)
 	{
-		if (!(vars->player->pa > 0 && vars->player->pa < PI))
+		if (vars->door_up)
 			return (&vars->up_down);
 		return (&vars->up_up);
 	}

@@ -6,22 +6,25 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:21:21 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:30:30 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:23:14 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-bool	check_door_in_map(char *map, int xy)
+bool	check_door_in_map(t_vars *vars, int xy, int x, int y)
 {
-	if (map[xy] == 'C')
+	(void)x;
+	if (vars->map->map[xy] == 'C')
 	{
-		map[xy] = 'O';
+		vars->map->map[xy] = 'O';
+		vars->door_up = (y / BLOCK_SIZE < vars->player->y / BLOCK_SIZE);
 		return (1);
 	}
-	else if (map[xy] == 'O')
+	else if (vars->map->map[xy] == 'O')
 	{
-		map[xy] = 'C';
+		vars->map->map[xy] = 'C';
+		vars->door_right = (x / BLOCK_SIZE > vars->player->x / BLOCK_SIZE);
 		return (1);
 	}
 	return (0);
@@ -38,13 +41,13 @@ void	open_close_door(t_vars *vars)
 	while (i < BLOCK_SIZE * 2)
 	{
 		new_x = vars->player->x
-			+ (cos(vars->player->pa + vars->player->rspeed) * i);
+			+ (cos(vars->player->pa) * i);
 		new_y = vars->player->y
-			+ (sin(vars->player->pa + vars->player->rspeed) * i);
+			+ (sin(vars->player->pa) * i);
 		if (new_x > 0 && new_y > 0 && new_x < WIDTH && new_y < HEIGHT)
 		{
 			xy = (new_y / BLOCK_SIZE) * vars->map->cols + (new_x / BLOCK_SIZE);
-			if (check_door_in_map(vars->map->map, xy))
+			if (check_door_in_map(vars, xy, new_x, new_y))
 				return ;
 		}
 		i++;

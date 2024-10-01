@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:39 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:38:14 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:16:22 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,8 @@ typedef struct s_vars
 	t_data		up_down;
 	t_data		down_up;
 	t_data		down_down;
+	bool		door_up;
+	bool		door_right;
 	int			nb_text;
 	void		**texture;
 	t_status	*status;
