@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 11:05:53 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:53:25 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	free_2d(char **tmp)
 	free(tmp);
 }
 
-static void	initial_map(t_map *map)
+static void	initial_map(t_map *map, int fd)
 {
 	map->no = NULL;
 	map->so = NULL;
@@ -61,6 +61,7 @@ static void	initial_map(t_map *map)
 	map->lst = NULL;
 	map->max_col = 0;
 	map->max_line = 0;
+	map->fd = fd;
 	map->c_color = 300;
 	map->f_color = 300;
 }
@@ -83,7 +84,7 @@ t_map	*parse(char *file)
 	map = malloc(sizeof(t_map));
 	if (map == NULL)
 		return (perror("malloc"), close(fd), exit(2), NULL);
-	initial_map(map);
+	initial_map(map, fd);
 	fill_map(map, fd, true, 0);
 	map->rows = map->max_line;
 	map->cols = map->max_col;

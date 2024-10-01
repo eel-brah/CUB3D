@@ -58,6 +58,7 @@ typedef struct s_map
 	unsigned int		f_color;
 	unsigned int		c_color;
 	int					max_col;
+	int					fd;
 	int					max_line;
 	int					player_x_pos;
 	int					player_y_pos;
