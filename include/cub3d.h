@@ -1,251 +1,64 @@
-#include <mlx.h>
-#include <stdlib.h> 
-#include <stdio.h>
-#include <math.h>
-#include <stdbool.h>
-#include <fcntl.h>
-#include <float.h>
-#include "../libft/include/libft.h"
-#include "get_next_line.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/01 13:11:56 by eel-brah          #+#    #+#             */
+/*   Updated: 2024/10/01 13:46:57 by eel-brah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include <unistd.h>
-# include <stdint.h>
+#ifndef CUB3D_H
+# define CUB3D_H
 
-#define PI 3.1415926535
+# include "cub3d_libs.h"
+# include "cub3d_defines.h"
+# include "cub3d_structs.h"
 
-#define BACKGROUND 0x00383c40
-#define PLAYER_COLOR 0x00FFFF00
-#define DIRC_LINE 0x0000FF00
-#define PLAYER_SIZE 14
-#define PLAYER_SPEED 3
-#define PLAYER_RSPEED 2
-#define DOOR_OPEN 1
+// Raycasting
+void			init_ray(t_vars *vars);
+void			cast_rays(t_vars *vars);
+float			distance(float x1, float y1, float x2, float y2);
+bool			wall_hit_cord_v(t_vars *vars, t_player *player,
+					t_hitpoint *hitpoints, float angle);
+bool			wall_hit_cord_h(t_vars *vars, t_player *player,
+					t_hitpoint *hitpoints, float angle);
+int				isit_wall(t_vars *vars, float x, float y);
 
-#define MMC 0x00EAE4DD
-#define DRCC 0x00A04747
-#define DROC 0x00D8A25E
-#define WALL_COLOR 0x00181C14
-#define SEALING_COLOR 0x00ECDFCC
-#define FLOOR_COLOR 0x003C3D37
-#define BORDER_COLOR 0x00295F98
+// Walls
+void			draw_wall(t_vars *vars);
+void			wall_hit_cord(t_vars *vars, t_player *player,
+					t_rays *ray, float angle);
+void			open_close_door(t_vars *vars);
+t_data			*get_texture(t_vars *vars, int i);
+int				door_check(t_vars *vars, float tx, float ty);
 
-#define MAX_ROTATION_SPEED 20.0f
-#define SENSITIVITY 0.001f
+// Player
+void			init_player(t_vars *vars);
+void			player_movement(t_vars *vars, int dirc, int sp);
+void			player_rotation(t_vars *vars, float dirc);
+void			move_rotate_player(t_vars *vars);
 
-#define HEIGHT 1080
-#define WIDTH 1920
-#define BLOCK_SIZE 50
-#define MMSF 0.3
-#define MMSIZE 12
-#define MMSHIFT 10
+// Drawing
+int				render(t_vars *vars);
+int				animation(t_vars *vars, t_item *item);
+void			animate(t_vars *vars);
 
-# define ESC_KEY 53
-# define UP_KEY 126
-# define DOWN_KEY 125
-# define RIGHT_KEY 124
-# define LEFT_KEY 123
-# define UP_W_KEY 13
-# define DOWN_S_KEY 1
-# define RIGHT_D_KEY 2
-# define LEFT_A_KEY 0
-
-typedef struct s_map
-{
-	char				*no;
-	char				*so;
-	char				*we;
-	char				*ea;
-	unsigned int		f_color;
-	unsigned int		c_color;
-	int					max_col;
-	int					fd;
-	int					max_line;
-	int					player_x_pos;
-	int					player_y_pos;
-	float				player_face;
-	int					rows;
-	int					cols;
-	int					old_x;
-	char				*map;
-	t_list				*lst;
-}	t_map;
-
-typedef struct	s_data {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_length;
-	int		endian;
-	int		width;
-	int		height;
-}	t_data;
-typedef struct s_player
-{
-	float	x;
-	float	y;
-	float	r;
-	float	pa;
-	float	steps;
-	float	rspeed;
-	bool	rotate;
-	bool	rotate2;
-	float		ra;
-	float		mouse;
-}	t_player;
-typedef	struct s_mini
-{
-	int x;
-	int y;
-	int xmax;
-	int ymax;
-	int player_poz_x;
-	int player_poz_y;
-	int	height;
-	int	width;
-}	t_mini;
-typedef struct s_ray
-{
-	float	fov;
-	int		rays_num;
-	float	proj_wall_dis;
-}	t_ray;
-typedef struct s_rays
-{
-	float	x_whpoint;
-	float	y_whpoint;
-	float	hit_dis;
-	float	angle;
-	bool	is_vertical;
-	bool	is_door;
-}	t_rays;
-
-typedef struct s_keys
-{
-	bool	left_key;
-	bool	right_key;
-	bool	up_key;
-	bool	down_key;
-	bool	s_key;
-	bool	w_key;
-	bool	a_key;
-	bool	d_key;
-}	t_keys;
-
-typedef struct	s_wall
-{
-	float	height;
-	int		top;
-	int		bottom;
-	t_data	*texture;
-}	t_wall;
-
-typedef struct s_hitpoint
-{
-    float	 h_x;
-    float 	v_x;
-    float 	h_y;
-    float 	v_y;
-	bool	v_door;
-	bool	h_door;
-}   t_hitpoint;
-
-typedef struct s_status
-{
-	bool	mm;
-	bool	full_map;
-	bool	player_animate_hit;
-	bool	player_animate_shield;
-	t_data	current;
-	bool	cam;
-	int		k;
-}	t_status;
-
-typedef	struct s_item
-{
-
-	t_data	item[4];
-	bool	animate;
-}	t_item;
-
-typedef struct s_vars
-{
-	void	*mlx;
-	void	*win;
-	t_data	*img;
-	t_item	items[9];
-	t_data	player_cam[7];
-	t_data	player_cam_shield;
-	t_map	*map;
-	t_player *player;
-	t_rays	*rays;
-	t_ray	*ray;
-	t_keys	keys;
-
-	t_data	north;
-	t_data	west;
-	t_data	south;
-	t_data	east;
-
-	t_data	door;
-	t_data	left_left;
-	t_data	left_right;
-	t_data	right_left;
-	t_data	right_right;
-	t_data	up_up;
-	t_data	up_down;
-	t_data	down_up;
-	t_data	down_down;
-	
-	int		nb_text;
-	void	**texture;
-	t_status *status;
-}	t_vars;
-
-typedef struct s_line
-{
-	int				x1;
-	int				y1;
-	int				x2;
-	int				y2;
-}	t_line;
-
-typedef struct s_delta
-{
-	int	dx;
-	int	dy;
-	int	d;
-	int	xs;
-	int	ys;
-}	t_delta;
-
-typedef struct	s_circ
-{
-	int	xc;
-	int	yc;
-	int	x;
-	int	y;
-}	t_circ;
-
-typedef	struct s_cols
-{
-	float	x;
-	float	y;
-	int		ty;
-	int		tx;
-}	t_cols;
-
-typedef	struct s_step
-{
-	float	x;
-	float	y;
-}	t_step;
-
-// Functions
-
-bool	init(t_vars	*vars);
-int		clear_and_close(t_vars *vars);
-int render(t_vars *vars);
-
+// Minimap
+void			draw_minimap_player(t_vars *vars);
+void			draw_minimap(t_vars *vars, t_mini *minimap,
+					int height, int width);
+void			draw_block(t_vars *vars, int x, int y, char c);
+void			draw_player(t_vars *vars, t_mini *minimap);
+void			draw_border(t_vars *vars, int height, int width);
+void			draw_mm_background(int height, int width, t_vars *vars);
+void			draw_block(t_vars *vars, int x, int y, char c);
+void			fix_minimap_y(t_vars *vars, t_mini *minimap);
+void			fix_minimap_x(t_vars *vars, t_mini *minimap);
+int				get_block_x(float x);
+int				get_block_y(float y);
 
 // Utils
 void			put_pixel(t_vars *vars, int x, int y, unsigned int color);
@@ -255,48 +68,15 @@ float			deg2rad(float deg);
 unsigned int	create_trgb(int t, int r, int g, int b);
 unsigned int	get_color_from_img(t_data *data, int x, int y);
 
-// Minimap
-void 	draw_minimap_player(t_vars *vars);
-void    draw_minimap(t_vars *vars, t_mini *minimap, int height, int width);
-void	draw_block(t_vars *vars, int x, int y, char c);
-void	draw_player(t_vars *vars, t_mini *minimap);
-void	draw_border(t_vars *vars, int height, int width);
-void	draw_mm_background(int height, int width, t_vars *vars);
-void	draw_block(t_vars *vars, int x, int y, char c);
-void	fix_minimap_y(t_vars *vars, t_mini *minimap);
-void	fix_minimap_x(t_vars *vars, t_mini *minimap);
-int		get_block_x(float x);
-int		get_block_y(float y);
-
-// Player
-void	init_player(t_vars *vars);
-void	player_movement(t_vars *vars, int dirc, int sp);
-void	player_rotation(t_vars *vars, float dirc);
-void	move_rotate_player(t_vars *vars);
-
-int		isit_wall(t_vars *vars, float x, float y);
+// Init & Close
+bool			init(t_vars	*vars);
+int				clear_and_close(t_vars *vars);
 
 // Inputs
-int	key_realese(int keysym, t_vars *vars);
-int	key_press(int keysym, t_vars *vars);
-int mouse_move(int x, int y, t_vars *vars);
-int mouse_hook(int b, int x, int y, t_vars *vars);
-
-// Raycasting
-void	init_ray(t_vars *vars);
-void	cast_rays(t_vars *vars);
-float	distance(float x1, float y1, float x2, float y2);
-// void	draw_rays(t_vars *vars);
-bool	wall_hit_cord_v(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle);
-bool	wall_hit_cord_h(t_vars *vars, t_player *player, t_hitpoint *hitpoints, float angle);
-
-
-// Walls
-void 	draw_wall(t_vars *vars);
-void	wall_hit_cord(t_vars *vars, t_player *player, t_rays *ray, float angle);
-void	open_close_door(t_vars *vars);
-t_data	*get_texture(t_vars *vars, int i);
-int	door_check(t_vars *vars, float tx, float ty);
+int				key_realese(int keysym, t_vars *vars);
+int				key_press(int keysym, t_vars *vars);
+int				mouse_move(int x, int y, t_vars *vars);
+int				mouse_hook(int b, int x, int y, t_vars *vars);
 
 // Parsing
 unsigned int	get_color(char **spl);
@@ -315,18 +95,17 @@ int				ft_atoi_over(const char *str);
 void			exit_err(t_map *map, char *tmp, char *line, char *msg);
 t_map			*parse(char *file);
 bool			load_images(t_vars *vars);
-bool	load_door(t_vars *vars);
-bool	load_weapons_player(t_vars *vars);
-bool	load_sword(t_vars *vars);
-bool	load_axe(t_vars *vars);
-bool	load_pickaxe(t_vars *vars);
-bool	load_bow(t_vars *vars);
-bool	load_totem(t_vars *vars);
-bool	load_door(t_vars *vars);
-bool	load_player(t_vars *vars);
-void	mlx_get_data(t_data *data);
-bool	mlx_xpm(t_vars *var, t_data *data, char *s);
-void	free_texture(t_vars *vars, void **data);
-// animation
-int 	animation(t_vars *vars, t_item *item);
-void	animate(t_vars *vars);
+bool			load_door(t_vars *vars);
+bool			load_weapons_player(t_vars *vars);
+bool			load_sword(t_vars *vars);
+bool			load_axe(t_vars *vars);
+bool			load_pickaxe(t_vars *vars);
+bool			load_bow(t_vars *vars);
+bool			load_totem(t_vars *vars);
+bool			load_door(t_vars *vars);
+bool			load_player(t_vars *vars);
+void			mlx_get_data(t_data *data);
+bool			mlx_xpm(t_vars *var, t_data *data, char *s);
+void			free_texture(t_vars *vars, void **data);
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 11:13:13 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:57:44 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	clear_and_close(t_vars *vars)
 	exit(0);
 }
 
-int render(t_vars *vars)
+int	render(t_vars *vars)
 {
 	move_rotate_player(vars);
 	cast_rays(vars);
@@ -53,9 +53,9 @@ bool	setup(t_vars *vars)
 	}
 	init_ray(vars);
 	init_player(vars);
-    mlx_hook(vars->win, 2, 0, key_press, vars);
-    mlx_hook(vars->win, 3, 0, key_realese, vars);
-    mlx_hook(vars->win, 4, 0, mouse_hook, vars);
+	mlx_hook(vars->win, 2, 0, key_press, vars);
+	mlx_hook(vars->win, 3, 0, key_realese, vars);
+	mlx_hook(vars->win, 4, 0, mouse_hook, vars);
 	mlx_hook(vars->win, 6, 0, mouse_move, vars);
 	mlx_hook(vars->win, 17, 0, clear_and_close, vars);
 	mlx_loop_hook(vars->mlx, render, vars);
@@ -96,7 +96,7 @@ int	main(int argc, char **argv)
 	vars.ray = &ray;
 	vars.status = &status;
 	if (!setup(&vars))
-		return 1;
+		return (1);
 	mlx_loop(vars.mlx);
 	clear_and_close(&vars);
 }

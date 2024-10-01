@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:21:21 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:37:00 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:30:30 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,9 @@ int	door_check(t_vars *vars, float tx, float ty)
 
 	flag = ty >= 0 && ty < vars->map->rows && tx >= 0 && tx < vars->map->cols;
 	xy = ty * vars->map->cols + tx;
-	if (flag && vars->map->map[xy] == '0')
-		return (0);
-	if (flag && vars->map->map[xy] == 'C')
-		return (2);
+	if (flag && vars->map->map[xy] == '1')
+		return (1);
 	if (flag && vars->map->map[xy] == 'O')
 		return (3);
-	return (1);
+	return (0);
 }

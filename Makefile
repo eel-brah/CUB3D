@@ -13,7 +13,7 @@ SRC := cub3d.c player.c draw_line.c draw_circel.c utils.c raycasting.c get_next_
 		inputs_key.c inputs_mouse.c animation.c init.c raycasting_utils.c minimap.c minimap_border.c minimap_utils.c texture_door.c texture_weapons1.c texture_weapons2.c \
 		texture_player.c 
 
-INCLUDE := cub3d.h get_next_line.h
+INCLUDE := cub3d.h get_next_line.h cub3d_defines.h cub3d_libs.h cub3d_structs.h
 
 INCLUDE := $(addprefix $(INCLUDE_DIR)/,$(INCLUDE))
 

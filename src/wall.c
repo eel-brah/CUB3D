@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:44 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 11:29:54 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:27:31 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,10 @@ void	draw_wall(t_vars *vars)
 		wall.texture = get_texture(vars, i);
 		x = get_image_x(vars, i, wall.texture->width);
 		y = wall.top;
+		wall.norm = (wall.height / 2.0f) - (HEIGHT / 2.0f);
 		while (y < wall.bottom)
 		{
-			ry = y + ((wall.height / 2.0f) - (HEIGHT / 2.0f));
+			ry = y + wall.norm;
 			put_pixel(vars, i, y, get_color_from_img(wall.texture, x,
 					ry * (wall.texture->height / wall.height)));
 			y++;

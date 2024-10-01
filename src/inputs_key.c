@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:05:47 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:11:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:55:16 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	key_realese(int keysym, t_vars *vars)
 {
-	if (keysym == 259)
+	if (keysym == CMD_KEY)
 	{
 		if (vars->status->cam)
 			vars->player->pa -= PI;
@@ -36,9 +36,9 @@ int	key_realese(int keysym, t_vars *vars)
 		vars->keys.left_key = false;
 	else if (keysym == RIGHT_KEY)
 		vars->keys.right_key = false;
-	else if (keysym == 35)
+	else if (keysym == P_KEY)
 		vars->status->full_map = false;
-	return 0;
+	return (1);
 }
 
 void	cam_preparation(t_vars *vars)
@@ -59,7 +59,7 @@ void	cam_preparation(t_vars *vars)
 	vars->player->rotate = false;
 }
 
-void	key_press_mv(int keysym, t_vars* vars)
+void	key_press_mv(int keysym, t_vars *vars)
 {
 	if (keysym == UP_KEY)
 		vars->keys.up_key = true;
@@ -81,19 +81,19 @@ void	key_press_mv(int keysym, t_vars* vars)
 
 int	key_press(int keysym, t_vars *vars)
 {
-	if (keysym == 259)
+	if (keysym == CMD_KEY)
 		cam_preparation(vars);
 	else if (!vars->status->cam)
-	{	
+	{
 		key_press_mv(keysym, vars);
-		if (keysym == 49)
+		if (keysym == SPACE_KEY)
 			open_close_door(vars);
-		else if (keysym == 46)
+		else if (keysym == M_KEY)
 			vars->status->mm = !(vars->status->mm);
-		else if (keysym == 35)
+		else if (keysym == P_KEY)
 			vars->status->full_map = true;
 	}
 	if (keysym == ESC_KEY)
 		clear_and_close(vars);
-	return 1;
+	return (1);
 }
