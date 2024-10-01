@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   texture_door.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:13:10 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:58:08 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:11:18 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-bool	open_door1(t_vars *vars)
+bool	load_door1(t_vars *vars)
 {
 	if (!mlx_xpm(vars, &vars->left_left, "images/texture/door/left_left.xpm"))
 		return (false);
@@ -25,7 +25,7 @@ bool	open_door1(t_vars *vars)
 	return (vars->texture[vars->nb_text++] = vars->right_left.img, true);
 }
 
-bool	open_door2(t_vars *vars)
+bool	load_door2(t_vars *vars)
 {
 	if (!mlx_xpm(vars, &vars->right_right, "images/texture/door/r_right.xpm"))
 		return (false);
@@ -45,46 +45,36 @@ bool	open_door2(t_vars *vars)
 	return (true);
 }
 
-bool	open_door3(t_vars *vars)
+void	load_door3(t_vars *vars)
 {
-	if (!mlx_get_data(&vars->door))
-		return (false);
-	if (!mlx_get_data(&vars->left_left))
-		return (false);
-	if (!mlx_get_data(&vars->left_right))
-		return (false);
-	if (!mlx_get_data(&vars->right_left))
-		return (false);
-	return (true);
+	mlx_get_data(&vars->left_left);
+	mlx_get_data(&vars->left_right);
+	mlx_get_data(&vars->right_left);
 }
 
-bool	open_door4(t_vars *vars)
+void	load_door4(t_vars *vars)
 {
-	if (!mlx_get_data(&vars->right_right))
-		return (false);
-	if (!mlx_get_data(&vars->up_up))
-		return (false);
-	if (!mlx_get_data(&vars->up_down))
-		return (false);
-	if (!mlx_get_data(&vars->down_down))
-		return (false);
-	if (!mlx_get_data(&vars->down_up))
-		return (false);
-	return (true);
+	mlx_get_data(&vars->right_right);
+	mlx_get_data(&vars->up_up);
+	mlx_get_data(&vars->up_down);
+	mlx_get_data(&vars->down_down);
+	mlx_get_data(&vars->down_up);
 }
 
-bool	open_door(t_vars *vars)
+bool	load_door(t_vars *vars)
 {
 	if (!mlx_xpm(vars, &vars->door, "images/texture/door/door2.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->door.img;
-	if (!open_door1(vars))
-		return (false);
-	if (!open_door2(vars))
-		return (false);
-	if (!open_door3(vars))
-		return (false);
-	if (!open_door4(vars))
-		return (false);
+	mlx_get_data(&vars->door);
+	if (DOOR_OPEN)
+	{
+		if (!load_door1(vars))
+			return (false);
+		if (!load_door2(vars))
+			return (false);
+		load_door3(vars);
+		load_door4(vars);
+	}
 	return (true);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_player.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:21:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:56:12 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/01 10:44:04 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@ bool	mlx_xpm(t_vars *var, t_data *data, char *s)
 	return (true);
 }
 
-bool	mlx_get_data(t_data *data)
+void	mlx_get_data(t_data *data)
 {
 	data->addr = mlx_get_data_addr(data->img, \
 	&data->bpp, &data->line_length, &data->endian);
-	if (!data->addr)
-		return (false);
-	return (true);
 }
 
 bool	load_player1(t_vars *vars)

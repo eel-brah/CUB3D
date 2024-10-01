@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture_weapons2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:16:25 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 17:30:45 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:10:17 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ bool	load_food(t_vars *vars)
 	return (true);
 }
 
-bool	load_weapons(t_vars *vars)
+bool	load_weapons_player(t_vars *vars)
 {
 	if (!load_sword(vars))
 		return (false);

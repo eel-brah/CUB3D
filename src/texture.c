@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:15:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/30 18:02:55 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:12:06 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-bool	open_wall_text1(t_vars *vars)
+bool	load_texture1(t_vars *vars)
 {
 	if (!mlx_xpm(vars, &vars->north, vars->map->no))
 		return (false);
@@ -29,18 +29,14 @@ bool	open_wall_text1(t_vars *vars)
 	return (true);
 }
 
-bool	open_wall_text(t_vars *vars)
+bool	load_texture(t_vars *vars)
 {
-	if (!open_wall_text1(vars))
+	if (!load_texture1(vars))
 		return (false);
-	if (!mlx_get_data(&vars->north))
-		return (false);
-	if (!mlx_get_data(&vars->west))
-		return (false);
-	if (!mlx_get_data(&vars->south))
-		return (false);
-	if (!mlx_get_data(&vars->east))
-		return (false);
+	mlx_get_data(&vars->north);
+	mlx_get_data(&vars->west);
+	mlx_get_data(&vars->south);
+	mlx_get_data(&vars->east);
 	return (true);
 }
 // free after malloc
@@ -51,9 +47,8 @@ bool	alloc_and_set_text(t_vars *vars)
 
 	i = 0;
 	vars->texture = malloc(sizeof(void *) * 58);
-	vars->texture = NULL;
 	if (!vars->texture)
-		return (write(2, "malloc failled \n", 16), false);
+		return (write(2, "Malloc failed\n", 15), false);
 	while (i < 58)
 	{
 		vars->texture[i] = NULL;
@@ -62,15 +57,15 @@ bool	alloc_and_set_text(t_vars *vars)
 	return (true);
 }
 
-bool	open_texture(t_vars *vars)
+bool	load_images(t_vars *vars)
 {
 	if (!alloc_and_set_text(vars))
 		return (false);
-	if (!load_weapons(vars))
+	if (!load_weapons_player(vars))
 		return (false);
-	if (!open_door(vars))
+	if (!load_door(vars))
 		return (false);
-	if (!open_wall_text(vars))
+	if (!load_texture(vars))
 		return (false);
 	return (true);
 }

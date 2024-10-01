@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/29 18:48:26 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:05:53 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_map	*parse(char *file)
 		return (perror("open"), write(2, "Error\n", 6), exit(1), NULL);
 	map = malloc(sizeof(t_map));
 	if (map == NULL)
-		return (perror("malloc"), exit(2), NULL);
+		return (perror("malloc"), close(fd), exit(2), NULL);
 	initial_map(map);
 	fill_map(map, fd, true, 0);
 	map->rows = map->max_line;
