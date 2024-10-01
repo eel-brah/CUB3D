@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/09/28 16:36:31 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:06:21 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,33 +53,6 @@ bool	is_all_num(char **arr)
 	return (true);
 }
 
-int	len_2d(char **sp)
-{
-	int	i;
-
-	i = 0;
-	while (sp && sp[i])
-		i++;
-	return (i);
-}
-
-bool	check_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] && (line[i + 1] && line[i] != '\n'))
-	{
-		if (line[i] != '1' && line[i] != '0' && line[i] != ' ' && line[i] != 'N'
-			&& line[i] != 'S' && line[i] != 'E' && line[i] != 'W' && line[i] != 'C')
-		{
-			return (false);
-		}
-		i++;
-	}
-	return (true);
-}
-
 static bool	fill_path(t_map *map, char *line, char **path)
 {
 	if (*path)
@@ -110,13 +83,13 @@ bool	fill_wall(t_map *map, char *line, int *count)
 	else if (line[0] == 'C' && line[1])
 	{
 		if (map->c_color != 300)
-			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), false);
+			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), 0);
 		fill_color(map, line);
 	}
 	else if (line [0] == 'F' && line[1] && map->f_color == 300)
 	{
 		if (map->f_color != 300)
-			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), false);
+			return (exit_err(map, NULL, line, "Duplicate Color"), exit(1), 0);
 		fill_color(map, line);
 	}
 	else if (line[0] == '0' || line[0] == '1')
