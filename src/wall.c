@@ -6,13 +6,13 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:44 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 17:22:34 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:44:22 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/cub3d.h"
 
-void	color_sealing_floor(int x, int top, int bottom, t_vars *vars)
+void	color_ceiling_floor(int x, int top, int bottom, t_vars *vars)
 {
 	int	i;
 
@@ -76,7 +76,7 @@ void	draw_wall(t_vars *vars)
 					ry * (wall.texture->height / wall.height)));
 			y++;
 		}
-		color_sealing_floor(i, wall.top, wall.bottom, vars);
+		color_ceiling_floor(i, wall.top, wall.bottom, vars);
 		i++;
 	}
 }
