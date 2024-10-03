@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utilis2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:38:26 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:01:11 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:33:10 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	*fill_array(t_map *map, int player)
 
 void	exit_err(t_map *map, char *tmp, char *line, char *msg)
 {
+	close(map->fd);
 	free_map(map);
 	free(tmp);
 	free(line);
-	close(map->fd);
 	write (2, "Error\n", 6);
 	while (msg && *msg)
 	{

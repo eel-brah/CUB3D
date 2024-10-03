@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:35 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:55:05 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:06:34 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 	draw_line(vars, line, DIRC_LINE);
 }
 
-void	draw_player(t_vars *vars, t_mini *minimap)
+void	player(t_vars *vars, t_mini *minimap)
 {
 	float	mpx;
 	float	mpy;
@@ -32,7 +32,7 @@ void	draw_player(t_vars *vars, t_mini *minimap)
 	mpx = vars->player->x - minimap->x * BLOCK_SIZE;
 	mpy = vars->player->y - minimap->y * BLOCK_SIZE;
 	mpr = vars->player->r;
-	draw_circle(vars, mpx * MMSF + MMSHIFT, mpy * MMSF + MMSHIFT, mpr * MMSF);
+	draw_player(vars, mpx * MMSF + MMSHIFT, mpy * MMSF + MMSHIFT, mpr * MMSF);
 	draw_dirc_line(vars, mpx, mpy, vars->player);
 }
 
@@ -98,6 +98,6 @@ void	draw_minimap_player(t_vars *vars)
 	fix_minimap_y(vars, &minimap);
 	fix_minimap_x(vars, &minimap);
 	draw_minimap(vars, &minimap, hight, width);
-	draw_player(vars, &minimap);
+	player(vars, &minimap);
 	draw_border(vars, hight, width);
 }

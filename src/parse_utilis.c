@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:34:44 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 11:51:35 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:35:12 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	failed_malloc_in_color(t_map *map, char *line, char *tmp1)
 {
+	close(map->fd);
 	perror("malloc");
 	free_map(map);
-	close(map->fd);
 	free(line);
 	free(tmp1);
 	exit(1);
@@ -24,11 +24,11 @@ static void	failed_malloc_in_color(t_map *map, char *line, char *tmp1)
 
 static void	free_in_color(t_map *map, char *line, char **tmp, char *tmp1)
 {
+	close(map->fd);
 	free_map(map);
 	free(line);
 	free(tmp1);
 	free_2d(tmp);
-	close(map->fd);
 	write(2, "Error\nerror in color\n", 21);
 	exit(1);
 }
@@ -69,7 +69,7 @@ void	fill_color(t_map *map, char *line)
 	unsigned int	color;
 
 	tmp = NULL;
-	tmp1 = ft_strtrim(line + 1, " 	\n");
+	tmp1 = ft_strtrim(line + 1, " \n");
 	if (!tmp1)
 		failed_malloc_in_color(map, line, NULL);
 	if (nb_semicolone(tmp1))

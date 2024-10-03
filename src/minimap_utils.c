@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:50:43 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:56:52 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:53:14 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ void	draw_block(t_vars *vars, int x, int y, char c)
 	int				my;
 	unsigned int	color;
 
-	if (c == '0')
-		color = vars->map->f_color;
-	else if (c == '1')
-		color = 0;
+	color = (c == '0') * (vars->map->f_color);
+	if (c == 'V')
+		color = MMOC;
 	else if (c == 'C')
 		color = DRCC;
 	else if (c == 'O')

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:11:56 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:46:57 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:06:34 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void			draw_minimap_player(t_vars *vars);
 void			draw_minimap(t_vars *vars, t_mini *minimap,
 					int height, int width);
 void			draw_block(t_vars *vars, int x, int y, char c);
-void			draw_player(t_vars *vars, t_mini *minimap);
+void			player(t_vars *vars, t_mini *minimap);
 void			draw_border(t_vars *vars, int height, int width);
 void			draw_mm_background(int height, int width, t_vars *vars);
 void			draw_block(t_vars *vars, int x, int y, char c);
@@ -63,7 +63,7 @@ int				get_block_y(float y);
 // Utils
 void			put_pixel(t_vars *vars, int x, int y, unsigned int color);
 void			draw_line(t_vars *vars, t_line line, unsigned int color);
-void			draw_circle(t_vars *vars, int xc, int yc, int r);
+void			draw_player(t_vars *vars, int xc, int yc, int r);
 float			deg2rad(float deg);
 unsigned int	create_trgb(int t, int r, int g, int b);
 unsigned int	get_color_from_img(t_data *data, int x, int y);

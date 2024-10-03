@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 10:39:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:27:56 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	init_bools(t_vars *vars)
 	vars->keys.right_key = false;
 	vars->player->rotate = false;
 	vars->status->mm = true;
+	vars->status->full_map = false;
 }
 
 bool	init(t_vars	*vars)

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:13:09 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:43:09 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/03 14:27:36 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define PI 3.1415926535
 
 // Player
-# define PLAYER_SIZE 14
+# define PLAYER_SIZE 10
 # define PLAYER_SPEED 3
 # define PLAYER_RSPEED 2
 
@@ -26,7 +26,7 @@
 // Colors
 # define PLAYER_COLOR 0x00FFFF00
 # define DIRC_LINE 0x0000FF00
-# define MMC 0x00EAE4DD
+# define MMOC 0x001E3E62
 # define DRCC 0x00A04747
 # define DROC 0x00D8A25E
 # define WALL_COLOR 0x00181C14
@@ -43,8 +43,8 @@
 # define WIDTH 1920
 
 // Map
-# define BLOCK_SIZE 50
-# define MMSF 0.3
+# define BLOCK_SIZE 32
+# define MMSF 0.5
 # define MMSIZE 12
 # define MMSHIFT 10
 

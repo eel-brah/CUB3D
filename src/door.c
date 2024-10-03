@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:21:21 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 17:23:14 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:20:59 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@ bool	check_door_in_map(t_vars *vars, int xy, int x, int y)
 	{
 		vars->map->map[xy] = 'O';
 		vars->door_up = (y / BLOCK_SIZE < vars->player->y / BLOCK_SIZE);
+		vars->door_right = (x / BLOCK_SIZE > vars->player->x / BLOCK_SIZE);
 		return (1);
 	}
 	else if (vars->map->map[xy] == 'O')
 	{
 		vars->map->map[xy] = 'C';
+		vars->door_up = (y / BLOCK_SIZE < vars->player->y / BLOCK_SIZE);
 		vars->door_right = (x / BLOCK_SIZE > vars->player->x / BLOCK_SIZE);
 		return (1);
 	}

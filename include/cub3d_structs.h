@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:39 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 17:16:22 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:15:04 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_keys
 typedef struct s_wall
 {
 	float	height;
-	float	norm;
+	int		norm;
 	int		top;
 	int		bottom;
 	t_data	*texture;

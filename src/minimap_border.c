@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap_border.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:52:17 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:53:07 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:51:15 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	draw_mm_background(int height, int width, t_vars *vars)
 	{
 		x = MMSHIFT;
 		while (x < mx)
-			put_pixel(vars, x++, y, 0x00);
+			put_pixel(vars, x++, y, MMOC);
 		y++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:50:38 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:46:51 by eel-brah         ###   ########.fr       */
+/*   Updated: 2024/10/02 14:06:34 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	put_cpixels(t_vars *vars, t_circ *circ)
 	fill_circ(vars, circ);
 }
 
-void	draw_circle(t_vars *vars, int xc, int yc, int r)
+void	draw_player(t_vars *vars, int xc, int yc, int r)
 {
 	t_circ	circ;
 	int		d;

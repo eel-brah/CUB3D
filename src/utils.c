@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:27 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:37:05 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:06:16 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ unsigned int	get_color_from_img(t_data *data, int x, int y)
 	char	*dst;
 
 	dst = data->addr + (y * data->line_length + x * (data->bpp / 8));
-	// return (160 << 24 | *(unsigned int*)dst);
 	return (*(unsigned int *)dst);
 }

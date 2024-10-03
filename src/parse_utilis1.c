@@ -6,7 +6,7 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:03:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:06:21 by amokhtar         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:36:28 by amokhtar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ bool	is_all_num(char **arr)
 	j = 0;
 	while (arr && arr[j])
 	{
-		tmp = ft_strtrim(arr[j], "	 ");
+		tmp = ft_strtrim(arr[j], " ");
 		i = 0;
 		while (tmp[i])
 		{
