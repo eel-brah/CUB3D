@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:21:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:29:57 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:01:47 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ bool	load_player1(t_vars *vars)
 	return (true);
 }
 
+void	load_player3(t_vars *vars)
+{
+  for (int i = 0; i < 7; i++)
+    mlx_get_data(&vars->player_cam[i]);
+	mlx_get_data(&vars->player_cam_shield);
+}
 bool	load_player(t_vars *vars)
 {
 	if (!load_player1(vars))
@@ -64,8 +70,10 @@ bool	load_player(t_vars *vars)
 			"images/cam/shield2.xpm"))
 		return (false);
 	vars->texture[vars->nb_text++] = vars->player_cam_shield.img;
+  load_player3(vars);
 	return (true);
 }
+
 
 void	free_texture(t_vars *vars, void **data)
 {

@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:16:25 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:39:17 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:00:50 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,13 @@ bool	load_food(t_vars *vars)
 	return (true);
 }
 
+void	load_items(t_vars *vars)
+{
+  for (int j = 0; j < 9; j++){
+    for (int i = 0; i < 4; i++)
+      mlx_get_data(&vars->items[j].item[i]);
+  }
+}
 bool	load_weapons_player(t_vars *vars)
 {
 	if (!load_sword(vars))
@@ -102,5 +109,7 @@ bool	load_weapons_player(t_vars *vars)
 		return (false);
 	if (!load_player(vars))
 		return (false);
+
+  load_items(vars);
 	return (true);
 }

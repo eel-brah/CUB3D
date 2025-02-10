@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:05:54 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:54:18 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 09:33:27 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	mouse_hook_helper(int b, t_vars *vars)
 {
 	static int	i = 0;
 
-	if (b == 4 || b == 2)
+	if (b == SCROLL_DOWN || b == RIGHT_CLICK)
 	{
 		i++;
 		i = i % 9;
@@ -68,7 +68,7 @@ void	mouse_hook_helper(int b, t_vars *vars)
 		vars->items[!(i == 8) * (i + 1)].animate = false;
 		vars->items[(i == 0) * 8 + !(i == 0) * (i - 1)].animate = false;
 	}
-	else if (b == 5 || b == 1)
+	else if (b == SCROLL_UP || b == LEFT_CLICK)
 	{
 		i--;
 		i = (i == -1) * 8 + !(i == -1) * i;
@@ -83,14 +83,14 @@ int	mouse_hook(int b, int x, int y, t_vars *vars)
 	(void)vars;
 	(void)y;
 	(void)x;
-	if (b == 3)
+	if (b == SCROLL_CLICK)
 	{
 		vars->player->mouse = !(vars->player->mouse);
 		vars->player->rotate = 0;
 	}
-	else if (vars->status->cam && b == 1)
+	else if (vars->status->cam && b == LEFT_CLICK)
 		vars->status->player_animate_hit = true;
-	else if (vars->status->cam && b == 2)
+	else if (vars->status->cam && b == RIGHT_CLICK)
 		vars->status->player_animate_shield = true;
 	else if (!vars->status->cam)
 		mouse_hook_helper(b, vars);

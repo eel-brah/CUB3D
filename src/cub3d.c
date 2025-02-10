@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 13:57:44 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/07 21:56:49 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ bool	setup(t_vars *vars)
 	}
 	init_ray(vars);
 	init_player(vars);
-	mlx_hook(vars->win, 2, 0, key_press, vars);
-	mlx_hook(vars->win, 3, 0, key_realese, vars);
-	mlx_hook(vars->win, 4, 0, mouse_hook, vars);
-	mlx_hook(vars->win, 6, 0, mouse_move, vars);
-	mlx_hook(vars->win, 17, 0, clear_and_close, vars);
+	mlx_hook(vars->win, 2, 1L<<0, key_press, vars);
+	mlx_hook(vars->win, 3, 1L<<1, key_realese, vars);
+	mlx_hook(vars->win, 4, 1L<<2, mouse_hook, vars);
+	mlx_hook(vars->win, 6, 1L<<6, mouse_move, vars);
+	mlx_hook(vars->win, 17, 1L<<17, clear_and_close, vars);
 	mlx_loop_hook(vars->mlx, render, vars);
 	return (true);
 }

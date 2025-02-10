@@ -1,6 +1,17 @@
 CC := cc
-CFLAGS := -Wall -Wextra -Werror -g
-#
+CFLAGS := #-Wall -Wextra -Werror -g
+
+OS := $(shell uname)
+
+ifeq ($(OS), Darwin)  # macOS
+    MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
+		INCLUDE_DIR := ./include_macos
+		MLX_LIB := ./minilibx_opengl
+else  # Linux
+    MLX_FLAGS := -Lminilibx-linux -lmlx -lX11 -lXext -lm
+		INCLUDE_DIR := ./include
+		MLX_LIB := ./minilibx-linux
+endif
 
 PARN_DIR := .
 SRC_DIR := $(PARN_DIR)/src
@@ -26,7 +37,7 @@ NAME := cub3d
 all: lib $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 	@echo "\033[1;34m$(NAME) \033[0;34mhas been compiled"
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
@@ -35,9 +46,12 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
 lib:
 	@[ -d "$(BUILD_DIR)" ] || mkdir "$(BUILD_DIR)"
 	@$(MAKE) -C $(LIBFTDIR)
+	@echo "\033[0;34mCompiling \033[1;34mminilibx"
+	@$(MAKE) -C $(MLX_LIB)
 
 clean:
 	@$(MAKE) clean -C $(LIBFTDIR)
+	@$(MAKE) clean -C $(MLX_LIB)
 	@rm -f $(OBJ)
 
 fclean: clean

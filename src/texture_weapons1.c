@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:15:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:29:57 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 08:58:58 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,3 +96,4 @@ bool	load_totem(t_vars *vars)
 	vars->texture[vars->nb_text++] = vars->items[4].item[3].img;
 	return (true);
 }
+
