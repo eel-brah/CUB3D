@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:07 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 12:04:54 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:26 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	wall_collision_calc(t_player *player, int i, t_cols *cols)
 {

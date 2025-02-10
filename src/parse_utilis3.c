@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:39 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 14:58:42 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:33 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 static bool	set_player_info(t_map *map, int i, int j, char c)
 {

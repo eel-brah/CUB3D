@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:38:26 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/02 11:33:10 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:37 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	set_empty(t_map *map, char *line, int *player, int i)
 {

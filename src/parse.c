@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 17:35:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/01 15:01:32 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:48 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	free_linked(t_list *lst)
 {

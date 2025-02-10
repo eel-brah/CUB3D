@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:35 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 14:06:34 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:19 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	draw_dirc_line(t_vars *vars, float x, float y, t_player *player)
 {

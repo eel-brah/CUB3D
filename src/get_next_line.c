@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 21:24:32 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/15 09:18:57 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:01 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 static size_t	ft_gnl_find_nl(size_t i, char *buf, int *rt)
 {

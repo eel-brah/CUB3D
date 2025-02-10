@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:50:43 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 12:53:14 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:24 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	draw_block(t_vars *vars, int x, int y, char c)
 {

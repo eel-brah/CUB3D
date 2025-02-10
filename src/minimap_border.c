@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:52:17 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 12:51:15 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:21 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	draw_border_lines_1(t_vars *vars, t_line line)
 {

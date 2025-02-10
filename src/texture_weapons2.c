@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:16:25 by amokhtar          #+#    #+#             */
-/*   Updated: 2025/02/10 09:00:50 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:00 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	load_diamond(t_vars *vars)
 {

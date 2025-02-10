@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:24:25 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/01 17:22:43 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:15 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 t_data	*horizontal_texture(t_vars *vars, int i)
 {

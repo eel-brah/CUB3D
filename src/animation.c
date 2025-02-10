@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:20 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/10 09:36:27 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:15:49 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	is_wall_away(t_vars *vars)
 {

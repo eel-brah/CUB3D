@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:10 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/30 17:04:31 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:20 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	wall_hit_h_calc(float angle, float *xstep, float *ystep, bool *is_up)
 {

@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:15:05 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:39:49 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:17 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	load_texture1(t_vars *vars)
 {

@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:21:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2025/02/10 09:01:47 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:53 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	mlx_xpm(t_vars *var, t_data *data, char *s)
 {

@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:05:47 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/10 09:35:57 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:19:36 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 int	key_realese(int keysym, t_vars *vars)
 {
@@ -81,7 +81,6 @@ void	key_press_mv(int keysym, t_vars *vars)
 
 int	key_press(int keysym, t_vars *vars)
 {
-  printf("%i\n", keysym);
 	if (keysym == CMD_KEY)
 		cam_preparation(vars);
 	else if (!vars->status->cam)

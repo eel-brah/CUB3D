@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:03:27 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/07 17:08:15 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:07 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 float	deg2rad(float deg)
 {

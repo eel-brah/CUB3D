@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:44 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 10:43:41 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:12 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	color_ceiling_floor(int x, int top, int bottom, t_vars *vars)
 {

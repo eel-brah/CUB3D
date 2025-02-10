@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:31 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/09/29 11:47:15 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:16:58 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 int	absv(int i)
 {

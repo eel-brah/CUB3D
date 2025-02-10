@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:15:53 by amokhtar          #+#    #+#             */
-/*   Updated: 2025/02/10 08:58:58 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:18:04 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	load_sword(t_vars *vars)
 {

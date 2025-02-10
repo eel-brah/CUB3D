@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 11:05:54 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/10 09:33:27 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:13 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	mouse_move_check(int x, int *last_x, t_vars *vars)
 {

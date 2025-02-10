@@ -3,14 +3,16 @@ CFLAGS := #-Wall -Wextra -Werror -g
 
 OS := $(shell uname)
 
-ifeq ($(OS), Darwin)  # macOS
-    MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
-		INCLUDE_DIR := ./include_macos
-		MLX_LIB := ./minilibx_opengl
-else  # Linux
-    MLX_FLAGS := -Lminilibx-linux -lmlx -lX11 -lXext -lm
-		INCLUDE_DIR := ./include
-		MLX_LIB := ./minilibx-linux
+ifeq ($(OS), Darwin)
+	MLX_FLAGS := -lmlx -framework OpenGL -framework AppKit
+	INCLUDE_DIR := ./include_macos
+	MLX_LIB := ./minilibx_opengl
+	CFLAGS += -D OS_MAC
+else
+	MLX_FLAGS := -Lminilibx-linux -lmlx -lX11 -lXext -lm
+	INCLUDE_DIR := ./include
+	MLX_LIB := ./minilibx-linux
+	CFLAGS += -D OS_LINUX
 endif
 
 PARN_DIR := .

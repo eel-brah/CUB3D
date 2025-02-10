@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:13:10 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/03 14:41:10 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:57 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	load_door1(t_vars *vars)
 {

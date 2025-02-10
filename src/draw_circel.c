@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 15:50:38 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 14:06:34 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:16:55 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 void	fill_circ(t_vars *vars, t_circ *circ)
 {

@@ -6,11 +6,11 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 11:21:21 by eel-brah          #+#    #+#             */
-/*   Updated: 2024/10/02 12:20:59 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:16:51 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 bool	check_door_in_map(t_vars *vars, int xy, int x, int y)
 {

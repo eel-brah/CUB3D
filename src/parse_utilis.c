@@ -6,11 +6,11 @@
 /*   By: amokhtar <amokhtar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 16:34:44 by amokhtar          #+#    #+#             */
-/*   Updated: 2024/10/02 12:35:12 by amokhtar         ###   ########.fr       */
+/*   Updated: 2025/02/10 14:17:46 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/cub3d.h"
+#include "../platform.h"
 
 static void	failed_malloc_in_color(t_map *map, char *line, char *tmp1)
 {
