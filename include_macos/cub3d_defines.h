@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:13:09 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/15 03:53:10 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/02/21 08:04:14 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 #define LEFT_A_KEY 0
 #define P_KEY 35
 #define M_KEY 46
-#define F_KEY 41
+#define F_KEY 3
 #define CMD_KEY 259
 #define SPACE_KEY 49
 
