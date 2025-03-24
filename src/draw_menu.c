@@ -25,7 +25,7 @@ void put_menu_text(t_vars *vars) {
                             {"f", 270, TEXT_COLOR_2},
                             {"Hide/Show Menu:", 300, TEXT_COLOR},
                             {"Tab", 320, TEXT_COLOR_2},
-                            {"Front cam mode:", 350, TEXT_COLOR},
+                            {"Cam View:", 350, TEXT_COLOR},
                             {"ctrl to activate", 370, TEXT_COLOR_2},
                             {"Mouse right/left click", 390, TEXT_COLOR_2},
                             {"Switch items", 430, TEXT_COLOR},

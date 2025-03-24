@@ -40,11 +40,16 @@ Run the compiled program with a map file:
 | Strafe Right      | D   |
 | Look Left/Right   | Arrow Keys / Mouse |
 | Open/Close Doors  | Space |
-| Show/Hide Minimap | M / P |
+| Show/Hide Minimap | M   |
+| Show full Minimap | P   |
 | Show/Hide FPS     | F   |
+| Cam View          | CTRL + Mouse Click |
 | Toggle Menu       | Tab |
 | Switch Items      | Mouse Click / Scroll |
 | Enable/Disable Mouse | Scroll Click |
+
+### > [!NOTE]
+> Cam view requires you to be at least two blocks away from the wall to function
 
 ## 🗺️ Map Format
 A sample map file (`.cub`) contains texture paths and floor/ceiling colors followed by a **grid-based** layout:
