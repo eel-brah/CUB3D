@@ -63,6 +63,7 @@
 #define F_KEY 3
 #define CMD_KEY 259
 #define SPACE_KEY 49
+#define TAB_KEY 48
 
 // Mouse
 #define RIGHT_CLICK 2

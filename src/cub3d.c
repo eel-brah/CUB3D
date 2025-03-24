@@ -27,7 +27,7 @@ double calc_fps() {
   struct timeval currentTV;
   double currentTime;
   double deltaTime;
-  double fps;
+  double fps = 0;
 
   gettimeofday(&currentTV, NULL);
   currentTime = currentTV.tv_sec * 1000.0 + currentTV.tv_usec / 1000.0;
@@ -53,8 +53,8 @@ void drow_fps(t_vars *vars, double fps) {
   box_width = text_width + 20;
   box_height = 25;
 
-  int x = WIDTH - box_width - 10;
-  int y = 5;
+  int x = 5;
+  int y = HEIGHT - box_height - 10;
 
   for (int i = 0; i < box_height; i++) {
     for (int j = 0; j < box_width; j++) {
@@ -83,6 +83,8 @@ int render(t_vars *vars) {
 
   if (vars->status->fps)
     drow_fps(vars, fps);
+  
+  draw_menu(vars);
   return (1);
 }
 

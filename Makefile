@@ -1,5 +1,5 @@
 CC := cc
-CFLAGS := #-Wall -Wextra -Werror -g
+CFLAGS := -Wall -Wextra -Werror -g
 
 OS := $(shell uname)
 
@@ -21,10 +21,10 @@ INCLUDE_DIR := $(PARN_DIR)/include
 BUILD_DIR := $(PARN_DIR)/build
 LIBFTDIR := ./libft
 
-SRC := cub3d.c player.c draw_line.c draw_circel.c utils.c raycasting.c get_next_line.c \
+SRC := cub3d.c player.c draw_line.c draw_player.c utils.c raycasting.c get_next_line.c \
 		parse.c parse_utilis.c  parse_utilis1.c parse_utilis2.c parse_utilis3.c parse_utilis4.c wall.c wall_texture.c door.c texture.c \
 		inputs_key.c inputs_mouse.c animation.c init.c raycasting_utils.c minimap.c minimap_border.c minimap_utils.c texture_door.c texture_weapons1.c texture_weapons2.c \
-		texture_player.c 
+		texture_player.c draw_menu.c
 
 INCLUDE := cub3d.h get_next_line.h cub3d_defines.h cub3d_libs.h cub3d_structs.h
 

@@ -87,6 +87,8 @@ int key_press(int keysym, t_vars *vars) {
       vars->status->full_map = true;
     else if (keysym == F_KEY)
       vars->status->fps = !(vars->status->fps);
+    else if (keysym == TAB_KEY)
+      vars->status->menu = !(vars->status->menu);
   }
   if (keysym == ESC_KEY)
     clear_and_close(vars);

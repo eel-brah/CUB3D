@@ -23,8 +23,8 @@ bool is_wall_away(t_vars *vars) {
 }
 
 void combine_images(char *bg_data, char *fg_data, int width, int height) {
-  int *bg = (int *)bg_data;
-  int *fg = (int *)fg_data;
+  unsigned int *bg = (unsigned int *)bg_data;
+  unsigned int *fg = (unsigned int *)fg_data;
   int len = width * height;
 
   for (int i = 0; i < len; i++) {

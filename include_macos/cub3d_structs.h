@@ -53,7 +53,7 @@ typedef struct s_player {
   bool rotate;
   bool rotate2;
   float ra;
-  float mouse;
+  bool mouse;
 } t_player;
 
 typedef struct s_mini {

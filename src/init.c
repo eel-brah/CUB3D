@@ -51,7 +51,7 @@ bool init(t_vars *vars) {
     mlx_destroy_window(vars->mlx, vars->mlx);
     return (false);
   }
-  vars->img->addr =
+ vars->img->addr =
       mlx_get_data_addr(vars->img->img, &vars->img->bpp,
                         &vars->img->line_length, &vars->img->endian);
   return (true);
@@ -69,5 +69,5 @@ void init_player(t_vars *vars) {
   player->steps = PLAYER_SPEED;
   player->rspeed = deg2rad(PLAYER_RSPEED);
   vars->player->rotate = 0;
-  vars->player->mouse = 1;
+  vars->player->mouse = 0;
 }
