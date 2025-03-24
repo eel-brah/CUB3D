@@ -1,104 +1,53 @@
 #include "../platform.h"
 
-#define PRE_MENU_WIDTH 125
-#define PRE_MENU_HEIGHT 25
-#define MENU_WIDTH 190
-#define MENU_HEIGHT 570
-#define DEF_COLOR 0xf72585
-#define DEF_COLOR_2 0x4cc9f0
-#define TEXT_COLOR 0x114869
-#define TEXT_COLOR_2 0x669bbc
-#define MENU_COLOR 0x191c1f
-#define PRE_MENU_COLOR 0x999999
+void draw_rectangle(t_vars *vars, int x_start, int width, int height,
+                    int color) {
+  for (int y = 0; y < height; y++)
+    for (int x = x_start; x < x_start + width; x++)
+      put_pixel(vars, x, y, color);
+}
+
+void put_menu_text(t_vars *vars) {
+  int x = MENU_TEXT_X, y = MENU_TEXT_Y;
+
+  menu_text menu_items[] = {{"How To Use", -30, TEXT_COLOR_2},
+                            {"Exit:", 0, TEXT_COLOR},
+                            {"esc", 20, TEXT_COLOR_2},
+                            {"Movement:", 50, TEXT_COLOR},
+                            {"WASD and Arrows/Mouse", 70, TEXT_COLOR_2},
+                            {"Open/Close doors:", 100, TEXT_COLOR},
+                            {"space", 120, TEXT_COLOR_2},
+                            {"Show the full minimap:", 150, TEXT_COLOR},
+                            {"p", 170, TEXT_COLOR_2},
+                            {"Hide the minimap:", 200, TEXT_COLOR},
+                            {"m", 220, TEXT_COLOR_2},
+                            {"Hide/Show fps:", 250, TEXT_COLOR},
+                            {"f", 270, TEXT_COLOR_2},
+                            {"Hide/Show Menu:", 300, TEXT_COLOR},
+                            {"Tab", 320, TEXT_COLOR_2},
+                            {"Front cam mode:", 350, TEXT_COLOR},
+                            {"ctrl to activate", 370, TEXT_COLOR_2},
+                            {"Mouse right/left click", 390, TEXT_COLOR_2},
+                            {"Switch items", 430, TEXT_COLOR},
+                            {"Mouse clicks/scroll", 450, TEXT_COLOR_2},
+                            {"Enable or disable mouse", 480, TEXT_COLOR},
+                            {"Mouse scroll click", 500, TEXT_COLOR_2},
+                            {NULL, 0, 0}};
+
+  for (int i = 0; menu_items[i].text; i++)
+    mlx_string_put(
+        vars->mlx, vars->win, x + (menu_items[i].offset < 0 ? 30 : 0),
+        y + menu_items[i].offset, menu_items[i].color, menu_items[i].text);
+}
 
 void draw_menu(t_vars *vars) {
   if (!vars->status->menu) {
-    draw_pre_menu(vars);
-    pre_menu_text(vars);
+    draw_rectangle(vars, WIDTH - PRE_MENU_WIDTH, PRE_MENU_WIDTH,
+                   PRE_MENU_HEIGHT, MENU_COLOR);
+    mlx_string_put(vars->mlx, vars->win, PRE_MENU_TEXT_X, PRE_MENU_TEXT_Y,
+                   PRE_MENU_COLOR, "Usage: Tab / m");
     return;
   }
-  draw_menu_background(vars);
-  menu_text(vars);
-}
-
-void draw_pre_menu(t_vars *vars) {
-  int x;
-  int y;
-
-  y = 0;
-  while (y < PRE_MENU_HEIGHT) {
-    x = WIDTH - PRE_MENU_WIDTH;
-    while (x < WIDTH) {
-      put_pixel(vars, x, y, MENU_COLOR);
-      x++;
-    }
-    y++;
-  }
-}
-
-void draw_menu_background(t_vars *vars) {
-  int x;
-  int y;
-
-  y = 0;
-  while (y < MENU_HEIGHT) {
-    x = WIDTH - MENU_WIDTH;
-    while (x < WIDTH) {
-      put_pixel(vars, x, y, MENU_COLOR);
-      x++;
-    }
-    y++;
-  }
-}
-
-void pre_menu_text(t_vars *vars) {
-  mlx_string_put(vars->mlx, vars->win, WIDTH - 100, 10, PRE_MENU_COLOR,
-                 "Usage: Tab / m");
-}
-
-void menu_text(t_vars *vars) {
-  int x;
-  int y;
-
-  x = WIDTH - 165;
-  y = 50;
-  mlx_string_put(vars->mlx, vars->win, x + 30, y - 30, TEXT_COLOR_2,
-                 "How To Use");
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Exit:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "esc");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Movement:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2,
-                 "WASD and Arrows/Mouse");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Open/Close doors:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "space");
-  y += 30 + 20;
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR,
-                 "Show the full minimap:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "p");
-  y += 30 + 20;
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Hide the minimap:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "m");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Hide/Show fps:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "f");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Hide/Show Menu:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2, "Tab");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Front cam mode:");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2,
-                 "ctrl to activate");
-  mlx_string_put(vars->mlx, vars->win, x, y + 40, TEXT_COLOR_2,
-                 "Mouse right/left clic");
-  y += (30 + 40);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR, "Switch items");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2,
-                 "Mouse clicks/scroll");
-  y += (30 + 20);
-  mlx_string_put(vars->mlx, vars->win, x, y, TEXT_COLOR,
-                 "Enable or desable mouse");
-  mlx_string_put(vars->mlx, vars->win, x, y + 20, TEXT_COLOR_2,
-                 "Mouse scroll click");
+  draw_rectangle(vars, WIDTH - MENU_WIDTH, MENU_WIDTH, MENU_HEIGHT, MENU_COLOR);
+  put_menu_text(vars);
 }

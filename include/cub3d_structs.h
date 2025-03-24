@@ -193,4 +193,9 @@ typedef struct s_step {
   float y;
 } t_step;
 
+typedef struct {
+  char *text;
+  int offset;
+  int color;
+} menu_text;
 #endif

@@ -71,4 +71,20 @@
 #define SCROLL_CLICK 3
 #define SCROLL_DOWN 4
 #define SCROLL_UP 5
+
+
+#define PRE_MENU_WIDTH 125
+#define PRE_MENU_HEIGHT 25
+#define PRE_MENU_TEXT_X (WIDTH - 100)
+#define PRE_MENU_TEXT_Y 15
+#define MENU_WIDTH 190
+#define MENU_HEIGHT 570
+#define MENU_TEXT_X (WIDTH - 165)
+#define MENU_TEXT_Y 50
+#define DEF_COLOR 0xf72585
+#define DEF_COLOR_2 0x4cc9f0
+#define TEXT_COLOR 0x114869
+#define TEXT_COLOR_2 0x669bbc
+#define MENU_COLOR 0x191c1f
+#define PRE_MENU_COLOR 0x999999
 #endif

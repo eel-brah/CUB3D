@@ -106,4 +106,6 @@ void mlx_get_data(t_data *data);
 bool mlx_xpm(t_vars *var, t_data *data, char *s);
 void free_texture(t_vars *vars, void **data);
 
+// menu
+void	draw_menu(t_vars *vars);
 #endif

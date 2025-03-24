@@ -72,22 +72,19 @@
 #define SCROLL_DOWN 4
 #define SCROLL_UP 5
 
-// # define ESC_KEY 53
-// # define UP_KEY 126
-// # define DOWN_KEY 125
-// # define RIGHT_KEY 124
-// # define LEFT_KEY 123
-// # define UP_W_KEY 13
-// # define DOWN_S_KEY 1
-// # define RIGHT_D_KEY 2
-// # define LEFT_A_KEY 0
-// # define P_KEY 35
-// # define M_KEY 46
-// # define CMD_KEY 259
-// # define SPACE_KEY 49
+#define PRE_MENU_WIDTH 125
+#define PRE_MENU_HEIGHT 25
+#define PRE_MENU_TEXT_X (WIDTH - 100)
+#define PRE_MENU_TEXT_Y 15
+#define MENU_WIDTH 190
+#define MENU_HEIGHT 570
+#define MENU_TEXT_X (WIDTH - 165)
+#define MENU_TEXT_Y 50
+#define DEF_COLOR 0xf72585
+#define DEF_COLOR_2 0x4cc9f0
+#define TEXT_COLOR 0x114869
+#define TEXT_COLOR_2 0x669bbc
+#define MENU_COLOR 0x191c1f
+#define PRE_MENU_COLOR 0x999999
 
-// Mouse
-// # define RIGHT_CLICK 2
-// # define LEFT_CLICK 1
-// # define SCROLL_CLICK 3
 #endif

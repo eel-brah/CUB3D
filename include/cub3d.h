@@ -108,10 +108,4 @@ void free_texture(t_vars *vars, void **data);
 
 // menu
 void	draw_menu(t_vars *vars);
-void	draw_pre_menu(t_vars *vars);
-void	pre_menu_text(t_vars *vars);
-void	draw_menu_background(t_vars *vars);
-void	menu_text_2(int x, int y, t_vars *vars);
-void	menu_text(t_vars *vars);
-
 #endif
