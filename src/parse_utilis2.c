@@ -73,7 +73,7 @@ void store_map(t_map *map, char *line, char *tmp, bool *flag) {
   int len;
 
   len = ft_strlen(tmp);
-  if (ft_strlen(tmp) >= 0 && (tmp[0] != '1' || tmp[len - 1] != '1'))
+  if (len >= 0 && (tmp[0] != '1' || tmp[len - 1] != '1'))
     exit_err(map, tmp, line, "Not End By Wall\n");
   if (!check_line(line))
     exit_err(map, tmp, line, "Other caractere that not allowd\n");

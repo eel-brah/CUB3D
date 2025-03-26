@@ -36,9 +36,6 @@ bool check_line(char *line) {
 }
 
 void free_map(t_map *map) {
-  int i;
-
-  i = 0;
   free(map->no);
   free(map->so);
   free(map->we);

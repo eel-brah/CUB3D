@@ -68,7 +68,7 @@ int mouse_hook(int b, int x, int y, t_vars *vars) {
   (void)vars;
   (void)y;
   (void)x;
-  if (b == SCROLL_CLICK) {
+  if (b == SCROLL_CLICK && !IS_LINUX) {
     vars->player->mouse = !(vars->player->mouse);
     vars->player->rotate = 0;
   } else if (vars->status->cam && b == LEFT_CLICK)

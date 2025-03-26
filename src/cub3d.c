@@ -81,8 +81,6 @@ int render(t_vars *vars) {
     player_rotation(vars, vars->player->ra);
   animate(vars);
 
-  if (IS_LINUX)
-    printf("JJJJ\n");
   if (IS_LINUX) {
     if (vars->status->fps)
       drow_fps(vars, fps);
@@ -123,19 +121,19 @@ bool parse_map(int argc, char **argv, t_vars *vars) {
     write(1, "  -h          Display help\n", 27);
     write(1, "  map.cub     Path to the map file\n", 35);
     write(1, "\nControls:\n", 11);
-    write(1, "  Move Forward      W\n", 22);
-    write(1, "  Move Backward     S\n", 22);
-    write(1, "  Strafe Left       A\n", 22);
-    write(1, "  Strafe Right      D\n", 22);
-    write(1, "  Look Left/Right   Arrow Keys / Mouse\n", 39);
-    write(1, "  Open/Close Doors  Space\n", 26);
-    write(1, "  Show/Hide Minimap M\n", 22);
-    write(1, "  Show full Minimap P\n", 22);
-    write(1, "  Show/Hide FPS     F\n", 22);
-    write(1, "  Cam View          CTRL + Mouse Clicks\n", 40);
-    write(1, "  Toggle Menu       Tab\n", 24);
-    write(1, "  Switch Items      Mouse Click / Scroll\n", 41);
-    write(1, "  Enable/Disable Mouse Scroll Click\n", 36);
+    write(1, "  Move Forward       W\n", 23);
+    write(1, "  Move Backward      S\n", 23);
+    write(1, "  Strafe Left        A\n", 23);
+    write(1, "  Strafe Right       D\n", 23);
+    write(1, "  Look Left/Right    Arrow Keys / Mouse\n", 40);
+    write(1, "  Open/Close Doors   Space\n", 27);
+    write(1, "  Show/Hide Minimap  M\n", 23);
+    write(1, "  Show full Minimap  P\n", 23);
+    write(1, "  Show/Hide FPS      F\n", 23);
+    write(1, "  Cam View           CTRL + Mouse Clicks\n", 41);
+    write(1, "  Toggle Menu        Tab\n", 25);
+    write(1, "  Switch Items       Mouse Click / Scroll\n", 42);
+    write(1, "  Mouse Scroll Click Enable/Disable Mouse\n", 42);
     return (0);
   }
 
