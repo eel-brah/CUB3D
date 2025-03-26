@@ -49,8 +49,8 @@ Run the compiled program with a map file:
 | Enable/Disable Mouse | Scroll Click |
 
 ### > [!NOTE]
-> Cam view requires you to be at least two blocks away from the wall to function
-> Due to differences in the MiniLibX implementation between Linux and macOS, the FPS counter and menu functionality are disabled on macOS. Additionally, mouse look (left/right movement) is disabled by default on Linux.
+> Cam view requires you to be at least two blocks away from the wall to function.<br>
+> Due to differences in the MiniLibX implementation between Linux and macOS, the FPS counter and menu are disabled on macOS. Additionally, mouse look (left/right movement) is disabled by default on Linux.
 
 ## 🗺️ Map Format
 A sample map file (`.cub`) contains texture paths and floor/ceiling colors followed by a **grid-based** layout:
