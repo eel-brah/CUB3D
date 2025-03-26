@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:55 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/15 03:52:59 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:41:56 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void init_bools(t_vars *vars) {
   while (i < 9)
     vars->items[i++].animate = false;
   vars->status->cam = false;
+  vars->status->menu = false;
   vars->status->fps = true;
   vars->status->player_animate_hit = false;
   vars->status->player_animate_shield = false;
@@ -69,5 +70,5 @@ void init_player(t_vars *vars) {
   player->steps = PLAYER_SPEED;
   player->rspeed = deg2rad(PLAYER_RSPEED);
   vars->player->rotate = 0;
-  vars->player->mouse = 0;
+  vars->player->mouse = IS_LINUX? 0: 1;
 }

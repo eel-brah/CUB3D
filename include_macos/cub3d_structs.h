@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:14:39 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/15 03:52:48 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/03/26 08:48:11 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef struct s_status {
   t_data current;
   bool cam;
   int k;
+  bool menu;
 } t_status;
 
 typedef struct s_item {

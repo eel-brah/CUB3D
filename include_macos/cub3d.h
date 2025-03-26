@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 13:11:56 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/15 03:53:05 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/03/26 08:52:02 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ bool load_player(t_vars *vars);
 void mlx_get_data(t_data *data);
 bool mlx_xpm(t_vars *var, t_data *data, char *s);
 void free_texture(t_vars *vars, void **data);
+bool parse_map(int argc, char **argv, t_vars *vars);
 
 // menu
 void	draw_menu(t_vars *vars);

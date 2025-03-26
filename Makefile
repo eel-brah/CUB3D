@@ -20,6 +20,7 @@ SRC_DIR := $(PARN_DIR)/src
 INCLUDE_DIR := $(PARN_DIR)/include
 BUILD_DIR := $(PARN_DIR)/build
 LIBFTDIR := ./libft
+PLATFORM := ./platform.h
 
 SRC := cub3d.c player.c draw_line.c draw_player.c utils.c raycasting.c get_next_line.c \
 		parse.c parse_utilis.c  parse_utilis1.c parse_utilis2.c parse_utilis3.c parse_utilis4.c wall.c wall_texture.c door.c texture.c \
@@ -38,11 +39,11 @@ NAME := cub3d
 
 all: lib $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT) $(INCLUDE)
+$(NAME): $(OBJ) $(LIBFT) $(INCLUDE) $(PLATFORM)
 	@$(CC) $(CFLAGS) $(OBJ) $(MLX_FLAGS) $(LIBFT) -o $(NAME)
 	@echo "\033[1;34m$(NAME) \033[0;34mhas been compiled"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE)
+$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDE) $(PLATFORM)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 lib:

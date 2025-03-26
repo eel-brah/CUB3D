@@ -6,7 +6,7 @@
 /*   By: eel-brah <eel-brah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 12:02:12 by eel-brah          #+#    #+#             */
-/*   Updated: 2025/02/15 03:43:42 by eel-brah         ###   ########.fr       */
+/*   Updated: 2025/03/26 09:33:29 by eel-brah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,13 @@ int render(t_vars *vars) {
     player_rotation(vars, vars->player->ra);
   animate(vars);
 
-  if (vars->status->fps)
-    drow_fps(vars, fps);
-  
-  draw_menu(vars);
+  if (IS_LINUX)
+    printf("JJJJ\n");
+  if (IS_LINUX) {
+    if (vars->status->fps)
+      drow_fps(vars, fps);
+    draw_menu(vars);
+  }
   return (1);
 }
 
@@ -114,15 +117,39 @@ bool setup(t_vars *vars) {
 bool parse_map(int argc, char **argv, t_vars *vars) {
   t_map *map;
 
-  if (argc != 2) {
-    write(2, "Error\nUsage: ./cub3d map.cub\n", 30);
+  if (argc == 2 && ft_strncmp(argv[1], "-h", 3) == 0) {
+    write(1, "Usage: ./cub3d map.cub\n", 23);
+    write(1, "Options:\n", 9);
+    write(1, "  -h          Display help\n", 27);
+    write(1, "  map.cub     Path to the map file\n", 35);
+    write(1, "\nControls:\n", 11);
+    write(1, "  Move Forward      W\n", 22);
+    write(1, "  Move Backward     S\n", 22);
+    write(1, "  Strafe Left       A\n", 22);
+    write(1, "  Strafe Right      D\n", 22);
+    write(1, "  Look Left/Right   Arrow Keys / Mouse\n", 39);
+    write(1, "  Open/Close Doors  Space\n", 26);
+    write(1, "  Show/Hide Minimap M\n", 22);
+    write(1, "  Show full Minimap P\n", 22);
+    write(1, "  Show/Hide FPS     F\n", 22);
+    write(1, "  Cam View          CTRL + Mouse Clicks\n", 40);
+    write(1, "  Toggle Menu       Tab\n", 24);
+    write(1, "  Switch Items      Mouse Click / Scroll\n", 41);
+    write(1, "  Enable/Disable Mouse Scroll Click\n", 36);
     return (0);
   }
+
+  if (argc != 2) {
+    write(2, "Usage: ./cub3d map.cub\n", 23);
+    return (0);
+  }
+
   map = parse(argv[1]);
   if (!map) {
     write(2, "Parsing Failed\n", 16);
     return (0);
   }
+
   vars->map = map;
   return (1);
 }
